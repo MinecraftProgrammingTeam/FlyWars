@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import top.mpt.xzystudio.flywars.Main;
-import top.mpt.xzystudio.flywars.scheduler.StartGame;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Game的逻辑类
@@ -86,7 +84,7 @@ public class Game {
             p.sendTitle(ChatColor.RED + "游戏即将开始", "请保存好贵重物品，即将清空物品栏！");
         }
 
-        BukkitRunnable  sg = new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 // 遍历team数组
@@ -116,14 +114,17 @@ public class Game {
                     }
                 }
             }
-        };
-        sg.runTaskLater(Main.instance, Main.instance.getConfig().getInt("delay-tick"));
+        }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick"));
     }
 
     public static void gameover() {
         Team theLastTeam = teams.get(0);
         for (Player p : Main.instance.getServer().getOnlinePlayers()) {
             p.sendTitle(ChatColor.GREEN + "游戏结束！", ChatColor.BLUE + "");
+            p.setGameMode(GameMode.SURVIVAL);
+            p.getInventory().setItemInMainHand(ItemUtils.newItem(Material.AIR, "空~"));
+            p.getInventory().setItemInOffHand(ItemUtils.newItem(Material.AIR, "空~"));
+            p.getInventory().setChestplate(ItemUtils.newItem(Material.AIR, "空~"));
         }
     }
 }
