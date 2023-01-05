@@ -16,7 +16,7 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class customEventListener implements Listener {
+public class CustomEventListener implements Listener {
     @EventHandler
     public void onEntityDamagedByEntity(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
