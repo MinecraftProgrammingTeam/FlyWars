@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * 玩家骑乘命令
+ */
 public class ride extends ICommand {
     public ride() {
         super("ride", "", "骑");

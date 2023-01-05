@@ -7,6 +7,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Item工具类
+ */
 public class ItemUtils {
     /**
      * 新增物品
