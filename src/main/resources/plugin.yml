@@ -1,0 +1,15 @@
+name: FlyWars
+version: '${project.version}'
+main: top.mpt.xzystudio.flywars.Main
+api-version: 1.13
+authors: [ xzyStudio ]
+description: FlyWars，一个类似于空岛战争的小游戏插件
+website: https://minept.top/p.php?id=2
+commands:
+  fw:
+    description: FlyWars' Commands
+    usage: /fw
+permissions:
+  flywars.fw.*:
+    description: Allows fw command
+    default: op
