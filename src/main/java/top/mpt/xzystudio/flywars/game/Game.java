@@ -25,8 +25,11 @@ public class Game {
         this.sender = sender;
     }
 
-    // 检查当前在线的玩家数目是否合规
-    private boolean check() {
+    /**
+     * 检查当前服务器里的玩家数是否合规
+     * @return 当前服务器里的玩家数是否合规
+     */
+    public boolean check() {
         // 若玩家数为奇数
         if (players.size() % 2 != 0){
             PlayerUtils.send((Player) sender, "&c玩家数量为奇数，不能开始游戏！");
@@ -38,9 +41,11 @@ public class Game {
         return true;
     }
 
-    // 随机分配队伍
-    private void startGame() {
-        int iter = 0;
+    /**
+     * 随机分配队伍
+     */
+    public void assignTeams() {
+        ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
         while (!players.isEmpty()) {
             // 取两个随机数当做下标
@@ -57,31 +62,12 @@ public class Game {
             map.put(p1, "p1");
             map.put(p2, "p2");
             // 创建一个Team，
-            Team team = new Team(p1, p2, iter);
-            // 在主类的playerdata下加一个刚刚创建的team
-            Main.playerData.add(team);
-            // 主类teammap下加player的name和下标
-            Main.teamMap.put(p1.getName(), iter);
-            Main.teamMap.put(p2.getName(), iter);
-            // 下标递增
-            iter++;
-            // 循环遍历随机分配到的两名玩家组成的数组
-            for (Player p : Arrays.asList(p1, p2)) {
-                PlayerUtils.send(p, "&f[FlyWars] &9你与 [{}] 组为一队", (Objects.equals(map.get(p), "p1") ? p2 : p1).getName());
-                PlayerUtils.showTitle(p, "&a游戏开始", "&cFlyWars飞行战争");
-                p.setGameMode(GameMode.SURVIVAL);
-                if (Objects.equals(map.get(p), "p1")) {
-                    if (!p.getAllowFlight()) p.setAllowFlight(true);
-                    p.setFlying(true);
-                    PlayerInventory inv = p.getInventory();
-                    inv.clear();
-                    inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, ChatColor.AQUA + "战争鞘翅"));
-                    inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, ChatColor.GOLD + "天赐金苹果"));
-                    inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, ChatColor.RED + "核弹"));
-                }
-                // 在players数组里删除已经被分好组的玩家
-                players.remove(p);
-            }
+            Team team = new Team(p1, p2);
+            // 把创建好的Team加入
+            teams.add(team);
+            // 删除分好队伍的玩家
+            copy.remove(p1);
+            copy.remove(p2);
         }
     }
 }

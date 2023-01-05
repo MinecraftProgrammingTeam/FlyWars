@@ -1,19 +1,8 @@
 package top.mpt.xzystudio.flywars.commands.impl;
 
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
-import top.mpt.xzystudio.flywars.Main;
-import top.mpt.xzystudio.flywars.game.Team;
 import top.mpt.xzystudio.flywars.commands.ICommand;
-import top.mpt.xzystudio.flywars.utils.ConfigUtils;
-import top.mpt.xzystudio.flywars.utils.ItemUtils;
-import top.mpt.xzystudio.flywars.utils.PlayerUtils;
-
-import java.util.*;
+import top.mpt.xzystudio.flywars.game.Game;
 
 public class start extends ICommand {
     public start(){
@@ -21,14 +10,11 @@ public class start extends ICommand {
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
-        Main.playerData = new ArrayList<>();
-        int iter = 0;
-
-
-
-
-
-
+        Game game = new Game(sender);
+        if (game.check()){
+            game.assignTeams();
+            game.startGame();
+        }
         return true;
     }
 

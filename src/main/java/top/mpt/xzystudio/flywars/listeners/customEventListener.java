@@ -28,16 +28,20 @@ public class customEventListener implements Listener {
     
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event){
+        // 当玩家嗝屁时
         Player p = event.getEntity();
-        if (Main.teamMap.containsKey(p.getName())) {
-            int iter = Main.teamMap.get(p.getName());
-            Team team = Main.playerData.get(iter);
-            Player op = team.getTheOtherPlayer(p);
-            op.setGameMode(GameMode.SPECTATOR);
-            p.setGameMode(GameMode.SPECTATOR);
-//            op.setHealth(0);
-            op.sendTitle(ChatColor.RED + "Game Over", "您的队友"+p.getName()+"寄了");
-            Main.instance.getServer().broadcastMessage("[FlyWars] " + ChatColor.BLUE + "<" + p.getName() + ">和<" + op.getName() + ">" + ChatColor.WHITE + "阵亡了！");
-        }
+        ArrayList<Team> temp = new ArrayList<>(Game.teams);
+        temp.forEach(it -> { // 遍历团队 - 为啥总感觉这样更慢，不如使用iter（  - 不会慢到哪的 - 彳亍，我相信jvav的效率 - addd - 6 - 9
+            if (it.players.containsKey(p)) {
+                Player op = it.getTheOtherPlayer(p); // 获取到同一个团队的另一名玩家
+                // 将嗝屁的玩家设置为旁观者模式
+                op.setGameMode(GameMode.SPECTATOR);
+                p.setGameMode(GameMode.SPECTATOR);
+                PlayerUtils.showTitle(op, String.format("&c你的队友 <%s> 寄了！", p.getName()), "即将变为观察者模式"); // 给另一名无辜的队友展示消息
+//                PlayerUtils.showTitle(op, "&c你输了！", String.format("你的辣鸡队友 <%s> 寄了", p.getName())); // 给另一名无辜的队友展示消息
+                Game.teams.remove(it); // 移除团队
+                ChatUtils.broadcast("[FlyWars] &9<%s> 和 <%s> 阵亡了！", p.getName(), op.getName()); // 公开处刑
+            }
+        });
     }
 }

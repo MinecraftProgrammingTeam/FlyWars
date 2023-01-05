@@ -73,7 +73,7 @@ public class CommandHandler implements TabExecutor {
      * @param sender
      */
     public void showHelp(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "MessageSync for PBF " + ChatColor.GREEN + "插件帮助");
+        sender.sendMessage(ChatColor.BLUE + "FlyWars飞行战争 " + ChatColor.GREEN + "插件帮助");
         for (String key: commands.keySet()) {
             sender.sendMessage(commands.get(key).showUsage());
         }

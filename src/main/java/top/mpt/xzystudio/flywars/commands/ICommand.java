@@ -51,7 +51,7 @@ public abstract class ICommand {
 
 
     public String showUsage() {
-        return ChatUtils.translateColorCode("/fw &b{} {} &f -- &a{}", cmdName, params, info);
+        return ChatUtils.translateColorCode("/fw &b%s %s &f -- &a%s", cmdName, params, info);
     }
     /**
      * 指令内容
