@@ -146,7 +146,7 @@ public class CommandHandler implements TabExecutor {
                     }
                 }
             }
-        } else if (args.length > 1) {
+        } else {
             //获取指令参数
             String typingStr = args[1].toLowerCase();
             //得到第一个指令，查看对应参数

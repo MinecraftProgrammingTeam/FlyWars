@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public abstract class ICommand {
 
 
     public String showUsage() {
-        return "/fw " + ChatColor.AQUA + cmdName + " "+ params + ChatColor.WHITE + " -- " + ChatColor.GREEN + info;
+        return ChatUtils.translateColorCode("/fw &b{} {} &f -- &a{}", cmdName, params, info);
     }
     /**
      * 指令内容

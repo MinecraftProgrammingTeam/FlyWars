@@ -26,7 +26,10 @@ public final class Main extends JavaPlugin {
         Plugin plugin = getPlugin(Main.class);
 
         // reg commands
-        getCommand("fw").setExecutor(new CommandHandler());
+        Objects.requireNonNull(getCommand("fw")).setExecutor(new CommandHandler());
+
+        // reg listeners
+        getServer().getPluginManager().registerEvents(new customEventListener(), this);
 
         getLogger().info(ChatColor.GREEN + "成功启用空岛战争插件");
     }

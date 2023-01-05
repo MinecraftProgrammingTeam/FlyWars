@@ -1,16 +1,13 @@
 package top.mpt.xzystudio.flywars.commands.impl;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.Main;
-import top.mpt.xzystudio.flywars.Team;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
 public class ride extends ICommand {
     public ride() {
