@@ -40,10 +40,10 @@ public class customEventListener implements Listener {
                 // 将嗝屁的玩家设置为旁观者模式
                 op.setGameMode(GameMode.SPECTATOR);
                 p.setGameMode(GameMode.SPECTATOR);
-                PlayerUtils.showTitle(op, String.format("&c你的队友 <%s> 寄了！", p.getName()), "即将变为观察者模式"); // 给另一名无辜的队友展示消息
+                PlayerUtils.showTitle(op, String.format("#RED#你的队友 <%s> 寄了！", p.getName()), "即将变为观察者模式"); // 给另一名无辜的队友展示消息
 //                PlayerUtils.showTitle(op, "&c你输了！", String.format("你的辣鸡队友 <%s> 寄了", p.getName())); // 给另一名无辜的队友展示消息
                 Game.teams.remove(it); // 移除团队
-                ChatUtils.broadcast("[FlyWars] &9<%s> 和 <%s> 阵亡了！", p.getName(), op.getName()); // 公开处刑
+                ChatUtils.broadcast("[FlyWars] #BLUE#<%s> 和 <%s> 阵亡了！", p.getName(), op.getName()); // 公开处刑
             }
         });
         // 判断是不是只剩最后一个队伍（胜利）

@@ -38,10 +38,10 @@ public class Game {
     public boolean check() {
         // 若玩家数为奇数
         if (players.size() % 2 != 0){
-            PlayerUtils.send((Player) sender, "&c玩家数量为奇数，不能开始游戏！");
+            PlayerUtils.send(sender, "#RED#玩家数量为奇数，不能开始游戏！");
             return false;
         } else if (players.size() < minPlayerCount) { // 若玩家数未达到config里的minPlayerCount
-            PlayerUtils.send((Player) sender, "&c%s个人都不到，你想跟谁玩？", minPlayerCount.toString());
+            PlayerUtils.send(sender, "#RED#%s个人都不到，你想跟谁玩？", minPlayerCount.toString());
             return false;
         }
         return true;
@@ -81,7 +81,7 @@ public class Game {
         for (Player p : Main.instance.getServer().getOnlinePlayers()){
             Location loc = new Location(pl.getWorld(), Main.instance.getConfig().getInt("loc-x"), Main.instance.getConfig().getInt("loc-y"), Main.instance.getConfig().getInt("loc-z"));
             p.teleport(loc);
-            p.sendTitle(ChatColor.RED + "游戏即将开始", "请保存好贵重物品，即将清空物品栏！");
+            PlayerUtils.showTitle(p, "#RED#游戏即将开始", "请保存好贵重物品，即将清空物品栏！");
         }
 
         new BukkitRunnable() {
@@ -96,8 +96,8 @@ public class Game {
                     // 遍历一个team的两名玩家的数组
                     for (Player p : Arrays.asList(p1, p2)) {
                         // 向玩家展示信息
-                        PlayerUtils.send(p, "&f[FlyWars] &9你与 <%s> 组为一队", team.getTheOtherPlayer(p).getName());
-                        PlayerUtils.showTitle(p, "&a游戏开始", "&cFlyWars 飞行战争");
+                        PlayerUtils.send(p, "[FlyWars] #BLUE#你与 <%s> 组为一队", team.getTheOtherPlayer(p).getName());
+                        PlayerUtils.showTitle(p, "#GREEN#游戏开始", "#RED#FlyWars 飞行战争");
                         p.setGameMode(GameMode.SURVIVAL);
                         if (map.get(p) == TeammateType.P1) {
                             // 设置玩家飞行
@@ -107,9 +107,9 @@ public class Game {
                             PlayerInventory inv = p.getInventory();
                             inv.clear();
                             // 给玩家发放物资
-                            inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, ChatColor.AQUA + "战争鞘翅", new ArrayList<>(), 1, true));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, ChatColor.GOLD + "天赐金苹果"));
-                            inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, ChatColor.RED + "核弹"));
+                            inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true));
+                            inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果"));
+                            inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹"));
                         }
                     }
                 }
@@ -124,7 +124,7 @@ public class Game {
         }
         Team theLastTeam = teams.get(0);
         for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerUtils.showTitle(p, ChatColor.GREEN + "游戏结束！", String.format("%s恭喜<%s>和<%s>取得胜利！", ChatColor.BLUE, theLastTeam.getP1().getName(), theLastTeam.getP2().getName()));
+            PlayerUtils.showTitle(p, "#GREEN#游戏结束！", String.format("#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", theLastTeam.getP1().getName(), theLastTeam.getP2().getName()));
             // 切换回生存
             p.setGameMode(GameMode.SURVIVAL);
             // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧

@@ -1,5 +1,6 @@
 package top.mpt.xzystudio.flywars.utils;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -11,23 +12,23 @@ public class PlayerUtils {
 
     /**
      * 给玩家发送信息
-     * @param player 玩家
+     * @param sender 玩家或控制台
      * @param message 要发送的消息
      */
-    public static void send(Player player, String message) {
+    public static void send(CommandSender sender, String message) {
         StringBuilder sb = new StringBuilder();
         Collections.singletonList(message).forEach(it -> sb.append(it).append(" "));
-        player.sendMessage(ChatUtils.translateColorCode(sb.toString()));
+        sender.sendMessage(ChatUtils.translateColorCode(sb.toString()));
     }
 
     /**
      * 给玩家发送消息（带占位符)
-     * @param player 玩家
+     * @param sender 玩家或控制台
      * @param message 要发送的信息
      * @param args 占位符替换
      */
-    public static void send(Player player, String message, Object... args) {
-        send(player, String.format(message, args));
+    public static void send(CommandSender sender, String message, Object... args) {
+        send(sender, String.format(message, args));
     }
 
     /**

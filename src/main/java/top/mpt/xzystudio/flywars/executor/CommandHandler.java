@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.*;
 
@@ -73,7 +74,7 @@ public class CommandHandler implements TabExecutor {
      * @param sender
      */
     public void showHelp(CommandSender sender) {
-        sender.sendMessage(ChatColor.BLUE + "FlyWars飞行战争 " + ChatColor.GREEN + "插件帮助");
+        PlayerUtils.send(sender, "#BLUE#FlyWars 飞行战争  #GREEN#插件帮助");
         for (String key: commands.keySet()) {
             sender.sendMessage(commands.get(key).showUsage());
         }
@@ -114,7 +115,7 @@ public class CommandHandler implements TabExecutor {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            sender.sendMessage(ChatColor.RED + "发生了异常：" + e.getMessage());
+            PlayerUtils.send(sender, "#RED#发生了异常：%s", e.getMessage());
             return true;
         }
         return true;

@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Item工具类
@@ -24,8 +25,8 @@ public class ItemUtils {
         ItemStack myItem = new ItemStack(type, amount);
         ItemMeta im = myItem.getItemMeta();
         assert im != null;
-        im.setDisplayName(displayName);
-        im.setLore(lores);
+        im.setDisplayName(ChatUtils.translateColor(displayName));
+        im.setLore(lores.stream().map(ChatUtils::translateColor).collect(Collectors.toList()));
         im.setUnbreakable(unbreakable);
         myItem.setItemMeta(im);
         return myItem;

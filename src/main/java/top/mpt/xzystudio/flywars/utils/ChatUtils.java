@@ -1,28 +1,31 @@
 package top.mpt.xzystudio.flywars.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Chat工具类
  */
 public class ChatUtils {
     /**
-     * 将&颜色字符替代成§
-     * @param message 要进行替换的消息
-     * @return 替换好了的消息
+     * 将带特殊颜色代码的文本转为带颜色代码的文本
+     * <p>
+     * 例如："#RED#你输了！" -> "§c你输了！"
+     * @param string 带特殊颜色代码的文本
+     * @return 转换后的文本
      */
-    public static String translateColorCode(String message) {
-        return message.replaceAll("&", "§");
-    }
-
-    /**
-     * 将&颜色字符替代成§（带占位符）
-     * @param message 要进行替换的消息
-     * @param args 占位符替换
-     * @return 替换好了的消息
-     */
-    public static String translateColorCode(String message, Object... args) {
-        return translateColorCode(String.format(message, args));
+    public static String translateColor(String string) {
+        String result = string;
+        Pattern regex = Pattern.compile("#[A-Z]+#");
+        Matcher matcher = regex.matcher(result);
+        while (matcher.find()) {
+            String code = matcher.group();
+            result = result.replaceFirst(code, "§" + ChatColor.valueOf(code.replaceAll("#", "")).getChar());
+        }
+        return result;
     }
 
     /**
