@@ -47,8 +47,8 @@ public class customEventListener implements Listener {
             }
         });
         // 判断是不是只剩最后一个队伍（胜利）
-        if (Game.teams.isEmpty()){
-            Game.gameover();
+        if (Game.teams.size() == 1){
+            Game.gameOver();
         }
     }
 }

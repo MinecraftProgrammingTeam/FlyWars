@@ -117,10 +117,14 @@ public class Game {
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
     }
 
-    public static void gameover() {
+    public static void gameOver() {
+        if (teams.isEmpty()){
+            Main.instance.getLogger().warning(ChatColor.RED + "好奇怪，貌似teams为空时调用了gameOver？？！");
+            return;
+        }
         Team theLastTeam = teams.get(0);
-        for (Player p : Main.instance.getServer().getOnlinePlayers()) {
-            p.sendTitle(ChatColor.GREEN + "游戏结束！", ChatColor.BLUE + "");
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            PlayerUtils.showTitle(p, ChatColor.GREEN + "游戏结束！", String.format("%s恭喜<%s>和<%s>取得胜利！", ChatColor.BLUE, theLastTeam.getP1().getName(), theLastTeam.getP2().getName()));
             // 切换回生存
             p.setGameMode(GameMode.SURVIVAL);
             // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧
