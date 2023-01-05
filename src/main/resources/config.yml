@@ -1,3 +1,4 @@
+# test指令中猪多少tick(s)传送到玩家身边
 period: 0
 # 至少需要多少名玩家才能开始游戏(不写为默认2)
 min-player-count: 2

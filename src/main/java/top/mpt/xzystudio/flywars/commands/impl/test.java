@@ -14,6 +14,7 @@ public class test extends ICommand {
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
+        // 测试用的qwq
         Player player = (Player) sender;
         Pig pigEntity = (Pig) player.getWorld().spawnEntity(player.getLocation(), EntityType.PIG);
         pigEntity.setSaddle(true);

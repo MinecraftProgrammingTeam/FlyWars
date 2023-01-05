@@ -1,7 +1,6 @@
 package top.mpt.xzystudio.flywars;
 
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.*;
 import top.mpt.xzystudio.flywars.game.Team;
@@ -19,11 +18,9 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         instance = this;
 
-        // Plugin startup logic
         // config.yml
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-        Plugin plugin = getPlugin(Main.class);
 
         // reg commands
         Objects.requireNonNull(getCommand("fw")).setExecutor(new CommandHandler());

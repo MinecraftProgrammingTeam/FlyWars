@@ -166,7 +166,7 @@ public class CommandHandler implements TabExecutor {
                 } else {
                     sender.sendMessage(cmd.showUsage());
                 }
-            }else {
+            } else {
                 showHelp(sender);
                 return  null;
             }
