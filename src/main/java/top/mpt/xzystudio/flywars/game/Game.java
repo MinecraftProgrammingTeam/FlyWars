@@ -114,17 +114,17 @@ public class Game {
                     }
                 }
             }
-        }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick"));
+        }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
     }
 
     public static void gameover() {
         Team theLastTeam = teams.get(0);
         for (Player p : Main.instance.getServer().getOnlinePlayers()) {
             p.sendTitle(ChatColor.GREEN + "游戏结束！", ChatColor.BLUE + "");
+            // 切换回生存
             p.setGameMode(GameMode.SURVIVAL);
-            p.getInventory().setItemInMainHand(ItemUtils.newItem(Material.AIR, "空~"));
-            p.getInventory().setItemInOffHand(ItemUtils.newItem(Material.AIR, "空~"));
-            p.getInventory().setChestplate(ItemUtils.newItem(Material.AIR, "空~"));
+            // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧
+            p.getInventory().clear();
         }
     }
 }
