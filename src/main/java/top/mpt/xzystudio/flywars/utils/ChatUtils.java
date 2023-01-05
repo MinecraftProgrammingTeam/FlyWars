@@ -29,6 +29,18 @@ public class ChatUtils {
     }
 
     /**
+     * 将带特殊颜色代码的文本转为带颜色代码的文本 (带占位符)
+     * <p>
+     * 例如："#RED#你输了！" -> "§c你输了！"
+     * @param string 带特殊颜色代码的文本
+     * @param args 占位符替换
+     * @return 转换后的文本
+     */
+    public static String translateColor(String string, Object... args) {
+        return translateColor(String.format(string, args));
+    }
+
+    /**
      * 全服公告消息（带占位符）
      * @param message 要公告的消息
      * @param args 占位符替换

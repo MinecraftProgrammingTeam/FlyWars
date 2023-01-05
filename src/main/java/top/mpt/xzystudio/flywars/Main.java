@@ -1,12 +1,10 @@
 package top.mpt.xzystudio.flywars;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
 import top.mpt.xzystudio.flywars.listeners.customEventListener;
+import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -27,12 +25,9 @@ public final class Main extends JavaPlugin {
         // reg listeners
         getServer().getPluginManager().registerEvents(new customEventListener(), this);
 
-        getLogger().info(ChatColor.GREEN + "成功启用空岛战争插件");
+        getLogger().info(ChatUtils.translateColor("#GREEN#成功启用天空战争插件！"));
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-
-    }
+    public void onDisable() {}
 }

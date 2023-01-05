@@ -1,5 +1,6 @@
 package top.mpt.xzystudio.flywars.commands.impl;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.Main;
@@ -15,11 +16,9 @@ import java.util.Objects;
 public class ride extends ICommand {
     public ride() {
         super("ride", "", "骑");
-        List<Player> players = new ArrayList<>(Main.instance.getServer().getOnlinePlayers());
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<String> params = new ArrayList<>();
-        for(Player p : players){
-            params.add(p.getName());
-        }
+        players.forEach(it -> params.add(it.getName()));
         setListParams(params);
     }
 

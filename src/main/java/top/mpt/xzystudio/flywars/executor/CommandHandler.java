@@ -1,12 +1,12 @@
 package top.mpt.xzystudio.flywars.executor;
 
-import top.mpt.xzystudio.flywars.Main;
-import top.mpt.xzystudio.flywars.commands.impl.*;
-import top.mpt.xzystudio.flywars.commands.ICommand;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import top.mpt.xzystudio.flywars.commands.ICommand;
+import top.mpt.xzystudio.flywars.commands.impl.ride;
+import top.mpt.xzystudio.flywars.commands.impl.start;
+import top.mpt.xzystudio.flywars.commands.impl.test;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public class CommandHandler implements TabExecutor {
     /**
      * 维护的指令集合
      */
-    private Map<String, ICommand> commands = new HashMap<>();
+    private final Map<String, ICommand> commands = new HashMap<>();
 
     public Map<String, ICommand> getCommands() {
         return commands;

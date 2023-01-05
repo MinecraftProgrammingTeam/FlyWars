@@ -6,14 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import top.mpt.xzystudio.flywars.Main;
+import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Game的逻辑类
@@ -79,7 +77,10 @@ public class Game {
     public void startGame() {
         Player pl = (Player) sender;
         for (Player p : Main.instance.getServer().getOnlinePlayers()){
-            Location loc = new Location(pl.getWorld(), Main.instance.getConfig().getInt("loc-x"), Main.instance.getConfig().getInt("loc-y"), Main.instance.getConfig().getInt("loc-z"));
+            Location loc = new Location(pl.getWorld(),
+                    (Integer) ConfigUtils.getConfig("loc-x", 0),
+                    (Integer) ConfigUtils.getConfig("loc-y", 0),
+                    (Integer) ConfigUtils.getConfig("loc-z", 0));
             p.teleport(loc);
             PlayerUtils.showTitle(p, "#RED#游戏即将开始", "请保存好贵重物品，即将清空物品栏！");
         }
@@ -118,17 +119,16 @@ public class Game {
     }
 
     public static void gameOver() {
-        if (teams.isEmpty()){
-            Main.instance.getLogger().warning(ChatColor.RED + "好奇怪，貌似teams为空时调用了gameOver？？！");
-            return;
-        }
-        Team theLastTeam = teams.get(0);
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerUtils.showTitle(p, "#GREEN#游戏结束！", String.format("#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", theLastTeam.getP1().getName(), theLastTeam.getP2().getName()));
-            // 切换回生存
-            p.setGameMode(GameMode.SURVIVAL);
-            // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧
-            p.getInventory().clear();
+        if (teams.isEmpty()) Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#好奇怪，貌似teams为空时调用了gameOver？？！"));
+        else {
+            Team theLastTeam = teams.get(0);
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", Collections.emptyList(), Arrays.asList(theLastTeam.getP1().getName(), theLastTeam.getP2().getName()));
+                // 切换回生存
+                p.setGameMode(GameMode.SURVIVAL);
+                // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧
+                p.getInventory().clear();
+            }
         }
     }
 }
