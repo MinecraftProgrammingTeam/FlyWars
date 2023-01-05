@@ -2,3 +2,9 @@
 period: 0
 # 至少需要多少名玩家才能开始游戏(不写为默认2)
 min-player-count: 2
+#
+delay-tick: 200
+# 开始游戏时，将所有玩家传送到当前世界的某一坐标
+loc-x: 0
+loc-y: 0
+loc-z: 0
