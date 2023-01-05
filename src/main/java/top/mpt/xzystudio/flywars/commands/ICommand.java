@@ -41,7 +41,7 @@ public abstract class ICommand {
 
 
     public String showUsage() {
-        return "/ms " + ChatColor.AQUA + cmdName + " "+ params + ChatColor.WHITE + " -- " + ChatColor.GREEN + info;
+        return "/fw " + ChatColor.AQUA + cmdName + " "+ params + ChatColor.WHITE + " -- " + ChatColor.GREEN + info;
     }
     /**
      * 指令内容

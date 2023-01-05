@@ -5,8 +5,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Main extends JavaPlugin {
     public static Main instance;
+    public static List<Team> playerData = new ArrayList<>();
 
     @Override
     public void onEnable() {
