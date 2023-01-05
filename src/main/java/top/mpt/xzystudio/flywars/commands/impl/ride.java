@@ -13,12 +13,18 @@ import java.util.List;
 import java.util.Random;
 
 public class ride extends ICommand {
-    public ride(){
-        super("ride", "<玩家ID>", "骑");
+    public ride() {
+        super("ride", "", "骑");
+        List<Player> players = new ArrayList<>(Main.instance.getServer().getOnlinePlayers());
+        List<String> params = new ArrayList<>();
+        for(Player p : players){
+            params.add(p.getName());
+        }
+        setListParams(params);
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
-        Bukkit.getPlayer(args[0]).setPassenger((Player) sender);
+        Objects.requireNonNull(Main.instance.getServer().getPlayer(args[0])).addPassenger((Player) sender);
         return true;
     }
 

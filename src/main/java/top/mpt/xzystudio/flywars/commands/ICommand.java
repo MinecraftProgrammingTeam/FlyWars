@@ -4,6 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ICommand {
 
@@ -16,6 +18,7 @@ public abstract class ICommand {
      * 子指令参数
      */
     private String params;
+    private List<String> listParams = new ArrayList<>();
 
     /**
      * 子指令描述
@@ -26,7 +29,7 @@ public abstract class ICommand {
         this.cmdName = cmdName;
     }
 
-    public ICommand(String cmdName, String params,String usage) {
+    public ICommand(String cmdName, String params, String usage) {
         this.cmdName = cmdName;
         this.info = usage;
         this.params = params;
@@ -37,6 +40,12 @@ public abstract class ICommand {
     }
     public String getParams() {
         return params;
+    }
+    public List<String> getListParams() {
+        return this.listParams;
+    }
+    public void setListParams(List<String> params) {
+        this.listParams = params;
     }
 
 

@@ -1,1 +1,3 @@
 period: 0
+# 至少需要多少名玩家才能开始游戏(不写为默认2)
+min-player-count: 2
