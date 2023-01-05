@@ -2,16 +2,15 @@ package top.mpt.xzystudio.flywars;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import top.mpt.xzystudio.flywars.executor.*;
-import top.mpt.xzystudio.flywars.game.Team;
-import top.mpt.xzystudio.flywars.listeners.*;
+import top.mpt.xzystudio.flywars.executor.CommandHandler;
+import top.mpt.xzystudio.flywars.listeners.customEventListener;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public final class Main extends JavaPlugin {
     public static Main instance;
-    public static List<Team> playerData = new ArrayList<>();  // 存放团队
-    public static Map<String, Integer> teamMap = new HashMap<>();  // 存放每个玩家所属的团队在playerData的下标
 
     @Override
     public void onEnable() {

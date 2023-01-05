@@ -7,19 +7,26 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 
+/**
+ * Game的逻辑类
+ */
 public class Game {
+    // 存储所有的队伍对象
+    public static final ArrayList<Team> teams = new ArrayList<>();
     // 获取config里的开始游戏最少需要的玩家数
     private final Integer minPlayerCount = (Integer) ConfigUtils.getConfig("min-player-count", 2);
     // 获取当前在线的玩家数
     private final ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-    private CommandSender sender = null;
+    private final CommandSender sender;
 
     public Game(CommandSender sender) {
         this.sender = sender;
@@ -35,7 +42,7 @@ public class Game {
             PlayerUtils.send((Player) sender, "&c玩家数量为奇数，不能开始游戏！");
             return false;
         } else if (players.size() < minPlayerCount) { // 若玩家数未达到config里的minPlayerCount
-            PlayerUtils.send((Player) sender, "&c{}个人都不到，你想跟谁玩？");
+            PlayerUtils.send((Player) sender, "&c%s个人都不到，你想跟谁玩？", minPlayerCount.toString());
             return false;
         }
         return true;
@@ -47,20 +54,16 @@ public class Game {
     public void assignTeams() {
         ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
-        while (!players.isEmpty()) {
+        while (!copy.isEmpty()) {
             // 取两个随机数当做下标
             Random rand = new Random();
-            int i1 = rand.nextInt(players.size()),
-                    i2 = rand.nextInt(players.size());
+            int i1 = rand.nextInt(copy.size()),
+                i2 = rand.nextInt(copy.size());
             // 如果抽到了相同的下标就重新抽一遍
-            while (i1 == i2) i2 = rand.nextInt(players.size());
+            while (i1 == i2) i2 = rand.nextInt(copy.size());
             // 获取对应数组下标的玩家
-            Player p1 = players.get(i1);
-            Player p2 = players.get(i2);
-            // 创建一个Map，放入player
-            Map<Player, String> map = new HashMap<>();
-            map.put(p1, "p1");
-            map.put(p2, "p2");
+            Player p1 = copy.get(i1);
+            Player p2 = copy.get(i2);
             // 创建一个Team，
             Team team = new Team(p1, p2);
             // 把创建好的Team加入
@@ -68,6 +71,38 @@ public class Game {
             // 删除分好队伍的玩家
             copy.remove(p1);
             copy.remove(p2);
+        }
+    }
+
+    /**
+     * 开始游戏
+     */
+    public void startGame() {
+        // 遍历team数组
+        for (Team team : teams) {
+            // 获取每个team的两名玩家
+            Player p1 = team.getP1();
+            Player p2 = team.getP2();
+            HashMap<Player, TeammateType> map = team.players;
+            // 遍历一个team的两名玩家的数组
+            for (Player p : Arrays.asList(p1, p2)) {
+                // 向玩家展示信息
+                PlayerUtils.send(p, "&f[FlyWars] &9你与 <%s> 组为一队", team.getTheOtherPlayer(p).getName());
+                PlayerUtils.showTitle(p, "&a游戏开始", "&cFlyWars 飞行战争");
+                p.setGameMode(GameMode.SURVIVAL);
+                if (map.get(p) == TeammateType.P1) {
+                    // 设置玩家飞行
+                    if (!p.getAllowFlight()) p.setAllowFlight(true);
+                    p.setFlying(true);
+                    // 清空玩家背包
+                    PlayerInventory inv = p.getInventory();
+                    inv.clear();
+                    // 给玩家发放物资
+                    inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, ChatColor.AQUA + "战争鞘翅", new ArrayList<>(), 1, true));
+                    inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, ChatColor.GOLD + "天赐金苹果"));
+                    inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, ChatColor.RED + "核弹"));
+                }
+            }
         }
     }
 }

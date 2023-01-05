@@ -2,7 +2,14 @@ package top.mpt.xzystudio.flywars.game;
 
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+
 public class Team {
+    /**
+     * 一个Team里存放两名玩家和类型的数组
+     */
+    public final HashMap<Player, TeammateType> players = new HashMap<>();
+    // 玩家1
     private final Player p1;
     private final Player p2;
     private final int iter;
@@ -17,7 +24,6 @@ public class Team {
         this.players.put(p2, TeammateType.P2);
         this.p1 = p1;
         this.p2 = p2;
-        this.iter = iter;
         p1.addPassenger(p2);
     }
 
@@ -34,7 +40,6 @@ public class Team {
     }
 
     public Player getTheOtherPlayer(Player p){
-        if (p == p1) return p2;
-        else return p1;
+        return p == p1 ? p2 : p1;
     }
 }

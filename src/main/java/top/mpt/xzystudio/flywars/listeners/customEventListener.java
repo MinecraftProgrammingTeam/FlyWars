@@ -1,6 +1,5 @@
 package top.mpt.xzystudio.flywars.listeners;
 
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -8,9 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import top.mpt.xzystudio.flywars.Main;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.Team;
-import org.bukkit.event.entity.*;
+import top.mpt.xzystudio.flywars.utils.ChatUtils;
+import top.mpt.xzystudio.flywars.utils.PlayerUtils;
+
+import java.util.ArrayList;
 
 public class customEventListener implements Listener {
     @EventHandler
@@ -18,7 +21,7 @@ public class customEventListener implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (damager.getType() == EntityType.PLAYER && entity.getType() == EntityType.PLAYER) {
-            for (Team team : Main.playerData) {
+            for (Team team : Game.teams) {
                 if (team.isTeammate((Player) damager, (Player) entity)) {
                     event.setCancelled(true);
                 }
