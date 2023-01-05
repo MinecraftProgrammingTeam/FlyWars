@@ -46,5 +46,9 @@ public class customEventListener implements Listener {
                 ChatUtils.broadcast("[FlyWars] &9<%s> 和 <%s> 阵亡了！", p.getName(), op.getName()); // 公开处刑
             }
         });
+        // 判断是不是只剩最后一个队伍（胜利）
+        if (Game.teams.isEmpty()){
+            Game.gameover();
+        }
     }
 }
