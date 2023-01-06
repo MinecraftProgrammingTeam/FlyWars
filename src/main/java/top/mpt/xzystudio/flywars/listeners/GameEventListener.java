@@ -47,15 +47,15 @@ public class GameEventListener implements Listener {
     @EventHandler
     public void onEntityExitVehicle(VehicleExitEvent event) {
         // 玩家从另一个玩家的身上下来的时候
-        // 离开玩家的实体
+        // 离开骑乘实体的实体
         Entity passenger = event.getExited();
-        // 被玩家离开的实体
+        // 被骑乘的实体
         Entity vehicle = event.getVehicle();
-        // 如果离开vehicle的实体是玩家，且vehicle也是玩家
+        // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
             // 遍历team数组
             Game.teams.forEach(it -> {
-                // 如果vehicle的玩家和vehicle是队友关系，就取消玩家的行为
+                // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
                 if (it.isTeammate((Player) passenger, (Player) vehicle)) event.setCancelled(true);
             });
         }

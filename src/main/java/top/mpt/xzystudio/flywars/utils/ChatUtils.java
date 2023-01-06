@@ -44,7 +44,7 @@ public class ChatUtils {
     }
 
     /**
-     * 全服公告消息（带占位符）
+     * 全服公告消息(带占位符)
      * @param message 要公告的消息
      * @param args 占位符替换
      */

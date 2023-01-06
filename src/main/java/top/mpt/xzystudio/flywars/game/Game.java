@@ -89,12 +89,9 @@ public class Game {
      */
     public void startGame() {
         Player pl = (Player) sender;
+        // 遍历服务器里每一位玩家
         for (Player p : Main.instance.getServer().getOnlinePlayers()){
-            Location loc = new Location(pl.getWorld(),
-                    (Integer) ConfigUtils.getConfig("start-x", 0),
-                    (Integer) ConfigUtils.getConfig("start-y", 0),
-                    (Integer) ConfigUtils.getConfig("start-z", 0));
-            p.teleport(loc);
+            // 向玩家展示标题
             PlayerUtils.showTitle(p, "#RED#游戏即将开始", "请保存好贵重物品，即将清空物品栏！");
         }
 

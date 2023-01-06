@@ -23,6 +23,8 @@ public class GameTeam {
      * 将两名玩家组进一个Team里
      * @param p1 玩家1
      * @param p2 玩家2
+     * @param color 显示的颜色(给程序看的颜色代码)
+     * @param colorName 队伍的显示颜色(给玩家看的颜色名字[如青队的青])
      */
     public GameTeam(Player p1, Player p2, Team team) {
         this.players.put(p1, TeammateType.P1);
