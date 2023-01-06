@@ -1,5 +1,7 @@
 package top.mpt.xzystudio.flywars;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
 import top.mpt.xzystudio.flywars.listeners.*;
@@ -14,6 +16,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+        Server server = getServer();
 
         // config.yml
         getConfig().options().copyDefaults();
