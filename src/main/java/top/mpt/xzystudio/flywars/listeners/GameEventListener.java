@@ -60,7 +60,7 @@ public class GameEventListener implements Listener {
             }
             if (team != null){
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
-
+                Bukkit.getScheduler().runTask(Main.instance, () -> Main.instance.getServer().getPluginManager().callEvent(eliminatedEvent));
             } else {
                 Main.instance.getLogger().info(ChatColor.GREEN + "普通玩家死亡，不用管他");
             }
@@ -79,6 +79,7 @@ public class GameEventListener implements Listener {
             // 遍历team数组
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
+                // TODO 这玩意不管用，我还是能从队友背上下来，建议重设乘客
                 if (it.isTeammate((Player) passenger, (Player) vehicle)) event.setCancelled(true);
             });
         }

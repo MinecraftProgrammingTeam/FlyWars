@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.game.team;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.util.HashMap;
@@ -21,6 +22,8 @@ public class GameTeam {
     private final Team team;
     private final String color;
     private final String colorName;
+    //
+    public static ScoreboardManager board;
 
     /**
      * 将两名玩家组进一个Team里
@@ -37,6 +40,14 @@ public class GameTeam {
         this.team = team;
         this.color = color;
         this.colorName = colorName;
+    }
+
+    public void setBoard(ScoreboardManager board){
+        this.board = board;
+    }
+
+    public ScoreboardManager getBoard() {
+        return board;
     }
 
     public Team getTeam(){

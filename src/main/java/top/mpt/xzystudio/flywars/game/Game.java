@@ -7,6 +7,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.Main;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeammateType;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
@@ -40,14 +41,21 @@ public class Game {
      */
     public boolean check() {
         // 若玩家数为奇数
-        if (players.size() % 2 != 0){
-            PlayerUtils.send(sender, "#RED#玩家数量为奇数，不能开始游戏！");
-            return false;
-        } else if (players.size() < minPlayerCount) { // 若玩家数未达到config里的minPlayerCount
+//        if (players.size() % 2 != 0){
+//            PlayerUtils.send(sender, "#RED#玩家数量为奇数，不能开始游戏！");
+//            return false;
+//        }
+        if (players.size() < minPlayerCount) { // 若玩家数未达到config里的minPlayerCount
             PlayerUtils.send(sender, "#RED#%s个人都不到，你想跟谁玩？", minPlayerCount.toString());
             return false;
         }
         return true;
+    }
+
+    public static void clearData(){
+        for(Team t : Bukkit.getScoreboardManager().getMainScoreboard().getTeams()){
+            t.unregister();
+        }
     }
 
     /**
@@ -55,9 +63,15 @@ public class Game {
      */
     public void assignTeams() {
         teams.clear();
+        clearData();
         ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
         while (!copy.isEmpty()) {
+            if (copy.size() == 1){
+                // 最后一个人剩下可能是单数，不让他加入游戏了
+                PlayerUtils.send(sender, "#RED#剩余一个玩家 #BLUE#<%s> #RED#不得加入游戏！", copy.get(0).getName());
+                break;
+            }
             // 取两个随机数当做下标
             Random rand = new Random();
             int i1 = rand.nextInt(copy.size()),
@@ -105,6 +119,19 @@ public class Game {
             public void run() {
                 // 遍历team数组
                 for (GameTeam gameTeam : teams) {
+                    // 计分板
+                    gameTeam.setBoard(new ScoreboardManager(gameTeam));
+                    gameTeam.getBoard().updateLine(0, "==================");
+                    gameTeam.getBoard().updateLine(1, "#GREEN#队友血量#RESET#：|#RED#==========#RESET#|");
+                    int iter = 2;
+                    for (GameTeam boardGameTeam : teams){
+                        String line = boardGameTeam.getTeamDisplayName();
+                        if (boardGameTeam == gameTeam){
+                            line += "#GOLD#（当前所在）";
+                        }
+                        gameTeam.getBoard().updateLine(iter, line);
+                        iter++;
+                    }
                     // 获取每个team的两名玩家
                     Player p1 = gameTeam.getP1();
                     Player p2 = gameTeam.getP2();
@@ -148,6 +175,7 @@ public class Game {
     public static void gameOver() {
         if (teams.isEmpty()) Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#插件被玩坏了，貌似teams为空时调用了gameOver？？！\n绝对不是插件的问题("));
         else {
+            clearData();
             // 获取最后一支队伍
             GameTeam theLastGameTeam = teams.get(0);
             // 遍历全部玩家
