@@ -17,9 +17,17 @@ public class ScoreboardManager {
     private final Team team;
     
     // https://bukkit.windit.net/javadoc/org/bukkit/scoreboard/Team.html
-    public ScoreboardManager() {
+
+    /**
+     * 计分板管理器
+     */
+    public ScoreboardManager(Team team) {
+        this.team = team;
     }
-    
+
+    /**
+     * 初始化计分板
+     */
     public void initialScoreboards() {
 
     }

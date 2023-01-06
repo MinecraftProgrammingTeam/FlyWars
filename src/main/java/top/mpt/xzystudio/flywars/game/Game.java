@@ -15,6 +15,7 @@ import java.util.*;
 
 /**
  * Game的逻辑类
+ * @au
  */
 public class Game {
     // 存储所有的队伍对象
@@ -57,7 +58,7 @@ public class Game {
             Random rand = new Random();
             int i1 = rand.nextInt(copy.size()),
                 i2 = rand.nextInt(copy.size());
-            // 如果抽到了相同的下标就重新抽一遍
+            // 如果抽到了相同的下标就重新抽一遍，直到抽到不是相同下标的玩家
             while (i1 == i2) i2 = rand.nextInt(copy.size());
             // 获取对应数组下标的玩家
             Player p1 = copy.get(i1);
@@ -125,6 +126,7 @@ public class Game {
                 }
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
+        // runTaskLater ♂延迟执行♂
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * Chat工具类
+ * @author WindLeaf_qwq
  */
 public class ChatUtils {
     /**
@@ -18,6 +19,7 @@ public class ChatUtils {
      * @return 转换后的文本
      */
     public static String translateColor(String string) {
+        // 正则表达式替换(
         String result = string;
         Pattern regex = Pattern.compile("#[A-Z]+#");
         Matcher matcher = regex.matcher(result);

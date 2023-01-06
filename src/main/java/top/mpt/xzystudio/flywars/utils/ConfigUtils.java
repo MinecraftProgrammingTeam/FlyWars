@@ -4,6 +4,7 @@ import top.mpt.xzystudio.flywars.Main;
 
 /**
  * Config工具类
+ * @author WindLeaf_qwq
  */
 public class ConfigUtils {
     /**
