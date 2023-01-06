@@ -11,7 +11,7 @@
 
 ## 贡献者
 - 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)
-- 注释：[X_huihui](https://github.com/xiaohuihui1022)
+- 部分逻辑&注释：[X_huihui](https://github.com/xiaohuihui1022)
 
 ## 其他
 本仓库使用 `Apache License v2.0` 作为开源协议，附加条款：
