@@ -2,7 +2,7 @@ package top.mpt.xzystudio.flywars;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
-import top.mpt.xzystudio.flywars.listeners.CustomEventListener;
+import top.mpt.xzystudio.flywars.listeners.*;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.util.Objects;
@@ -23,8 +23,9 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("fw")).setExecutor(new CommandHandler());
 
         // reg listeners
-        getServer().getPluginManager().registerEvents(new CustomEventListener(), this);
+        server.getPluginManager().registerEvents(new GameEventListener(), this);
 
+        // log info
         getLogger().info(ChatUtils.translateColor("#GREEN#成功启用天空战争插件！"));
     }
 
