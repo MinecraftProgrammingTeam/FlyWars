@@ -19,8 +19,11 @@ public class GameTeam {
     private final Player p1;
     // 玩家2
     private final Player p2;
+    // Team类
     private final Team team;
+    // 颜色代码
     private final String color;
+    // 颜色代码对应中文
     private final String colorName;
     //
     public static ScoreboardManager board;
@@ -97,6 +100,9 @@ public class GameTeam {
         return ChatUtils.translateColor("#%s#[%s队]#RESET#", this.color, this.colorName);
     }
 
+    /**
+     * 让p2骑在p1头上
+     */
     public void ride(){
         p1.addPassenger(p2);
     }

@@ -19,7 +19,6 @@ import java.util.*;
 
 /**
  * Game的逻辑类
- * @au
  */
 public class Game {
     // 存储所有的队伍对象
@@ -145,7 +144,7 @@ public class Game {
                                 (Integer) ConfigUtils.getConfig("start-x", 0),
                                 (Integer) ConfigUtils.getConfig("start-y", 0),
                                 (Integer) ConfigUtils.getConfig("start-z", 0));
-                        p.teleport(loc);
+                        p.teleport(loc); // tp
                         gameTeam.ride(); // 骑
                         // 向玩家展示信息
                         PlayerUtils.send(p, "[FlyWars] #BLUE#你与 <%s> 组为一队", gameTeam.getTheOtherPlayer(p).getName());
@@ -162,7 +161,7 @@ public class Game {
                         } else {    // 如果玩家为P2(攻击者)
                             inv.setChestplate(ItemUtils.newItem(Material.GOLDEN_CHESTPLATE, "#GOLD#金光晃晃", new ArrayList<>(), 1, true));
                             inv.setItemInMainHand(ItemUtils.newItem(Material.BOW, "#RED#AK47", new ArrayList<>(), 1, true));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.ARROW, "子弹", new ArrayList<>(), 64, false));
+                            inv.setItemInOffHand(ItemUtils.newItem(Material.ARROW, "#WHITE#子弹", new ArrayList<>(), 64, false));
                         }
                     }
                 }
@@ -194,8 +193,8 @@ public class Game {
                         (Integer) ConfigUtils.getConfig("end-y", 0),
                         (Integer) ConfigUtils.getConfig("end-z", 0));
                 p.teleport(loc);
-
-                // TODO 还原玩家显示名
+                // 切换回生存
+                p.setGameMode(GameMode.SURVIVAL);
             }
         }
     }

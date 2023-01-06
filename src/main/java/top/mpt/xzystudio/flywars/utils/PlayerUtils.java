@@ -43,6 +43,14 @@ public class PlayerUtils {
         player.sendTitle(ChatUtils.translateColor(title), ChatUtils.translateColor(subtitle));
     }
 
+    /**
+     * 给玩家显示标题
+     * @param player 玩家
+     * @param title 标题
+     * @param subtitle 副标题
+     * @param titleArgs 标题占位符
+     * @param subtitleArgs 副标题占位符
+     */
     public static void showTitle(Player player, String title, String subtitle, List<Object> titleArgs, List<Object> subtitleArgs) {
         showTitle(player,
                 titleArgs != null ? String.format(title, titleArgs) : title,
