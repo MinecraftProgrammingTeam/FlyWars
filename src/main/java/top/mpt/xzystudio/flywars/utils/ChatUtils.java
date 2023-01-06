@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.bukkit.ChatColor.*;
 
@@ -46,13 +47,15 @@ public class ChatUtils {
      */
     public static String translateColor(String string) {
         // 正则表达式替换
-        // TODO 正则没有替换掉##，需要修改！！！
-        String result = string;
-        Pattern regex = Pattern.compile("#[A-Z]+#");
+        String result = string; // #RED#[红队]
+        Pattern regex = Pattern.compile("#[A-Z_-]+#");
         Matcher matcher = regex.matcher(result);
         while (matcher.find()) {
-            String code = matcher.group();
-            result = result.replaceFirst(code, "§" + ChatColor.valueOf(code.replaceAll("#", "")).getChar());
+            String code = matcher.group(); // #RED#
+            result = result.replaceFirst(
+                    code, // #RED#
+                    "§" + ChatColor.valueOf(code.replaceAll("#", "")).getChar() // §c
+            );
         }
         return result;
     }
@@ -83,7 +86,7 @@ public class ChatUtils {
      */
     private static void resetColors() {
         colors.clear();
-        colors.addAll(Arrays.asList(values()));
+        colors.addAll(Arrays.stream(values()).filter(colorsNameMap::containsKey).collect(Collectors.toList()));
     }
 
     /**

@@ -28,7 +28,9 @@ public class TeamEventListener implements Listener {
         op.setGameMode(GameMode.SPECTATOR);
         p.setGameMode(GameMode.SPECTATOR);
         PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息
+        team.getBoard().deleteBoard();  // 删除该团队计分板
         Game.teams.remove(team); // 移除团队
+        String teamDisplayName = team.getTeamDisplayName();
         ChatUtils.broadcast("[FlyWars] %s被淘汰了！", team.getTeamDisplayName()); // 公开处刑
 
         for (GameTeam gameTeam : Game.teams){ // 遍历每个团队

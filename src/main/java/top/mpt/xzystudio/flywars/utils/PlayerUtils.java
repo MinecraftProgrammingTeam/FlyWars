@@ -44,6 +44,8 @@ public class PlayerUtils {
     }
 
     public static void showTitle(Player player, String title, String subtitle, List<Object> titleArgs, List<Object> subtitleArgs) {
-        showTitle(player, String.format(title, titleArgs), String.format(subtitle, subtitleArgs));
+        showTitle(player,
+                titleArgs != null ? String.format(title, titleArgs) : title,
+                subtitleArgs != null ? String.format(subtitle, subtitleArgs) : subtitle);
     }
 }

@@ -82,17 +82,19 @@ public class Game {
             Player p1 = copy.get(i1);
             Player p2 = copy.get(i2);
             // 随机颜色
-            ChatColor color = ChatUtils.randomColor();
+            ChatColor color = ChatUtils.randomColor(); // ChatColor.RED
             // 将随机到的颜色转化为颜色中文名
-            String colorName = ChatUtils.getColorName(color);
-            String teamName = ChatUtils.translateColor("#%s#[%s队]#RESET#", color, colorName);
+            String colorName = ChatUtils.getColorName(color); // 红
+            String teamName = ChatUtils.translateColor("#%s#[%s队]", color.name(), colorName); // §c[红队]
             // 注册Team
-            Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(teamName);
-            // 把玩家加入进BTeam里
+            Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(color.name());
+            // 把玩家加入进team里
             team.addEntry(p1.getName());
             team.addEntry(p2.getName());
             // 设置前缀
-            team.setPrefix(teamName);
+            team.setPrefix(String.format("[%s队] ", colorName));
+            // 设置颜色
+            team.setColor(color);
             // 友伤关闭 - 没爱了 - 6
             team.setAllowFriendlyFire(false);
             // 加入Team
@@ -181,9 +183,8 @@ public class Game {
             // 遍历全部玩家
             for (Player p : Bukkit.getOnlinePlayers()) {
                 // 公告喜讯(
-                PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", Collections.emptyList(), Arrays.asList(theLastGameTeam.getP1().getName(), theLastGameTeam.getP2().getName()));
-                // 切换回生存
-                p.setGameMode(GameMode.SURVIVAL);
+                // PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", null, Arrays.asList(theLastGameTeam.getP1().getName(), theLastGameTeam.getP2().getName()));
+                p.sendTitle(ChatColor.GREEN + "游戏结束！", ChatColor.BLUE + "恭喜<" + theLastGameTeam.getP1().getName() + ">与<" + theLastGameTeam.getP2().getName() + ">取得胜利！");// 6
                 // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧 - addd
                 p.getInventory().clear();
                 // 将玩家传送至指定的坐标
