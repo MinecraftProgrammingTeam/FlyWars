@@ -13,13 +13,14 @@ import java.util.regex.Pattern;
 public class ChatUtils {
     /**
      * 将带特殊颜色代码的文本转为带颜色代码的文本
-     * <p>
+     * <p>换行
      * 例如："#RED#你输了！" -> "§c你输了！"
      * @param string 带特殊颜色代码的文本
      * @return 转换后的文本
      */
     public static String translateColor(String string) {
-        // 正则表达式替换(
+        // 正则表达式替换
+        // TODO 正则没有替换掉##，需要修改！！！
         String result = string;
         Pattern regex = Pattern.compile("#[A-Z]+#");
         Matcher matcher = regex.matcher(result);

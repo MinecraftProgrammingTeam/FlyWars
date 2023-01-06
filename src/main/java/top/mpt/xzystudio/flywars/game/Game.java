@@ -5,7 +5,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.Main;
+import top.mpt.xzystudio.flywars.game.team.GameTeam;
+import top.mpt.xzystudio.flywars.game.team.TeammateType;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
@@ -51,6 +54,7 @@ public class Game {
      * 随机分配队伍
      */
     public void assignTeams() {
+        teams.clear();
         ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
         while (!copy.isEmpty()) {
@@ -105,6 +109,13 @@ public class Game {
                     HashMap<Player, TeammateType> map = gameTeam.players;
                     // 遍历一个team的两名玩家的数组
                     for (Player p : Arrays.asList(p1, p2)) {
+                        // 将玩家TP到腐竹指定的场所
+                        Location loc = new Location(pl.getWorld(),
+                                (Integer) ConfigUtils.getConfig("start-x", 0),
+                                (Integer) ConfigUtils.getConfig("start-y", 0),
+                                (Integer) ConfigUtils.getConfig("start-z", 0));
+                        p.teleport(loc);
+                        gameTeam.ride(); // 骑
                         // 向玩家展示信息
                         PlayerUtils.send(p, "[FlyWars] #BLUE#你与 <%s> 组为一队", gameTeam.getTheOtherPlayer(p).getName());
                         PlayerUtils.showTitle(p, "#GREEN#游戏开始", "#RED#FlyWars 飞行战争");
@@ -126,7 +137,7 @@ public class Game {
                 }
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
-        // runTaskLater ♂延迟执行♂
+        // runTaskLater 延迟♂执行
     }
 
     /**
@@ -152,6 +163,8 @@ public class Game {
                         (Integer) ConfigUtils.getConfig("end-y", 0),
                         (Integer) ConfigUtils.getConfig("end-z", 0));
                 p.teleport(loc);
+
+                // TODO 还原玩家显示名
             }
         }
     }

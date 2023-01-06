@@ -1,4 +1,4 @@
-package top.mpt.xzystudio.flywars.game;
+package top.mpt.xzystudio.flywars.game.team;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
