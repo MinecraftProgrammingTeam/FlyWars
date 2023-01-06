@@ -1,7 +1,9 @@
 package top.mpt.xzystudio.flywars.game.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
@@ -72,6 +74,7 @@ public class ScoreboardManager {
     }
 
     public FastBoard getP1Board(){
+        Main.instance.getLogger().info(ChatColor.GREEN + "azzzz:"+this.boards.toString());
         return this.boards.get("p1");
     }
 

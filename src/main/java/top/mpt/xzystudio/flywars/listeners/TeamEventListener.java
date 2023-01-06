@@ -35,7 +35,9 @@ public class TeamEventListener implements Listener {
 
         for (GameTeam gameTeam : Game.teams){ // 遍历每个团队
             int iter = 0;
-            for (String line : gameTeam.getBoard().getP1Board().getLines()){
+            FastBoard pB = gameTeam.getBoard().getP1Board();
+            if (pB == null) pB = gameTeam.getBoard().getP2Board();
+            for (String line : pB.getLines()){
                 if (iter < 2) continue; // 忽略第一二行
                 Main.instance.getLogger().info("line: "+line);
                 Main.instance.getLogger().info("displayname: "+team.getTeamDisplayName());
