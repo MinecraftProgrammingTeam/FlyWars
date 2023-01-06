@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.game.team;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.util.HashMap;
 
@@ -18,6 +19,8 @@ public class GameTeam {
     // 玩家2
     private final Player p2;
     private final Team team;
+    private final String color;
+    private final String colorName;
 
     /**
      * 将两名玩家组进一个Team里
@@ -26,13 +29,14 @@ public class GameTeam {
      * @param color 显示的颜色(给程序看的颜色代码)
      * @param colorName 队伍的显示颜色(给玩家看的颜色名字[如青队的青])
      */
-    public GameTeam(Player p1, Player p2, Team team) {
+    public GameTeam(Player p1, Player p2, Team team, String color, String colorName) {
         this.players.put(p1, TeammateType.P1);
         this.players.put(p2, TeammateType.P2);
         this.p1 = p1;
         this.p2 = p2;
         this.team = team;
-        p1.addPassenger(p2);
+        this.color = color;
+        this.colorName = colorName;
     }
 
     public Team getTeam(){
@@ -72,5 +76,17 @@ public class GameTeam {
      */
     public Player getTheOtherPlayer(Player p){
         return p == p1 ? p2 : p1;
+    }
+
+    /**
+     * 获取Team的显示名称
+     * @return Team的显示名称
+     */
+    public String getTeamDisplayName() {
+        return ChatUtils.translateColor("#%s#[%s队]#RESET#", this.color, this.colorName);
+    }
+
+    public void ride(){
+        p1.addPassenger(p2);
     }
 }

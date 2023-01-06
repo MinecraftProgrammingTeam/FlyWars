@@ -67,17 +67,22 @@ public class Game {
             // 获取对应数组下标的玩家
             Player p1 = copy.get(i1);
             Player p2 = copy.get(i2);
-            // 创建一个Team，BTeam为原版的team
-            String teamName = ChatUtils.translateColor("#%s#[%s队]", "", i1 + i2);
-            org.bukkit.scoreboard.Team BTeam = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(teamName);
+            // 随机颜色
+            ChatColor color = ChatUtils.randomColor();
+            // 将随机到的颜色转化为颜色中文名
+            String colorName = ChatUtils.getColorName(color);
+            String teamName = ChatUtils.translateColor("#%s#[%s队]#RESET#", color, colorName);
+            // 注册Team
+            Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(teamName);
             // 把玩家加入进BTeam里
-            BTeam.addEntry(p1.getName());
-            BTeam.addEntry(p2.getName());
+            team.addEntry(p1.getName());
+            team.addEntry(p2.getName());
             // 设置前缀
-            BTeam.setPrefix(teamName);
-            BTeam.setAllowFriendlyFire(false);
+            team.setPrefix(teamName);
+            // 友伤关闭 - 没爱了 - 6
+            team.setAllowFriendlyFire(false);
             // 加入Team
-            teams.add(new GameTeam(p1, p2, BTeam));
+            teams.add(new GameTeam(p1, p2, team, color.name(), colorName));
             // 删除分好队伍的玩家
             copy.remove(p1);
             copy.remove(p2);

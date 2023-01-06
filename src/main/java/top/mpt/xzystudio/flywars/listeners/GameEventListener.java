@@ -1,8 +1,11 @@
 package top.mpt.xzystudio.flywars.listeners;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,21 +29,41 @@ public class GameEventListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event){
         // 当玩家嗝屁时
         Player p = event.getEntity();
-        ArrayList<GameTeam> temp = new ArrayList<>(Game.teams);
-        temp.forEach(it -> { // 遍历团队 - 为啥总感觉这样更慢，不如使用iter（  - 不会慢到哪的 - 彳亍，我相信jvav的效率 - addd - 6 - 9
-            if (it.players.containsKey(p)) {
-                Player op = it.getTheOtherPlayer(p); // 获取到同一个团队的另一名玩家
-                // 将嗝屁的玩家设置为旁观者模式
-                op.setGameMode(GameMode.SPECTATOR);
-                p.setGameMode(GameMode.SPECTATOR);
-                PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), Collections.emptyList()); // 给另一名无辜的队友展示消息
-                Game.teams.remove(it); // 移除团队
-                ChatUtils.broadcast("[FlyWars] #BLUE#<%s> 和 <%s> 阵亡了！", p.getName(), op.getName()); // 公开处刑
+        // 杀了该玩家的实体
+        LivingEntity eKiller = event.getEntity().getKiller();
+        // 如果杀死玩家的实体不为null，且服务器里能找到这个玩家
+        if (eKiller != null && Bukkit.getPlayer(eKiller.getName()) != null) {
+            // 杀了该玩家的玩家
+            Player pKiller = Bukkit.getPlayer(eKiller.getName());
+            // 定义被淘汰的team和淘汰该team的玩家的变量
+            GameTeam team = null;
+            GameTeam killer = null;
+            // 遍历team寻找被淘汰team（通过死亡的玩家）和淘汰该team的玩家
+            for (GameTeam t : Game.teams) {
+                if (t.players.containsKey(p)) team = t;
+                if (t.players.containsKey(pKiller)) killer = t;
             }
-        });
-        // 判断是不是只剩最后一个队伍（胜利）
-        if (Game.teams.size() == 1){
-            Game.gameOver();
+            // 防止NullPointerException
+            if (team != null && killer != null) {
+                // 使用自定义事件
+                TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, killer);
+                Bukkit.getScheduler().runTask(Main.instance, () -> Main.instance.getServer().getPluginManager().callEvent(eliminatedEvent));
+            } else {
+                Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#找不到被淘汰的Team或淘汰Team的玩家"));
+            }
+        } else {
+            Main.instance.getLogger().info(ChatColor.RED + "未获取到击杀者！");
+
+            GameTeam team = null;
+            for (GameTeam t : Game.teams){
+                if (t.players.containsKey(p)) team = t;
+            }
+            if (team != null){
+                TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
+
+            } else {
+                Main.instance.getLogger().info(ChatColor.GREEN + "普通玩家死亡，不用管他");
+            }
         }
     }
 

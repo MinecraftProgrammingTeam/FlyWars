@@ -3,14 +3,40 @@ package top.mpt.xzystudio.flywars.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.util.*;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.bukkit.ChatColor.*;
 
 /**
  * Chat工具类
  * @author WindLeaf_qwq
  */
 public class ChatUtils {
+    // 颜色List
+    private static final ArrayList<ChatColor> colors = new ArrayList<>();
+    // 存放颜色代码对应的中文
+    private static final HashMap<ChatColor, String> colorsNameMap = new HashMap<ChatColor, String>() {{
+        put(AQUA, "青");
+        put(BLACK, "黑");
+        put(BLUE, "蓝");
+        put(DARK_AQUA, "");
+        put(DARK_BLUE, "深蓝");
+        put(DARK_GRAY, "深灰"); // ??? - 我爱灰灰 - 6 - ♂ - 6
+        put(DARK_GREEN, "深绿");
+        put(DARK_PURPLE, "深紫");
+        put(DARK_RED, "深红");
+        put(GOLD, "金");
+        put(GRAY, "灰");
+        put(GREEN, "绿");
+        put(LIGHT_PURPLE, "浅紫");
+        put(RED, "红");
+        put(WHITE, "白");
+        put(YELLOW, "黄");
+    }};
+
     /**
      * 将带特殊颜色代码的文本转为带颜色代码的文本
      * <p>换行
@@ -50,5 +76,36 @@ public class ChatUtils {
      */
     public static void broadcast(String message, Object... args) {
         Bukkit.getOnlinePlayers().forEach(it -> PlayerUtils.send(it, message, args));
+    }
+
+    /**
+     * 重设颜色
+     */
+    private static void resetColors() {
+        colors.clear();
+        colors.addAll(Arrays.asList(values()));
+    }
+
+    /**
+     * 随机抽取队伍颜色
+     * @return 队伍颜色
+     */
+    public static ChatColor randomColor() {
+        Collections.shuffle(colors);
+        Optional<ChatColor> random = colors.stream().findFirst();
+        Supplier<ChatColor> getter = random.isPresent() ? random::get : () -> {
+            resetColors();
+            return randomColor();
+        };
+        return getter.get();
+    }
+
+    /**
+     * 将颜色代码转换成中文文字
+     * @param color 颜色代码
+     * @return 对应中文文字
+     */
+    public static String getColorName(ChatColor color) {
+        return colorsNameMap.getOrDefault(color, "未知");
     }
 }
