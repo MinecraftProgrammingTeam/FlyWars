@@ -25,7 +25,7 @@ public class GameTeam {
     private final String color;
     // 颜色代码对应中文
     private final String colorName;
-    //
+    // 计分板
     public static ScoreboardManager board;
 
     /**
@@ -45,10 +45,18 @@ public class GameTeam {
         this.colorName = colorName;
     }
 
+    /**
+     * 给team设置计分板
+     * @param board 计分板
+     */
     public void setBoard(ScoreboardManager board){
         this.board = board;
     }
 
+    /**
+     * 获取此Team的计分板
+     * @return 此Team计分板
+     */
     public ScoreboardManager getBoard() {
         return board;
     }
@@ -105,5 +113,18 @@ public class GameTeam {
      */
     public void ride(){
         p1.addPassenger(p2);
+    }
+
+    /**
+     * 检查玩家是否在某个Team里
+     * @param p 玩家
+     */
+    public boolean isPlayerInTeam(Player p){
+        // 如果p1 p2都不为null
+        if (p1 != null && p2 != null){
+           // 如果任意一位玩家为p
+            return p1 == p || p2 == p;
+        }
+        return false;
     }
 }

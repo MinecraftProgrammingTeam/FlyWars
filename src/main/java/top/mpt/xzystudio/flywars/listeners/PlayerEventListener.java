@@ -1,8 +1,11 @@
 package top.mpt.xzystudio.flywars.listeners;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.team.GameTeam;
 
 public class PlayerEventListener implements Listener {
     @EventHandler
