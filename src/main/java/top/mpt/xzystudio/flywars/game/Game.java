@@ -1,5 +1,6 @@
 package top.mpt.xzystudio.flywars.game;
 
+import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,6 +30,8 @@ public class Game {
     private final ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
     
     private final CommandSender sender;
+
+    private Map<UUID, FastBoard> fb = new HashMap<>();
 
     public Game(CommandSender sender) {
         this.sender = sender;
@@ -87,9 +90,6 @@ public class Game {
             String teamName = ChatUtils.translateColor("#%s#[%s队]", color.name(), colorName); // §c[红队]
             // 注册Team
             Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(color.name());
-            // 把玩家加入进team里
-            team.addEntry(p1.getName());
-            team.addEntry(p2.getName());
             // 设置前缀
             team.setPrefix(String.format("[%s队] ", colorName));
             // 设置颜色
@@ -97,10 +97,30 @@ public class Game {
             // 友伤关闭 - 没爱了 - 6
             team.setAllowFriendlyFire(false);
             // 加入Team
-            teams.add(new GameTeam(p1, p2, team, color.name(), colorName));
-            // 删除分好队伍的玩家
-            copy.remove(p1);
-            copy.remove(p2);
+            GameTeam gameTeam = new GameTeam(p1, p2, team, color.name(), colorName);
+
+            for (Player p : Arrays.asList(p1, p2)) {
+                team.addEntry(p.getName());
+                copy.remove(p);
+            }
+
+            teams.add(gameTeam);
+        }
+
+        for (GameTeam gameTeam : teams){
+            ScoreboardManager sbm = new ScoreboardManager(gameTeam);
+            sbm.updateLine(0, "==================");
+            sbm.updateLine(1, "#GREEN#队友血量#RESET#：|#RED#==========#RESET#|");
+            int iter = 2;
+            for (GameTeam boardGameTeam : teams){
+                String line = boardGameTeam.getTeamDisplayName();
+                if (boardGameTeam == gameTeam){
+                    line += "#GOLD#（当前所在）";
+                }
+                sbm.updateLine(iter, line);
+                iter++;
+            }
+            gameTeam.setBoard(sbm);
         }
     }
 
@@ -120,19 +140,6 @@ public class Game {
             public void run() {
                 // 遍历team数组
                 for (GameTeam gameTeam : teams) {
-                    // 计分板
-                    gameTeam.setBoard(new ScoreboardManager(gameTeam));
-                    gameTeam.getBoard().updateLine(0, "==================");
-                    gameTeam.getBoard().updateLine(1, "#GREEN#队友血量#RESET#：|#RED#==========#RESET#|");
-                    int iter = 2;
-                    for (GameTeam boardGameTeam : teams){
-                        String line = boardGameTeam.getTeamDisplayName();
-                        if (boardGameTeam == gameTeam){
-                            line += "#GOLD#（当前所在）";
-                        }
-                        gameTeam.getBoard().updateLine(iter, line);
-                        iter++;
-                    }
                     // 获取每个team的两名玩家
                     Player p1 = gameTeam.getP1();
                     Player p2 = gameTeam.getP2();
@@ -168,6 +175,15 @@ public class Game {
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
+
+        // check scoreboard TODO remove it
+        for (GameTeam gameTeam : teams){
+            if (gameTeam.getBoard().getP1Board() == null){
+                Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#获取计分板失败！！！"));
+            } else {
+                Main.instance.getLogger().info(ChatUtils.translateColor("#GREEN#计分板没问题，可以继续"));
+            }
+        }
     }
 
     /**
@@ -196,6 +212,8 @@ public class Game {
                 // 切换回生存
                 p.setGameMode(GameMode.SURVIVAL);
             }
+            // 清空
+            teams.clear();
         }
     }
 }

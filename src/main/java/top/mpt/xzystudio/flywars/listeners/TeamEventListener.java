@@ -29,6 +29,7 @@ public class TeamEventListener implements Listener {
         p.setGameMode(GameMode.SPECTATOR);
         PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息
         team.getBoard().deleteBoard();  // 删除该团队计分板
+        team.unregTeam();
         Game.teams.remove(team); // 移除团队
         String teamDisplayName = team.getTeamDisplayName();
         ChatUtils.broadcast("[FlyWars] %s被淘汰了！", team.getTeamDisplayName()); // 公开处刑
@@ -38,13 +39,18 @@ public class TeamEventListener implements Listener {
             FastBoard pB = gameTeam.getBoard().getP1Board();
             if (pB == null) pB = gameTeam.getBoard().getP2Board();
             for (String line : pB.getLines()){
-                if (iter < 2) continue; // 忽略第一二行
+                if (iter < 2){
+                    iter++;
+                    continue; // 忽略第一二行
+                }
                 Main.instance.getLogger().info("line: "+line);
                 Main.instance.getLogger().info("displayname: "+team.getTeamDisplayName());
+                Main.instance.getLogger().info("team: "+gameTeam.getTeamDisplayName());
                 if (Objects.equals(line, team.getTeamDisplayName())) {
                     gameTeam.getBoard().updateLine(iter, line + "##RED##（已阵亡）");
                     break;
                 }
+                iter++;
             }
         }
 

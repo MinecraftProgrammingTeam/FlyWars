@@ -53,6 +53,10 @@ public class GameTeam {
         this.board = board;
     }
 
+    public void unregTeam(){
+        this.team.unregister();
+    }
+
     /**
      * 获取此Team的计分板
      * @return 此Team计分板
