@@ -109,7 +109,7 @@ public class Game {
 
         for (GameTeam gameTeam : teams){
             ScoreboardManager sbm = new ScoreboardManager(gameTeam);
-            sbm.updateLine(0, "==================");
+            sbm.updateLine(0, "=====================");
             sbm.updateLine(1, "#GREEN#队友血量#RESET#：|#RED#==========#RESET#|");
             int iter = 2;
             for (GameTeam boardGameTeam : teams){
