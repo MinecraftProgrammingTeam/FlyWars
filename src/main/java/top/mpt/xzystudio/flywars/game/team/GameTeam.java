@@ -131,4 +131,8 @@ public class GameTeam {
         }
         return false;
     }
+
+     public boolean isP1(Player p){
+        return p == p1;
+     }
 }

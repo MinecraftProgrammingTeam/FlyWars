@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
@@ -68,12 +69,12 @@ public class GameEventListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityExitVehicle(VehicleExitEvent event) {
+    public void onEntityExitVehicle(EntityDismountEvent event) {
         // 玩家从另一个玩家的身上下来的时候
         // 离开骑乘实体的实体
-        Entity passenger = event.getExited();
+        Entity passenger = event.getEntity();
         // 被骑乘的实体
-        Entity vehicle = event.getVehicle();
+        Entity vehicle = event.getDismounted();
         // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
             // 遍历team数组

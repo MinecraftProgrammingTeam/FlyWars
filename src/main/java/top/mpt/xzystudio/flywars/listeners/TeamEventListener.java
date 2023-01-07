@@ -1,6 +1,5 @@
 package top.mpt.xzystudio.flywars.listeners;
 
-import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -13,9 +12,7 @@ import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class TeamEventListener implements Listener {
     @EventHandler
@@ -34,25 +31,7 @@ public class TeamEventListener implements Listener {
         String teamDisplayName = team.getTeamDisplayName();
         ChatUtils.broadcast("[FlyWars] %s被淘汰了！", team.getTeamDisplayName()); // 公开处刑
 
-        for (GameTeam gameTeam : Game.teams){ // 遍历每个团队
-            int iter = 0;
-            FastBoard pB = gameTeam.getBoard().getP1Board();
-            if (pB == null) pB = gameTeam.getBoard().getP2Board();
-            for (String line : pB.getLines()){
-                if (iter < 2){
-                    iter++;
-                    continue; // 忽略第一二行
-                }
-                Main.instance.getLogger().info("line: "+line);
-                Main.instance.getLogger().info("displayname: "+team.getTeamDisplayName());
-                Main.instance.getLogger().info("team: "+gameTeam.getTeamDisplayName());
-                if (Objects.equals(line, team.getTeamDisplayName())) {
-                    gameTeam.getBoard().updateLine(iter, line + "##RED##（已阵亡）");
-                    break;
-                }
-                iter++;
-            }
-        }
+        Game.teamDeath(team);
 
         // 判断是不是只剩最后一个队伍（胜利）
         if (Game.teams.size() == 1){
