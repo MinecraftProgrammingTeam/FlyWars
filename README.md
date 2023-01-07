@@ -10,11 +10,12 @@
 - 支持版本：`api-version` 是 `1.13`，具体适配应该是 **1.16.5+**
 
 ## 贡献者
-- 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)
-- 部分逻辑&注释：[X_huihui](https://github.com/xiaohuihui1022)
+- 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)、[X_huihui](https://github.com/xiaohuihui1022)
+- 注释：[X_huihui](https://github.com/xiaohuihui1022)
 
 ## 其他
 本仓库使用 `Apache License v2.0` 作为开源协议，附加条款：
-- 不得商用  
+- 不得商用
+- 二次开发或者使用时，必须保留原作者的版权声明  
   
 请您保护原作者版权，感谢配合！
