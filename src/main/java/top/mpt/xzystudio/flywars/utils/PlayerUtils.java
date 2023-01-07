@@ -58,4 +58,21 @@ public class PlayerUtils {
                 titleArgs != null ? String.format(title, titleArgs) : title,
                 subtitleArgs != null ? String.format(subtitle, subtitleArgs) : subtitle);
     }
+
+    /**
+     * 获取玩家血量字符串
+     * @param player 玩家
+     * @return 血量条字符串
+     */
+    public static String getPlayerHealthString(Player player) {
+        // 计算等号数量
+        StringBuilder sb = new StringBuilder();
+        int heal = (int) player.getHealth();
+        int max_heal = (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+        int count = heal / (max_heal / 10);
+        for (int i=0; i<count; i++){
+            sb.append("=");
+        }
+        return sb.toString();
+    }
 }

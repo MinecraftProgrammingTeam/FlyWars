@@ -15,6 +15,8 @@ public class TeamInfo {
     private Integer killCount = 0;
     // 每个队员的血量
     private final HashMap<UUID, Integer> mateHealth = new HashMap<>();
+    // 是否存活
+    private Boolean alive = true;
 
     /**
      * TeamInfo初始化
@@ -54,5 +56,13 @@ public class TeamInfo {
     public void setHealth(Player player, Integer health) {
         UUID uuid = player.getUniqueId();
         this.mateHealth.replace(uuid, health);
+    }
+
+    public Boolean getAlive() {
+        return this.alive;
+    }
+
+    public void setAlive(Boolean value) {
+        this.alive = value;
     }
 }
