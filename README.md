@@ -1,6 +1,6 @@
 # FlyWars 飞行战争
 
-![](https://img.shields.io/badge/Spigot%2FPaper%201.16.5-E34F26?logo=minecraft&logoColor=white)
+![](https://img.shields.io/badge/Spigot%2FPaper%201.16.x+-E34F26?logo=minecraft&logoColor=white)
 ![](https://img.shields.io/github/actions/workflow/status/MinecraftProgrammingTeam/FlyWars/maven.yml?branch=main)
 ![](https://img.shields.io/github/license/MinecraftProgrammingTeam/FlyWars)
 ![](https://img.shields.io/badge/made%20in-MPT-important)
