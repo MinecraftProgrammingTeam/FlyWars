@@ -99,6 +99,8 @@ public class Game {
             // 加入Team
             GameTeam gameTeam = new GameTeam(p1, p2, team, color.name(), colorName);
 
+            ScoreboardManager.newBoard(gameTeam);
+
             for (Player p : Arrays.asList(p1, p2)) {
                 p.setHealth(20);
                 team.addEntry(p.getName());
@@ -106,22 +108,6 @@ public class Game {
             }
 
             teams.add(gameTeam);
-        }
-
-        for (GameTeam gameTeam : teams){
-            ScoreboardManager sbm = new ScoreboardManager(gameTeam);
-            sbm.updateLine(0, "=====================");
-            sbm.updateLine(1, "#GREEN#队友血量#RESET#：|#RED#==========#RESET#|");
-            int iter = 2;
-            for (GameTeam boardGameTeam : teams){
-                String line = boardGameTeam.getTeamDisplayName();
-                if (boardGameTeam == gameTeam){
-                    line += "#GOLD#（当前所在）";
-                }
-                sbm.updateLine(iter, line);
-                iter++;
-            }
-            gameTeam.setBoard(sbm);
         }
     }
 
@@ -137,8 +123,11 @@ public class Game {
         }
 
         new BukkitRunnable() {
+            // 在run方法中不要创建计分板，要不然后期`GameTeam.getBoard()`获取不到（（（
             @Override
             public void run() {
+                // 计分板
+                ScoreboardManager.renderScoreboard();
                 // 遍历team数组
                 for (GameTeam gameTeam : teams) {
                     // 获取每个team的两名玩家
@@ -176,15 +165,6 @@ public class Game {
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
-
-        // check scoreboard TODO remove it
-        for (GameTeam gameTeam : teams){
-            if (gameTeam.getBoard().getP1Board() == null){
-                Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#获取计分板失败！！！"));
-            } else {
-                Main.instance.getLogger().info(ChatUtils.translateColor("#GREEN#计分板没问题，可以继续"));
-            }
-        }
     }
 
     /**
@@ -216,48 +196,5 @@ public class Game {
             // 清空
 //            teams.clear(); // TODO 这里注释掉是因为四个人测试的时候，某一个team阵亡之后，计分板不会接着删除，是为了查看计分板工作正不正常，测试结束后请取消注释！
         }
-    }
-
-    public static void teamDeath(GameTeam failedTeam){
-        for (GameTeam gameTeam : teams){ // 遍历每个团队
-            int iter = 0;
-            FastBoard pB = gameTeam.getBoard().getP1Board();
-            if (pB == null) pB = gameTeam.getBoard().getP2Board();
-            for (String line : pB.getLines()){
-                if (iter < 2){
-                    iter++;
-                    continue; // 忽略第一二行
-                }
-                Main.instance.getLogger().info("line: "+line);
-                Main.instance.getLogger().info("displayname: "+failedTeam.getTeamDisplayName());
-                Main.instance.getLogger().info("team: "+gameTeam.getTeamDisplayName());
-                if (Objects.equals(line, failedTeam.getTeamDisplayName())) {
-                    gameTeam.getBoard().updateLine(iter, line + "##RED##（已阵亡）");
-                    break;
-                }
-                iter++;
-            }
-        }
-    }
-
-    public static void teammateDamage(Player damagedPlayer, GameTeam team){
-        // 获取队友计分板
-        FastBoard fb = null;
-        if (team.isP1(damagedPlayer)){
-            fb = team.getBoard().getP1Board();
-        } else {
-            fb = team.getBoard().getP2Board();
-        }
-
-        // 计算等号数量
-        StringBuilder str = new StringBuilder();
-        int heal = (int) damagedPlayer.getHealth();
-        int max_heal = (int) Objects.requireNonNull(damagedPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
-        int count = heal / (max_heal / 10);
-        for (int i=0; i<count; i++){
-            str.append("=");
-        }
-
-        fb.updateLine(1, "#GREEN#队友血量#RESET#：|#RED#" + str.toString() + "#RESET#|");
     }
 }

@@ -1,10 +1,12 @@
 package top.mpt.xzystudio.flywars.utils;
 
+import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Player工具类

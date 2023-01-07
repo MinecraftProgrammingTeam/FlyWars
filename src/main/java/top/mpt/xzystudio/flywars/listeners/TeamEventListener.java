@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
@@ -25,13 +26,12 @@ public class TeamEventListener implements Listener {
         op.setGameMode(GameMode.SPECTATOR);
         p.setGameMode(GameMode.SPECTATOR);
         PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息
-        team.getBoard().deleteBoard();  // 删除该团队计分板
+        ScoreboardManager.deleteBoard(team);  // 删除该团队计分板
         team.unregTeam();
         Game.teams.remove(team); // 移除团队
         String teamDisplayName = team.getTeamDisplayName();
         ChatUtils.broadcast("[FlyWars] %s被淘汰了！", team.getTeamDisplayName()); // 公开处刑
-
-        Game.teamDeath(team);
+        ScoreboardManager.renderScoreboard();
 
         // 判断是不是只剩最后一个队伍（胜利）
         if (Game.teams.size() == 1){

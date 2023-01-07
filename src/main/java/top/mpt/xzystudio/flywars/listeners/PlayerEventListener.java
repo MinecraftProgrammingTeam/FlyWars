@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
@@ -25,11 +26,11 @@ public class PlayerEventListener implements Listener {
                 Player op = it.getTheOtherPlayer(p);
                 PlayerUtils.showTitle(p, "#RED#您的队友已退出，队伍解散", "即将变为观察者模式");
                 op.setGameMode(GameMode.SPECTATOR);
-                it.getBoard().deleteBoard();
+                ScoreboardManager.deleteBoard(it);
                 it.unregTeam();
                 Game.teams.remove(it);
                 ChatUtils.broadcast("[FlyWars] %s被淘汰了", it.getTeamDisplayName());
-                Game.teamDeath(it);
+                ScoreboardManager.renderScoreboard();
             }
         });
     }
@@ -41,7 +42,7 @@ public class PlayerEventListener implements Listener {
             Game.teams.forEach(it -> {
                 if (it.isPlayerInTeam(p)){
                     Player op = it.getTheOtherPlayer(p);
-                    Game.teammateDamage(p, it);
+                    ScoreboardManager.renderScoreboard();
                 }
             });
         }

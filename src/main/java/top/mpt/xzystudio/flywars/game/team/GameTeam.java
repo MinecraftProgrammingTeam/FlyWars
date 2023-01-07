@@ -25,8 +25,6 @@ public class GameTeam {
     private final String color;
     // 颜色代码对应中文
     private final String colorName;
-    // 计分板
-    public static ScoreboardManager board;
 
     /**
      * 将两名玩家组进一个Team里
@@ -45,24 +43,8 @@ public class GameTeam {
         this.colorName = colorName;
     }
 
-    /**
-     * 给team设置计分板
-     * @param board 计分板
-     */
-    public void setBoard(ScoreboardManager board){
-        this.board = board;
-    }
-
     public void unregTeam(){
         this.team.unregister();
-    }
-
-    /**
-     * 获取此Team的计分板
-     * @return 此Team计分板
-     */
-    public ScoreboardManager getBoard() {
-        return board;
     }
 
     public Team getTeam(){
@@ -132,7 +114,10 @@ public class GameTeam {
         return false;
     }
 
-     public boolean isP1(Player p){
+    public boolean isP1(Player p){
         return p == p1;
-     }
+    }
+    public boolean isP2(Player p){
+        return p == p2;
+    }
 }

@@ -1,17 +1,17 @@
 package top.mpt.xzystudio.flywars.game.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
+import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * 计分板类
