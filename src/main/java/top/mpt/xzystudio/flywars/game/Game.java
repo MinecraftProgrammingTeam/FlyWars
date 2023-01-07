@@ -1,9 +1,6 @@
 package top.mpt.xzystudio.flywars.game;
 
-import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -30,6 +27,7 @@ public class Game {
     private final Integer minPlayerCount = (Integer) ConfigUtils.getConfig("min-player-count", 2);
     // 获取当前在线的玩家数
     private final ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+    public static final ScoreboardManager scoreboardManager = new ScoreboardManager();
     
     private final CommandSender sender;
 
@@ -54,18 +52,11 @@ public class Game {
         return true;
     }
 
-    public static void clearData(){
-        for(Team t : Bukkit.getScoreboardManager().getMainScoreboard().getTeams()){
-            t.unregister();
-        }
-    }
-
     /**
      * 随机分配队伍
      */
     public void assignTeams() {
         teams.clear();
-        clearData();
         ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
         while (!copy.isEmpty()) {
@@ -87,7 +78,6 @@ public class Game {
             ChatColor color = ChatUtils.randomColor(); // ChatColor.RED
             // 将随机到的颜色转化为颜色中文名
             String colorName = ChatUtils.getColorName(color); // 红
-            String teamName = ChatUtils.translateColor("#%s#[%s队]", color.name(), colorName); // §c[红队]
             // 注册Team
             Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(color.name());
             // 设置前缀
@@ -98,8 +88,6 @@ public class Game {
             team.setAllowFriendlyFire(false);
             // 加入Team
             GameTeam gameTeam = new GameTeam(p1, p2, team, color.name(), colorName);
-
-            ScoreboardManager.newBoard(gameTeam);
 
             for (Player p : Arrays.asList(p1, p2)) {
                 p.setHealth(20);
@@ -127,7 +115,8 @@ public class Game {
             @Override
             public void run() {
                 // 计分板
-                ScoreboardManager.renderScoreboard();
+                teams.forEach(scoreboardManager::newBoard);
+                scoreboardManager.renderScoreboard();
                 // 遍历team数组
                 for (GameTeam gameTeam : teams) {
                     // 获取每个team的两名玩家
@@ -144,7 +133,7 @@ public class Game {
                         p.teleport(loc); // tp
                         gameTeam.ride(); // 骑
                         // 向玩家展示信息
-                        PlayerUtils.send(p, "[FlyWars] #BLUE#你与 <%s> 组为一队", gameTeam.getTheOtherPlayer(p).getName());
+                        PlayerUtils.send(p, "[FlyWars] #BLUE#你是 %s，你的队友是 <%s>", gameTeam.getTeamDisplayName() ,gameTeam.getTheOtherPlayer(p).getName());
                         PlayerUtils.showTitle(p, "#GREEN#游戏开始", "#RED#FlyWars 飞行战争");
                         p.setGameMode(GameMode.SURVIVAL);
                         PlayerInventory inv = p.getInventory();
@@ -165,36 +154,5 @@ public class Game {
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
-    }
-
-    /**
-     * 游戏结束
-     */
-    public static void gameOver() {
-        if (teams.isEmpty()) Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#插件被玩坏了，貌似teams为空时调用了gameOver？？！\n绝对不是插件的问题("));
-        else {
-            clearData();
-            // 获取最后一支队伍
-            GameTeam theLastGameTeam = teams.get(0);
-            // 遍历全部玩家
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                // 公告喜讯(
-                // PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#BLUE#恭喜 <%s> 和 <%s> 取得胜利！", null, Arrays.asList(theLastGameTeam.getP1().getName(), theLastGameTeam.getP2().getName()));
-                p.sendTitle(ChatColor.GREEN + "游戏结束！", ChatColor.BLUE + "恭喜<" + theLastGameTeam.getP1().getName() + ">与<" + theLastGameTeam.getP2().getName() + ">取得胜利！");// 6
-                // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧 - addd
-                p.getInventory().clear();
-                // 将玩家传送至指定的坐标
-                // 不能让玩家在空中就切生存吧qwq
-                Location loc = new Location(p.getWorld(),
-                        (Integer) ConfigUtils.getConfig("end-x", 0),
-                        (Integer) ConfigUtils.getConfig("end-y", 0),
-                        (Integer) ConfigUtils.getConfig("end-z", 0));
-                p.teleport(loc);
-                // 切换回生存
-                p.setGameMode(GameMode.SURVIVAL);
-            }
-            // 清空
-//            teams.clear(); // TODO 这里注释掉是因为四个人测试的时候，某一个team阵亡之后，计分板不会接着删除，是为了查看计分板工作正不正常，测试结束后请取消注释！
-        }
     }
 }

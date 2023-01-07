@@ -2,7 +2,6 @@ package top.mpt.xzystudio.flywars.game.team;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
-import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.util.HashMap;

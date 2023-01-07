@@ -70,9 +70,7 @@ public class PlayerUtils {
         int heal = (int) player.getHealth();
         int max_heal = (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
         int count = heal / (max_heal / 10);
-        for (int i=0; i<count; i++){
-            sb.append("=");
-        }
+        for (int i = 0; i < count; i++) sb.append("=");
         return sb.toString();
     }
 }

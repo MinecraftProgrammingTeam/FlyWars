@@ -1,88 +1,86 @@
 package top.mpt.xzystudio.flywars.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.Main;
+import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
+import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
+import top.mpt.xzystudio.flywars.utils.ConfigUtils;
+import top.mpt.xzystudio.flywars.utils.EventUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
- * Game相关事件监听类
+ * 游戏相关事件监听器
  */
 public class GameEventListener implements Listener {
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event){
-        // 当玩家嗝屁时
-        Player p = event.getEntity();
-        // 杀了该玩家的实体
-        LivingEntity eKiller = event.getEntity().getKiller();
-        // 如果杀死玩家的实体不为null，且服务器里能找到这个玩家
-        if (eKiller != null && Bukkit.getPlayer(eKiller.getName()) != null) {
-            // 杀了该玩家的玩家
-            Player pKiller = Bukkit.getPlayer(eKiller.getName());
-            // 定义被淘汰的team和淘汰该team的玩家的变量
-            GameTeam team = null;
-            GameTeam killer = null;
-            // 遍历team寻找被淘汰team（通过死亡的玩家）和淘汰该team的玩家
-            for (GameTeam t : Game.teams) {
-                if (t.players.containsKey(p)) team = t;
-                if (t.players.containsKey(pKiller)) killer = t;
-            }
-            // 防止NullPointerException
-            if (team != null && killer != null) {
-                // 使用自定义事件
-                TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, killer);
-                Bukkit.getScheduler().runTask(Main.instance, () -> Main.instance.getServer().getPluginManager().callEvent(eliminatedEvent));
-            } else {
-                Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#找不到被淘汰的Team或淘汰Team的玩家"));
-            }
-        } else {
-            Main.instance.getLogger().info(ChatColor.RED + "未获取到击杀者！");
+    public void onTeamEliminated(TeamEliminatedEvent event) {
+        Player p = event.getPlayer();
+        GameTeam team = event.getTeam();
+        GameTeam killer = event.getKiller();
+        Player op = team.getTheOtherPlayer(p); // 获取到同一个团队的另一名玩家
+        // 将嗝屁的玩家设置为旁观者模式
+        if (op.isOnline()) op.setGameMode(GameMode.SPECTATOR);
+        if (p.isOnline()) p.setGameMode(GameMode.SPECTATOR);
+        PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息
+        ChatUtils.broadcast("[FlyWars] %s被%s淘汰了！", team.getTeamDisplayName(), killer != null ? killer.getTeamDisplayName() : ""); // 公开处刑
 
-            GameTeam team = null;
-            for (GameTeam t : Game.teams){
-                if (t.players.containsKey(p)) team = t;
-            }
-            if (team != null){
-                TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
-                Bukkit.getScheduler().runTask(Main.instance, () -> Main.instance.getServer().getPluginManager().callEvent(eliminatedEvent));
-            } else {
-                Main.instance.getLogger().info(ChatColor.GREEN + "普通玩家死亡，不用管他");
-            }
+        TeamInfo info = Game.scoreboardManager.getInfo(team);
+        info.setAlive(false);
+        if (killer != null) {
+            TeamInfo killerInfo = Game.scoreboardManager.getInfo(killer);
+            killerInfo.addKillCount();
+        }
+        Game.scoreboardManager.renderScoreboard();
+
+        // 判断是不是只剩最后一个队伍（胜利）
+        if (Game.teams.size() == 1){
+            GameOverEvent gameOverEvent = new GameOverEvent(Game.teams.get(0));
+            EventUtils.callEvent(gameOverEvent);
+        } else if (Game.teams.isEmpty()) {
+            Main.instance.getLogger().info(ChatUtils.translateColor("#RED#好奇怪，真的奇怪，为啥teams空了"));
         }
     }
 
     @EventHandler
-    public void onEntityExitVehicle(EntityDismountEvent event) {
-        // 玩家从另一个玩家的身上下来的时候
-        // 离开骑乘实体的实体
-        Entity passenger = event.getEntity();
-        // 被骑乘的实体
-        Entity vehicle = event.getDismounted();
-        // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
-        if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
-            // 遍历team数组
-            Game.teams.forEach(it -> {
-                // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
-                // TODO 这玩意不管用，我还是能从队友背上下来，建议重设乘客
-                if (it.isTeammate((Player) passenger, (Player) vehicle)) event.setCancelled(true);
+    public void onGameOver(GameOverEvent event) {
+        GameTeam winner = event.getWinner();
+        // Game.scoreboardManager.reset(); // TODO 这里注释掉是因为四个人测试的时候，某一个team阵亡之后，计分板不会接着删除，是为了查看计分板工作正不正常，测试结束后请取消注释！
+        Game.teams.forEach(GameTeam::unregTeam);
+        Game.teams.clear();
+        Game.teams.forEach(team -> {
+            TeamInfo info = Game.scoreboardManager.getInfo(team);
+            ArrayList<Player> players = new ArrayList<>(team.players.keySet());
+            players.forEach(p -> {
+                PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜%s取得胜利！",
+                        null, Collections.singletonList(winner.getTeamDisplayName()));
+                PlayerUtils.send(p, "          %s          ", info.getAlive() ? "#GOLD#你的队伍胜利了！" : "#RED#你的队伍失败了！");
+                PlayerUtils.send(p, "  队伍成员：#BLUE#%s  ", players.stream().map(Player::getName).collect(Collectors.joining(", ")));
+                PlayerUtils.send(p, "  本局游戏队伍击杀数：#YELLOW#%s  ", info.getKillCount());
+
+                // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧 - addd
+                p.getInventory().clear();
+                // 将玩家传送至指定的坐标
+                // 不能让玩家在空中就切生存吧qwq
+                Location loc = new Location(p.getWorld(),
+                        (Integer) ConfigUtils.getConfig("end-x", 0),
+                        (Integer) ConfigUtils.getConfig("end-y", 0),
+                        (Integer) ConfigUtils.getConfig("end-z", 0));
+                p.teleport(loc);
+                // 切换回冒险
+                p.setGameMode(GameMode.ADVENTURE);
             });
-        }
+        });
     }
 }

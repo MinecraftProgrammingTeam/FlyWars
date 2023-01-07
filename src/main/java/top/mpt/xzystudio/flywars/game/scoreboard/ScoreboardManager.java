@@ -9,9 +9,8 @@ import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * 计分板类
@@ -20,7 +19,7 @@ public class ScoreboardManager {
     // 向玩家展示的计分板的标题
     private static final String title = "#BLUE#FlyWars #GREEN#飞行战争";
     private static final HashMap<GameTeam, HashMap<Player, FastBoard>> boards = new HashMap<>();
-    private static final HashMap<GameTeam, TeamInfo> info = new HashMap<>(); // information复数不加s qwq
+    private static final HashMap<GameTeam, TeamInfo> info = new HashMap<>();
 
     /*
     |========================|
@@ -35,46 +34,38 @@ public class ScoreboardManager {
     |========================|
      */
 
-    private static TeamInfo getInfo(GameTeam team) {
+    public TeamInfo getInfo(GameTeam team) {
         return info.get(team);
     }
 
-    public static void renderScoreboard() {
-        ArrayList<String> stringList = new ArrayList<>();
+    public void renderScoreboard() {
         ArrayList<GameTeam> teams = Game.teams;
-
-        stringList.add("");
-        teams.forEach(team ->
-                stringList.add(team.getTeamDisplayName() + " " + (getInfo(team).getAlive() ? "#GREEN#✔" : "#RED#✖")) // 队伍名和存活情况 - 先不用
-        );
-        stringList.add("");
-
-//        boards.values().forEach(playerBoard -> {
-//           playerBoard.keySet().forEach(player -> {
-//               FastBoard board = playerBoard.get(player);
-//           })
-//        });
-
-        boards.keySet().forEach(team -> {
-            HashMap<Player, FastBoard> playerBoards = boards.get(team);
-            playerBoards.keySet().forEach(player -> {
-                FastBoard board = playerBoards.get(player);
-                stringList.add(String.format("队友血量：|%s|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
-                board.updateLines(stringList);
-                board.updateTitle(title);
-            });
+        teams.forEach(team -> {
+           team.players.keySet().forEach(player -> {
+               ArrayList<String> stringList = new ArrayList<>();
+               // ----------------------
+               stringList.add("");
+               teams.forEach(t -> stringList.add(t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖")));
+               stringList.add("");
+               stringList.add(String.format("队友血量：|%s|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
+               stringList.add(String.format("击杀数：%s", getInfo(team).getKillCount()));
+               // ----------------------
+               FastBoard board = boards.get(team).get(player);
+               board.updateTitle(title);
+               board.updateLines(stringList.stream().map(ChatUtils::translateColor).collect(Collectors.toList()));
+           });
         });
     }
 
-    public static void newBoard(GameTeam team) {
+    public void newBoard(GameTeam team) {
         HashMap<Player, FastBoard> playerBoards = new HashMap<>();
         team.players.keySet().forEach(player -> playerBoards.put(player, new FastBoard(player)));
         boards.put(team, playerBoards);
+        info.put(team, new TeamInfo(team));
     }
 
-    public static void deleteBoard(GameTeam team) {
-        HashMap<Player, FastBoard> playerBoards = boards.get(team);
-        playerBoards.keySet().forEach(player -> playerBoards.get(player).delete());
-        boards.remove(team);
+    public void reset() {
+        boards.values().forEach(map -> map.values().forEach(FastBoard::delete));
+        boards.clear();
     }
 }
