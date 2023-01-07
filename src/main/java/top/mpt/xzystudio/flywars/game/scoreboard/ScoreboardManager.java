@@ -67,6 +67,8 @@ public class ScoreboardManager {
     }
 
     public static void deleteBoard(GameTeam team) {
+        HashMap<Player, FastBoard> playerBoards = boards.get(team);
+        playerBoards.keySet().forEach(player -> playerBoards.get(player).delete());
         boards.remove(team);
     }
 }
