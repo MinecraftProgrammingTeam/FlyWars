@@ -42,19 +42,25 @@ public class ScoreboardManager {
     public static void renderScoreboard() {
         ArrayList<String> stringList = new ArrayList<>();
         ArrayList<GameTeam> teams = Game.teams;
+
         stringList.add("");
         teams.forEach(team ->
                 stringList.add(team.getTeamDisplayName() + " " + (getInfo(team).getAlive() ? "#GREEN#✔" : "#RED#✖")) // 队伍名和存活情况 - 先不用
         );
         stringList.add("");
 
+//        boards.values().forEach(playerBoard -> {
+//           playerBoard.keySet().forEach(player -> {
+//               FastBoard board = playerBoard.get(player);
+//           })
+//        });
+
         boards.keySet().forEach(team -> {
             HashMap<Player, FastBoard> playerBoards = boards.get(team);
             playerBoards.keySet().forEach(player -> {
                 FastBoard board = playerBoards.get(player);
-                ArrayList<String> stringListCopy = stringList;
-                stringListCopy.add(String.format("队友血量：|%s|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
-                board.updateLines(stringListCopy);
+                stringList.add(String.format("队友血量：|%s|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
+                board.updateLines(stringList);
                 board.updateTitle(title);
             });
         });
