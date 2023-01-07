@@ -213,7 +213,7 @@ public class Game {
                 p.setGameMode(GameMode.SURVIVAL);
             }
             // 清空
-            teams.clear();
+//            teams.clear(); // TODO 这里注释掉是因为四个人测试的时候，某一个team阵亡之后，计分板不会接着删除，是为了查看计分板工作正不正常，测试结束后请取消注释！
         }
     }
 }

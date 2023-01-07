@@ -42,5 +42,7 @@ public final class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        getLogger().info(ChatUtils.translateColor("#RED#天空战争插件已被禁用！！！"));
+    }
 }
