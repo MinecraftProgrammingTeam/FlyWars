@@ -48,7 +48,7 @@ public class PlayerEventListener implements Listener {
             Game.teams.forEach(it -> {
                 if (it.isPlayerInTeam(p)){
                     Game.scoreboardManager.renderScoreboard();
-                    return ;
+                    return;
                 }
             });
         }

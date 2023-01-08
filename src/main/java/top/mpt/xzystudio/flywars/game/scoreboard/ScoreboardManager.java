@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.game.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
@@ -52,8 +53,10 @@ public class ScoreboardManager {
                ArrayList<String> stringList = new ArrayList<>();
                stringList.add(""); // 空行
                teams.forEach(t -> {
-                   String TeamName = t.getTeamDisplayName().replace('[', ' ');
-                   stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖"));
+                   // 替换掉队伍名字的[]号
+                   String TeamName = t.getTeamDisplayName().replace("[", "");
+                   TeamName = TeamName.replace("]", "");
+                   stringList.add(" " + TeamName + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖"));
                });
                stringList.add(""); // 空行
                // 队友血量显示

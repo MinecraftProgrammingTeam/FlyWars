@@ -21,6 +21,8 @@ public class ItemUtils {
      * @param lores 物品属性
      * @param amount 物品数目
      * @param unbreakable 物品是否为无限耐久
+     * @param level 附魔的等级
+     * @param ench 附魔属性
      * @return 物品
      */
     public static ItemStack newItem(Material type, String displayName, List<String> lores, int amount, boolean unbreakable, int level, Enchantment... ench) {

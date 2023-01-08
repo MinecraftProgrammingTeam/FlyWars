@@ -82,7 +82,7 @@ public class Game {
                 color = ChatUtils.randomColor();
             }
             // 将随机到的颜色转化为颜色中文名
-            String colorName = ChatUtils.getColorName(color); // 红
+            String colorName = ChatUtils.getColorName(color);
             // 注册Team
             Team team = Objects.requireNonNull(Bukkit.getScoreboardManager()).getMainScoreboard().registerNewTeam(color.name());
             // 设置前缀
