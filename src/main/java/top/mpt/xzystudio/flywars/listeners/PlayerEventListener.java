@@ -109,6 +109,7 @@ public class PlayerEventListener implements Listener {
                 if (it.isTeammate((Player) passenger, (Player) vehicle)) {
                     Main.instance.getLogger().info(ChatUtils.translateColor("#RED#取消玩家下车事件，开车就要开到底！"));
                     event.setCancelled(true);
+                    // 如果骑乘的玩家（灰灰）网卡的话这里有可能报错qwq
                     vehicle.addPassenger(passenger);
                 }
             });

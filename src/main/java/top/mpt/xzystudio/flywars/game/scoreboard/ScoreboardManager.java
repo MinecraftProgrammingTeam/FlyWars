@@ -52,10 +52,12 @@ public class ScoreboardManager {
                ArrayList<String> stringList = new ArrayList<>();
 
                stringList.add(""); // 空行
+               // replace掉[]
+               
                teams.forEach(t -> stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖")));
                stringList.add(""); // 空行
                // 队友血量显示
-               stringList.add(String.format(" 队友血量：|%s#RESET#|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
+               stringList.add(String.format(" 队友血量：| %s#RESET# |", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
                // 击杀数显示
                stringList.add(String.format(" 击杀数：%s", getInfo(team).getKillCount()));
                // FastBoard计分板创建
