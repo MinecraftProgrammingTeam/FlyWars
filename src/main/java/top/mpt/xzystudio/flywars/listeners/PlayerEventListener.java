@@ -33,7 +33,7 @@ public class PlayerEventListener implements Listener {
             // 如果某个team里有这个退出游戏的玩家
             if (it.isPlayerInTeam(p)){
                 Player op = it.getTheOtherPlayer(p);
-                PlayerUtils.send(p, "[FlyWars] #RED#你的队友退出了游戏！");
+                PlayerUtils.send(op, "[FlyWars] #RED#你的队友退出了游戏！");
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, it, null);
                 EventUtils.callEvent(eliminatedEvent);
             }
