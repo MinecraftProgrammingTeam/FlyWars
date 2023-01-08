@@ -53,7 +53,7 @@ public class ScoreboardManager {
                stringList.add(""); // 空行
                teams.forEach(t -> {
                    String TeamName = t.getTeamDisplayName().replace('[', ' ');
-                   stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖"))
+                   stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖"));
                });
                stringList.add(""); // 空行
                // 队友血量显示
