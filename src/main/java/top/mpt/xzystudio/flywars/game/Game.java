@@ -127,6 +127,14 @@ public class Game {
             // 在run方法中不要创建计分板，要不然后期`GameTeam.getBoard()`获取不到（（（
             @Override
             public void run() {
+                // 资源刷新点
+                resUpdater.setGameWorld(pl.getWorld());
+                try {
+                    if (!resUpdater.isCancelled()) resUpdater.cancel();
+                } catch (IllegalStateException e){
+                    Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#奇奇怪怪的BUG出现了，不过应该问题不大"));
+                }
+                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
                 // 计分板
                 teams.forEach(scoreboardManager::newBoard);
                 scoreboardManager.renderScoreboard();
@@ -164,10 +172,6 @@ public class Game {
                         }
                     }
                 }
-
-                resUpdater.setGameWorld(pl.getWorld());
-                resUpdater.cancel();
-                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行

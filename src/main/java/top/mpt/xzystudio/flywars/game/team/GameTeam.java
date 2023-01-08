@@ -100,9 +100,10 @@ public class GameTeam {
      * 让p2骑在p1头上
      */
     public void ride(){
-        while (!p1.addPassenger(p2)){
+        if (!p1.addPassenger(p2)){
             p2.eject();
             p1.eject();
+            p1.addPassenger(p2); // 不使用循环，否则一直报错
         }
     }
 

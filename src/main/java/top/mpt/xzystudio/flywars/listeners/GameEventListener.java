@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
@@ -19,6 +20,7 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -48,11 +50,20 @@ public class GameEventListener implements Listener {
 
         // 判断是不是只剩最后一个队伍（胜利）
         AtomicInteger ifGameOver = new AtomicInteger();
+        AtomicReference<GameTeam> aliveTeam = null;
         Game.teams.forEach(it -> {
-            if (ScoreboardManager.info.get(it).getAlive()) ifGameOver.getAndIncrement();
+            if (ScoreboardManager.info.get(it).getAlive()){
+                ifGameOver.getAndIncrement();
+                aliveTeam.set(it);
+            }
         });
         if (ifGameOver.get() == 1){
-            GameOverEvent gameOverEvent = new GameOverEvent(Game.teams.get(0));
+            GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam.get());
+            EventUtils.callEvent(gameOverEvent);
+        } else if (ifGameOver.get() == 0) {
+            Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#请勿在玩家数不足4个时开始游戏"));
+
+            GameOverEvent gameOverEvent = new GameOverEvent(team);
             EventUtils.callEvent(gameOverEvent);
         }
     }

@@ -110,10 +110,14 @@ public class PlayerEventListener implements Listener {
             // 遍历team数组
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
-                if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && ScoreboardManager.info.get(it).getAlive()) {
-                    vehicle.eject();
-                    passenger.eject();
-                    vehicle.addPassenger(passenger);
+                if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(it).getAlive()) {
+                    try {
+                        vehicle.eject();
+                        passenger.eject();
+                        vehicle.addPassenger(passenger);
+                    } catch (Exception e) {
+                        Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#又是奇奇怪怪的bug，罢了罢了"));
+                    }
                 }
             });
         }
