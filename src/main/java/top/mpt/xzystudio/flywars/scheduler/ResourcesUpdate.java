@@ -16,14 +16,14 @@ import java.util.*;
  */
 public class ResourcesUpdate extends BukkitRunnable {
     // resource type
-    private static final Map<String, Material> resType = new HashMap<String, Material>(){{
+    private final Map<String, Material> resType = new HashMap<String, Material>(){{
         put("firework-rocket", Material.FIREWORK_ROCKET);
         put("arrow", Material.ARROW);
         put("golden_apple", Material.GOLDEN_APPLE);
     }};
 
     // 显示名称
-    private static final Map<String, String> displayName = new HashMap<String, String>(){{
+    private final Map<String, String> displayName = new HashMap<String, String>(){{
         put("firework-rocket", "#RED#核弹");
         put("arrow", "#WHITE#子弹");
         put("golden_apple", "#GOLD#天赐金苹果");
@@ -36,7 +36,7 @@ public class ResourcesUpdate extends BukkitRunnable {
      * 设置进行游戏的世界
      * @param gameWorld 进行游戏的世界
      */
-    public static void setGameWorld(World gameWorld) {
+    public void setGameWorld(World gameWorld) {
         ResourcesUpdate.gameWorld = gameWorld;
     }
 

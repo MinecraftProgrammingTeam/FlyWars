@@ -35,7 +35,7 @@ public class Game {
     /**
      * 资源刷新
      */
-    public static final ResourcesUpdate resUpdater = new ResourcesUpdate();
+    public static ResourcesUpdate resUpdater;
     
     private final CommandSender sender;
 
@@ -128,6 +128,7 @@ public class Game {
             @Override
             public void run() {
                 // 资源刷新点
+                resUpdater = new ResourcesUpdate();
                 resUpdater.setGameWorld(pl.getWorld());
                 try {
 //                    if (!resUpdater.isCancelled()) resUpdater.cancel(); // 这样写没用，还是会报错，干脆不用它了，用trycatch

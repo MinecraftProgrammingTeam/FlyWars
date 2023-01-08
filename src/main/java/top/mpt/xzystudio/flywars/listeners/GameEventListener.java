@@ -52,7 +52,7 @@ public class GameEventListener implements Listener {
         AtomicInteger ifGameOver = new AtomicInteger();
         AtomicReference<GameTeam> aliveTeam = null;
         Game.teams.forEach(it -> {
-            if (Game.scoreboardManager.info.get(it).getAlive()){
+            if (Game.scoreboardManager.getInfo(it).getAlive()){
                 ifGameOver.getAndIncrement();
                 aliveTeam.set(it);
             }
