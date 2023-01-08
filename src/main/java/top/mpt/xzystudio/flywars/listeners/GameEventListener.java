@@ -73,11 +73,11 @@ public class GameEventListener implements Listener {
             // 遍历每个玩家
             players.forEach(p -> {
                 // 给玩家显示标题
-                PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜%s取得胜利！",
+                PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜#RESET#%s#GOLD#取得胜利！",
                         null, Collections.singletonList(winner.getTeamDisplayName()));// 不知道为啥这样会显示#GOLD#[#AQUA#[青队#AQUA#]#RESET#]
                 // 给胜利者和失败着分别显示不同消息
                 PlayerUtils.send(p, "          %s          ", info.getAlive() ? "#GOLD#你的队伍胜利了！" : "#RED#你的队伍失败了！");
-                PlayerUtils.send(p, "  队伍成员：#BLUE# %s  ", players.stream().map(Player::getName).collect(Collectors.joining(", ")));
+                PlayerUtils.send(p, "  队伍成员：#AQUA# %s  ", players.stream().map(Player::getName).collect(Collectors.joining(", ")));
                 PlayerUtils.send(p, "  本局游戏队伍击杀数： #YELLOW#%s  ", info.getKillCount());
 
                 // 不能让玩家白嫖鞘翅金苹果和烟花火箭吧 - addd
