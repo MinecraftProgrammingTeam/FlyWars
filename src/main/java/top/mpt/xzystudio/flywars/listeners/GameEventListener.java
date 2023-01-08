@@ -58,11 +58,9 @@ public class GameEventListener implements Listener {
     public void onGameOver(GameOverEvent event) {
         // 游戏结束时，获取胜利的team
         GameTeam winner = event.getWinner();
-         Game.scoreboardManager.reset();
+        Game.scoreboardManager.reset();
         // 遍历teams数组，把每个team注销
         Game.teams.forEach(GameTeam::unregTeam);
-        // 清空数组
-        Game.teams.clear();
         // 遍历teams数组
         Game.teams.forEach(team -> {
             // 获取团队信息
@@ -92,5 +90,7 @@ public class GameEventListener implements Listener {
                 p.setGameMode(GameMode.ADVENTURE);
             });
         });
+        // 清空数组
+        Game.teams.clear();
     }
 }
