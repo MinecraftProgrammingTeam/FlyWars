@@ -130,11 +130,12 @@ public class Game {
                 // 资源刷新点
                 resUpdater.setGameWorld(pl.getWorld());
                 try {
-                    if (!resUpdater.isCancelled()) resUpdater.cancel();
-                } catch (IllegalStateException e){
+//                    if (!resUpdater.isCancelled()) resUpdater.cancel(); // 这样写没用，还是会报错，干脆不用它了，用trycatch
+                    resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
+                } catch (Exception e){
                     Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#奇奇怪怪的BUG出现了，不过应该问题不大"));
+                    ChatUtils.broadcast(ChatUtils.translateColor("[FlyWars] #GOLD#BugWars: #RED#创建资源刷新点任务失败，可能是已存在！"));
                 }
-                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
                 // 计分板
                 teams.forEach(scoreboardManager::newBoard);
                 scoreboardManager.renderScoreboard();

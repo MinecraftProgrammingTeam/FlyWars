@@ -116,7 +116,7 @@ public class PlayerEventListener implements Listener {
                         passenger.eject();
                         vehicle.addPassenger(passenger);
                     } catch (Exception e) {
-                        Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#又是奇奇怪怪的bug，罢了罢了"));
+//                        Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#又是奇奇怪怪的bug，罢了罢了"));
                     }
                 }
             });
