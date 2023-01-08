@@ -61,7 +61,10 @@ public class GameEventListener implements Listener {
     public void onGameOver(GameOverEvent event) {
         // 游戏结束时，获取胜利的team
         GameTeam winner = event.getWinner();
+        // 重置计分板
         Game.scoreboardManager.reset();
+        // 取消资源刷新
+        Game.resUpdater.cancel();
         // 遍历teams数组，把每个team注销
         Game.teams.forEach(GameTeam::unregTeam);
         // 遍历teams数组

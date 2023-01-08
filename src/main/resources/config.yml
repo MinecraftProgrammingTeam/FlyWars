@@ -50,4 +50,4 @@ resources:
       amount: 5
 
 # 刷新资源间隔ticks
-refresh-tick: 20
+refresh-tick: 600

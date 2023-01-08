@@ -30,7 +30,12 @@ public class Game {
     private final Integer minPlayerCount = (Integer) ConfigUtils.getConfig("min-player-count", 2);
     // 获取当前在线的玩家数
     private final ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+    // 计分板
     public static final ScoreboardManager scoreboardManager = new ScoreboardManager();
+    /**
+     * 资源刷新
+     */
+    public static final ResourcesUpdate resUpdater = new ResourcesUpdate();
     
     private final CommandSender sender;
 
@@ -159,9 +164,10 @@ public class Game {
                         }
                     }
                 }
-                ResourcesUpdate resUpdater = new ResourcesUpdate();
+
                 resUpdater.setGameWorld(pl.getWorld());
-                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 20).toString()));
+                // 默认600ticks（半分钟）刷一次
+                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
