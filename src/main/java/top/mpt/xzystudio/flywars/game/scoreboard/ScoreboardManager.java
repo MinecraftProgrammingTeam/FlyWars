@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class ScoreboardManager {
     // 向玩家展示的计分板的标题
-    private static final String title = "#BLUE#FlyWars #GREEN#飞行战争";
+    private static final String title = ChatUtils.translateColor("#BLUE#FlyWars #GREEN#飞行战争");
     private static final HashMap<GameTeam, HashMap<Player, FastBoard>> boards = new HashMap<>();
     private static final HashMap<GameTeam, TeamInfo> info = new HashMap<>();
 
@@ -43,13 +43,15 @@ public class ScoreboardManager {
         teams.forEach(team -> {
            team.players.keySet().forEach(player -> {
                ArrayList<String> stringList = new ArrayList<>();
-               // ----------------------
-               stringList.add("");
-               teams.forEach(t -> stringList.add(t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖")));
-               stringList.add("");
-               stringList.add(String.format("队友血量：|%s|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
-               stringList.add(String.format("击杀数：%s", getInfo(team).getKillCount()));
-               // ----------------------
+
+               stringList.add(""); // 空行
+               teams.forEach(t -> stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖")));
+               stringList.add(""); // 空行
+               // 队友血量显示
+               stringList.add(String.format(" 队友血量：|#RED#%s#RESET#|", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
+               // 击杀数显示
+               stringList.add(String.format(" 击杀数：%s", getInfo(team).getKillCount()));
+               // FastBoard计分板创建
                FastBoard board = boards.get(team).get(player);
                board.updateTitle(title);
                board.updateLines(stringList.stream().map(ChatUtils::translateColor).collect(Collectors.toList()));

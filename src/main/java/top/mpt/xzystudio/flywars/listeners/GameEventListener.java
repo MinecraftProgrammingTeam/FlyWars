@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * 游戏相关事件监听器
  */
 public class GameEventListener implements Listener {
+
     @EventHandler
     public void onTeamEliminated(TeamEliminatedEvent event) {
         Player p = event.getPlayer();
@@ -33,7 +34,7 @@ public class GameEventListener implements Listener {
         // 将嗝屁的玩家设置为旁观者模式
         if (op.isOnline()) op.setGameMode(GameMode.SPECTATOR);
         if (p.isOnline()) p.setGameMode(GameMode.SPECTATOR);
-        PlayerUtils.showTitle(op, "#RED#你的队友 <%s> 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息
+        PlayerUtils.showTitle(op, "#RED#你的队友 %s 寄了！", "即将变为观察者模式", Collections.singletonList(p.getName()), null); // 给另一名无辜的队友展示消息 // 这里无需在%s外面加<>，因为会有[]
         ChatUtils.broadcast("[FlyWars] %s被%s淘汰了！", team.getTeamDisplayName(), killer != null ? killer.getTeamDisplayName() : ""); // 公开处刑
 
         TeamInfo info = Game.scoreboardManager.getInfo(team);

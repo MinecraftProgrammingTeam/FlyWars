@@ -1,7 +1,3 @@
-/*
-注释：这个项目的注释非常详尽，非常有♂趣
- */
-
 package top.mpt.xzystudio.flywars;
 
 import org.bukkit.Server;

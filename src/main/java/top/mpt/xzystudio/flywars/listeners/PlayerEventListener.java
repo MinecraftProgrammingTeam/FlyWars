@@ -96,17 +96,21 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     public void onEntityDismount(EntityDismountEvent event) {
         // 玩家从另一个玩家的身上下来的时候
-        // 离开骑乘实体的实体
+        // 假设灰灰骑在pal头顶
+        // 离开骑乘实体的实体  这是灰灰
         Entity passenger = event.getEntity();
-        // 被骑乘的实体
+        // 被骑乘的实体       这是pal
         Entity vehicle = event.getDismounted();
         // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
             // 遍历team数组
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
-                // TODO 这玩意不管用，我还是能从队友背上下来，建议重设乘客
-                if (it.isTeammate((Player) passenger, (Player) vehicle)) event.setCancelled(true);
+                if (it.isTeammate((Player) passenger, (Player) vehicle)) {
+                    Main.instance.getLogger().info(ChatUtils.translateColor("#RED#取消玩家下车事件，开车就要开到底！"));
+                    event.setCancelled(true);
+                    vehicle.addPassenger(passenger);
+                }
             });
         }
     }
