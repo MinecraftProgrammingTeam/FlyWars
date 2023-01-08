@@ -48,10 +48,11 @@ public class ResourcesUpdate extends BukkitRunnable {
                 int x = (Integer) its.get("x");
                 int y = (Integer) its.get("y");
                 int z = (Integer) its.get("z");
+                int amount = (Integer) its.get("amount");
                 Main.instance.getLogger().info(String.format("(%d, %d, %d)", x, y, z));
 
                 Location loc = new Location(gameWorld, x, y, z);
-                ItemStack itemStack = ItemUtils.newItem(value, displayName.getOrDefault(key, key), 0, null);
+                ItemStack itemStack = ItemUtils.newItem(value, displayName.getOrDefault(key, key), amount);
                 gameWorld.dropItem(loc, itemStack);
             });
         });

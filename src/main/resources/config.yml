@@ -23,25 +23,31 @@ resources:
     - x: 0
       y: 0
       z: 0
+      amount: 5
     - x: 70
       y: 70
       z: 70
+      amount: 5
 
   arrow:
     - x: 10
       y: 0
       z: 10
+      amount: 5
     - x: 80
       y: 70
       z: 80
+      amount: 5
 
   golden_apple:
     - x: 20
       y: 0
       z: 20
+      amount: 5
     - x: 90
       y: 70
       z: 90
+      amount: 5
 
 # 刷新资源间隔ticks
 refresh-tick: 20

@@ -55,5 +55,7 @@ public class ItemUtils {
         return newItem(type, displayName, Collections.emptyList(), 64, false, 0, ench);
     }
 
-
+    public static ItemStack newItem(Material type, String displayName, int amount){
+        return newItem(type, displayName, Collections.emptyList(), amount, false, 0, null);
+    }
 }
