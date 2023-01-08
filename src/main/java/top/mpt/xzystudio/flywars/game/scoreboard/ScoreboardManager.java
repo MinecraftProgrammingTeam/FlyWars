@@ -38,10 +38,17 @@ public class ScoreboardManager {
         return info.get(team);
     }
 
+    /**
+     * 渲染计分板
+     */
     public void renderScoreboard() {
+        // 获取当前所有的teams
         ArrayList<GameTeam> teams = Game.teams;
+        // 遍历teams数组
         teams.forEach(team -> {
+            // 遍历teams里的每个玩家
            team.players.keySet().forEach(player -> {
+               // 新建一个计分板list
                ArrayList<String> stringList = new ArrayList<>();
 
                stringList.add(""); // 空行
@@ -53,12 +60,18 @@ public class ScoreboardManager {
                stringList.add(String.format(" 击杀数：%s", getInfo(team).getKillCount()));
                // FastBoard计分板创建
                FastBoard board = boards.get(team).get(player);
+               // 更新计分板标题
                board.updateTitle(title);
+               // 更新计分板内容
                board.updateLines(stringList.stream().map(ChatUtils::translateColor).collect(Collectors.toList()));
            });
         });
     }
 
+    /**
+     * 给某个team新建一个board
+     * @param team team
+     */
     public void newBoard(GameTeam team) {
         HashMap<Player, FastBoard> playerBoards = new HashMap<>();
         team.players.keySet().forEach(player -> playerBoards.put(player, new FastBoard(player)));
@@ -66,6 +79,9 @@ public class ScoreboardManager {
         info.put(team, new TeamInfo(team));
     }
 
+    /**
+     * 重置
+     */
     public void reset() {
         boards.values().forEach(map -> map.values().forEach(FastBoard::delete));
         boards.clear();

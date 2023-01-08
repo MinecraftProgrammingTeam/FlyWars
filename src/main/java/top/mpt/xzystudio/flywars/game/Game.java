@@ -133,7 +133,7 @@ public class Game {
                         p.teleport(loc); // tp
                         gameTeam.ride(); // 骑
                         // 向玩家展示信息
-                        PlayerUtils.send(p, "[FlyWars] #BLUE#你是 %s，你的队友是 <%s>", gameTeam.getTeamDisplayName() ,gameTeam.getTheOtherPlayer(p).getName());
+                        PlayerUtils.send(p, "[FlyWars] 你是 %s, 你的队友是 <%s>", gameTeam.getTeamDisplayName() ,gameTeam.getTheOtherPlayer(p).getName());
                         PlayerUtils.showTitle(p, "#GREEN#游戏开始", "#RED#FlyWars 飞行战争");
                         p.setGameMode(GameMode.SURVIVAL);
                         PlayerInventory inv = p.getInventory();

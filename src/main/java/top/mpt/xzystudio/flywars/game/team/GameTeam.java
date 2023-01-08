@@ -42,6 +42,9 @@ public class GameTeam {
         this.colorName = colorName;
     }
 
+    /**
+     * 注销Team
+     */
     public void unregTeam(){
         this.team.unregister();
     }

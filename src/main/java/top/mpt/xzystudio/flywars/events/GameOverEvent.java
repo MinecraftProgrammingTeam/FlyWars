@@ -4,6 +4,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 
+/**
+ * 游戏结束事件处理
+ */
 public class GameOverEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final GameTeam winner;
@@ -25,6 +28,10 @@ public class GameOverEvent extends Event {
         return handlers;
     }
 
+    /**
+     * 获取获胜队
+     * @return GameTeam winner
+     */
     public GameTeam getWinner() {
         return this.winner;
     }

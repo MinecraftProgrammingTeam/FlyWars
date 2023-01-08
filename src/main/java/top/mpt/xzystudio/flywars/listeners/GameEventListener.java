@@ -56,16 +56,25 @@ public class GameEventListener implements Listener {
 
     @EventHandler
     public void onGameOver(GameOverEvent event) {
+        // 游戏结束时，获取胜利的team
         GameTeam winner = event.getWinner();
-        // Game.scoreboardManager.reset(); // TODO 这里注释掉是因为四个人测试的时候，某一个team阵亡之后，计分板不会接着删除，是为了查看计分板工作正不正常，测试结束后请取消注释！
+         Game.scoreboardManager.reset();
+        // 遍历teams数组，把每个team注销
         Game.teams.forEach(GameTeam::unregTeam);
+        // 清空数组
         Game.teams.clear();
+        // 遍历teams数组
         Game.teams.forEach(team -> {
+            // 获取团队信息
             TeamInfo info = Game.scoreboardManager.getInfo(team);
+            // 获取每个玩家
             ArrayList<Player> players = new ArrayList<>(team.players.keySet());
+            // 遍历每个玩家
             players.forEach(p -> {
+                // 给玩家显示标题
                 PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜%s取得胜利！",
                         null, Collections.singletonList(winner.getTeamDisplayName()));
+                // 给胜利者和失败着分别显示不同消息
                 PlayerUtils.send(p, "          %s          ", info.getAlive() ? "#GOLD#你的队伍胜利了！" : "#RED#你的队伍失败了！");
                 PlayerUtils.send(p, "  队伍成员：#BLUE#%s  ", players.stream().map(Player::getName).collect(Collectors.joining(", ")));
                 PlayerUtils.send(p, "  本局游戏队伍击杀数：#YELLOW#%s  ", info.getKillCount());
