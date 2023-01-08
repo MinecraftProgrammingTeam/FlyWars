@@ -65,12 +65,17 @@ public class PlayerUtils {
      * @return 血量条字符串
      */
     public static String getPlayerHealthString(Player player) {
-        // 计算等号数量
+        // 计算血量
+        if ((int) player.getHealth() == 0){
+            return ChatUtils.translateColor("#RED#阵亡了");
+        }
+
         StringBuilder sb = new StringBuilder();
         int heal = (int) player.getHealth();
         int max_heal = (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
         int count = heal / (max_heal / 10);
-        for (int i = 0; i < count; i++) sb.append("=");
+        // - 这里不用#RED#吧qwq - 问题不大qwq，有的时候别的地方获取可能需要 - 6
+        for (int i = 0; i < count; i++) sb.append(ChatUtils.translateColor("#RED#❤"));
         return sb.toString();
     }
 }
