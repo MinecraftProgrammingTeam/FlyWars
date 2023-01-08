@@ -1,6 +1,7 @@
 package top.mpt.xzystudio.flywars.utils;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -22,13 +23,18 @@ public class ItemUtils {
      * @param unbreakable 物品是否为无限耐久
      * @return 物品
      */
-    public static ItemStack newItem(Material type, String displayName, List<String> lores, int amount, boolean unbreakable) {
+    public static ItemStack newItem(Material type, String displayName, List<String> lores, int amount, boolean unbreakable, int level, Enchantment... ench) {
         ItemStack myItem = new ItemStack(type, amount);
         ItemMeta im = myItem.getItemMeta();
         assert im != null;
         im.setDisplayName(ChatUtils.translateColor(displayName));
         im.setLore(lores.stream().map(ChatUtils::translateColor).collect(Collectors.toList()));
         im.setUnbreakable(unbreakable);
+        if (ench != null && level != 0){
+            for (Enchantment e : ench){
+                im.addEnchant(e, level, true);
+            }
+        }
         myItem.setItemMeta(im);
         return myItem;
     }
@@ -40,6 +46,12 @@ public class ItemUtils {
      * @return 物品
      */
     public static ItemStack newItem(Material type, String displayName){
-        return newItem(type, displayName, Collections.emptyList(), 64, false);
+        return newItem(type, displayName, Collections.emptyList(), 64, false, 0, null);
     }
+
+    public static ItemStack newItem(Material type, String displayName, int level, Enchantment... ench){
+        return newItem(type, displayName, Collections.emptyList(), 64, false, 0, ench);
+    }
+
+
 }

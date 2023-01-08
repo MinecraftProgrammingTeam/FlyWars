@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.game;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,6 +77,10 @@ public class Game {
             Player p2 = copy.get(i2);
             // 随机颜色
             ChatColor color = ChatUtils.randomColor(); // ChatColor.RED
+            // 循环，避免创建相同名称的团队
+            while(Bukkit.getScoreboardManager().getMainScoreboard().getTeam(color.name()) != null){
+                color = ChatUtils.randomColor();
+            }
             // 将随机到的颜色转化为颜色中文名
             String colorName = ChatUtils.getColorName(color); // 红
             // 注册Team
@@ -90,6 +95,7 @@ public class Game {
             GameTeam gameTeam = new GameTeam(p1, p2, team, color.name(), colorName);
 
             for (Player p : Arrays.asList(p1, p2)) {
+                p.eject();
                 p.setHealth(20);
                 team.addEntry(p.getName());
                 copy.remove(p);
@@ -141,13 +147,13 @@ public class Game {
                         inv.clear();
                         // 给予玩家♂物资♂
                         if (map.get(p) == TeammateType.P1) { // 如果玩家为P1(移动者)
-                            inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果"));
-                            inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹"));
+                            inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true, 0, null));
+                            inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果", 0, null));
+                            inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹", 0, null));
                         } else {    // 如果玩家为P2(攻击者)
-                            inv.setChestplate(ItemUtils.newItem(Material.GOLDEN_CHESTPLATE, "#GOLD#金光晃晃", new ArrayList<>(), 1, true));
-                            inv.setItemInMainHand(ItemUtils.newItem(Material.BOW, "#RED#AK47", new ArrayList<>(), 1, true));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.ARROW, "#WHITE#子弹", new ArrayList<>(), 64, false));
+                            inv.setChestplate(ItemUtils.newItem(Material.GOLDEN_CHESTPLATE, "#GOLD#金光晃晃", new ArrayList<>(), 1, true, 1, null));
+                            inv.setItemInMainHand(ItemUtils.newItem(Material.CROSSBOW, "#RED#AK47", new ArrayList<>(), 1, true, 1, Enchantment.MULTISHOT, Enchantment.QUICK_CHARGE));
+                            inv.setItemInOffHand(ItemUtils.newItem(Material.ARROW, "#WHITE#子弹", new ArrayList<>(), 64, false, 1, null));
                         }
                     }
                 }

@@ -4,10 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import top.mpt.xzystudio.flywars.commands.ICommand;
-import top.mpt.xzystudio.flywars.commands.impl.clearteam;
-import top.mpt.xzystudio.flywars.commands.impl.ride;
-import top.mpt.xzystudio.flywars.commands.impl.start;
-import top.mpt.xzystudio.flywars.commands.impl.test;
+import top.mpt.xzystudio.flywars.commands.impl.*;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.*;
@@ -60,6 +57,7 @@ public class CommandHandler implements TabExecutor {
         registerCommand(new start());
         registerCommand(new ride());
         registerCommand(new clearteam());
+        registerCommand(new eject());
     }
 
     /**

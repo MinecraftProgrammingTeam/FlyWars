@@ -14,6 +14,7 @@ import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.EventUtils;
@@ -106,10 +107,9 @@ public class PlayerEventListener implements Listener {
             // 遍历team数组
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
-                if (it.isTeammate((Player) passenger, (Player) vehicle)) {
+                if (it.isTeammate((Player) passenger, (Player) vehicle) && ScoreboardManager.info.get(it).getAlive()) {
                     Main.instance.getLogger().info(ChatUtils.translateColor("#RED#取消玩家下车事件，开车就要开到底！"));
-                    event.setCancelled(true);
-                    // 如果骑乘的玩家（灰灰）网卡的话这里有可能报错qwq
+                    vehicle.eject();
                     vehicle.addPassenger(passenger);
                 }
             });

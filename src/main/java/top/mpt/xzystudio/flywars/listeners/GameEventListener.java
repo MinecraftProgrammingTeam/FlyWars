@@ -5,10 +5,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
@@ -18,6 +18,7 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -46,11 +47,13 @@ public class GameEventListener implements Listener {
         Game.scoreboardManager.renderScoreboard();
 
         // 判断是不是只剩最后一个队伍（胜利）
-        if (Game.teams.size() == 1){
+        AtomicInteger ifGameOver = new AtomicInteger();
+        Game.teams.forEach(it -> {
+            if (ScoreboardManager.info.get(it).getAlive()) ifGameOver.getAndIncrement();
+        });
+        if (ifGameOver.get() == 1){
             GameOverEvent gameOverEvent = new GameOverEvent(Game.teams.get(0));
             EventUtils.callEvent(gameOverEvent);
-        } else if (Game.teams.isEmpty()) {
-            Main.instance.getLogger().info(ChatUtils.translateColor("#RED#好奇怪，真的奇怪，为啥teams空了"));
         }
     }
 
