@@ -166,7 +166,7 @@ public class Game {
                 }
 
                 resUpdater.setGameWorld(pl.getWorld());
-                // 默认600ticks（半分钟）刷一次
+                resUpdater.cancel();
                 resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));

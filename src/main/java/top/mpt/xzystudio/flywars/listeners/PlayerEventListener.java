@@ -109,11 +109,8 @@ public class PlayerEventListener implements Listener {
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
             // 遍历team数组
             Game.teams.forEach(it -> {
-                Main.instance.getLogger().info("p1: "+it.getP1().getName() + " " + vehicle.getName());
-                Main.instance.getLogger().info("p2: "+it.getP2().getName() + " " + passenger.getName());
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
                 if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && ScoreboardManager.info.get(it).getAlive()) {
-                    Main.instance.getLogger().info(ChatUtils.translateColor("#RED#取消玩家下车事件，开车就要开到底！"));
                     vehicle.eject();
                     passenger.eject();
                     vehicle.addPassenger(passenger);
