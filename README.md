@@ -14,6 +14,17 @@
 - 测试环境：`Spigot 1.16.5`
 - 支持版本：`api-version` 是 `1.13`，具体适配应该是 **1.16.5+**
 
+## 部署教程
+- 下载[最新的Release](https://github.com/MinecraftProgrammingTeam/FlyWars/releases)，将插件放到您服务器上
+- 配置文件位于`plugin/FlyWars/config.yml`中，注释非常全面，通俗易懂
+- 指令：
+  请注意，前面带`*`的是测试时使用的指令
+  - `clearteam` 清除当前的所有Team团队
+  - `eject` 将当前玩家身上的所有乘客弹出（可能与`EntityDismountEvent`事件冲突）
+  - `start` 开始游戏
+  - \* `ride` 骑某个人
+  - \* `test` 测试
+
 ## 贡献者
 - 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)、[X_huihui](https://github.com/xiaohuihui1022)
 - 注释：[X_huihui](https://github.com/xiaohuihui1022)

@@ -1,8 +1,8 @@
 # test指令中猪多少tick(s)传送到玩家身边
 period: 0
 
-# 至少需要多少名玩家才能开始游戏(不写为默认2)
-min-player-count: 2
+# 至少需要多少名玩家才能开始游戏(不写为默认4)
+min-player-count: 4
 
 # 开始游戏后，会留对应的tick让玩家保存自己背包里的贵重物品（默认200）
 delay-tick: 200
@@ -17,19 +17,19 @@ end-x: 0
 end-y: 0
 end-z: 0
 
-# 资源刷新点
+# 资源刷新点，会不断在设定地点生成对应的凋落物
 resources:
-  firework-rocket:
-    - x: 0
+  firework-rocket:  # 烟花火箭
+    - x: 0 # 资源点的坐标
       y: 0
       z: 0
-      amount: 5
+      amount: 5  # 每次刷新的数量
     - x: 70
       y: 70
       z: 70
       amount: 5
 
-  arrow:
+  arrow:  # 箭
     - x: 10
       y: 0
       z: 10
@@ -39,7 +39,7 @@ resources:
       z: 80
       amount: 5
 
-  golden_apple:
+  golden_apple:  # 金苹果
     - x: 20
       y: 0
       z: 20
