@@ -16,3 +16,32 @@ start-z: 0
 end-x: 0
 end-y: 0
 end-z: 0
+
+# 资源刷新点
+resources:
+  firework-rocket:
+    - x: 0
+      y: 0
+      z: 0
+    - x: 70
+      y: 70
+      z: 70
+
+  arrow:
+    - x: 10
+      y: 0
+      z: 10
+    - x: 80
+      y: 70
+      z: 80
+
+  golden_apple:
+    - x: 20
+      y: 0
+      z: 20
+    - x: 90
+      y: 70
+      z: 90
+
+# 刷新资源间隔ticks
+refresh-tick: 20

@@ -5,12 +5,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeammateType;
+import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdate;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
@@ -157,6 +159,9 @@ public class Game {
                         }
                     }
                 }
+                ResourcesUpdate resUpdater = new ResourcesUpdate();
+                resUpdater.setGameWorld(pl.getWorld());
+                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 20).toString()));
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行

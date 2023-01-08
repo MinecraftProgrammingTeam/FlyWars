@@ -23,7 +23,7 @@ public class ChatUtils {
         put(AQUA, "青");
         put(BLACK, "黑");
         put(BLUE, "蓝");
-        put(DARK_AQUA, "");
+        put(DARK_AQUA, "深青");
         put(DARK_BLUE, "深蓝");
         put(DARK_GRAY, "深灰"); // ??? - 我爱灰灰 - 6 - ♂ - 6
         put(DARK_GREEN, "深绿");

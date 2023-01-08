@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
 import top.mpt.xzystudio.flywars.listeners.GameEventListener;
 import top.mpt.xzystudio.flywars.listeners.PlayerEventListener;
+import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdate;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
 import java.util.Objects;
