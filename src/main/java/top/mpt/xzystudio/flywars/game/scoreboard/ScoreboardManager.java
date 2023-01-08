@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  */
 public class ScoreboardManager {
     // 向玩家展示的计分板的标题
-    private static final String title = ChatUtils.translateColor("#BLUE#FlyWars #GREEN#飞行战争");
+    private static final String title = ChatUtils.translateColor("#GREEN#FlyWars");
     private static final HashMap<GameTeam, HashMap<Player, FastBoard>> boards = new HashMap<>();
     public static final HashMap<GameTeam, TeamInfo> info = new HashMap<>();
 

@@ -74,7 +74,6 @@ public class PlayerUtils {
         int heal = (int) player.getHealth();
         int max_heal = (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
         int count = heal / (max_heal / 10);
-        // - 这里不用#RED#吧qwq - 问题不大qwq，有的时候别的地方获取可能需要 - 6
         for (int i = 0; i < count; i++) sb.append(ChatUtils.translateColor("#RED#❤"));
         return sb.toString();
     }

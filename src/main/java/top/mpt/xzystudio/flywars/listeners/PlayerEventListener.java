@@ -43,10 +43,13 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+        // 当玩家被其他玩家打的时候
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
             Game.teams.forEach(it -> {
+                // 如果玩家在teams里
                 if (it.isPlayerInTeam(p)){
+                    // 渲染scoreboard
                     Game.scoreboardManager.renderScoreboard();
                     return;
                 }
