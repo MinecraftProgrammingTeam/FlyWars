@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.Main;
@@ -35,7 +34,7 @@ public class Game {
     /**
      * 资源刷新
      */
-    public static ResourcesUpdate resUpdater;
+    public static ResourcesUpdate resUpdater = null;
     
     private final CommandSender sender;
 
@@ -130,13 +129,7 @@ public class Game {
                 // 资源刷新点
                 resUpdater = new ResourcesUpdate();
                 resUpdater.setGameWorld(pl.getWorld());
-                try {
-//                    if (!resUpdater.isCancelled()) resUpdater.cancel(); // 这样写没用，还是会报错，干脆不用它了，用trycatch
-                    resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
-                } catch (Exception e){
-                    Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#奇奇怪怪的BUG出现了，不过应该问题不大"));
-                    ChatUtils.broadcast(ChatUtils.translateColor("[FlyWars] #GOLD#BugWars: #RED#创建资源刷新点任务失败，可能是已存在！"));
-                }
+                resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
                 // 计分板
                 teams.forEach(scoreboardManager::newBoard);
                 scoreboardManager.renderScoreboard();

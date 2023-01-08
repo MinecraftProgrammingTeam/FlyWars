@@ -5,11 +5,12 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 刷新资源类
@@ -49,7 +50,6 @@ public class ResourcesUpdate extends BukkitRunnable {
                 int y = (Integer) its.get("y");
                 int z = (Integer) its.get("z");
                 int amount = (Integer) its.get("amount");
-//                Main.instance.getLogger().info(String.format("(%d, %d, %d)", x, y, z));
 
                 Location loc = new Location(gameWorld, x, y, z);
                 ItemStack itemStack = ItemUtils.newItem(value, displayName.getOrDefault(key, key), amount);

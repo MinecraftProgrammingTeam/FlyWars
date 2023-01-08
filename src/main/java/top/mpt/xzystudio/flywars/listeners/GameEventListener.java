@@ -9,7 +9,6 @@ import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
-import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
  * 游戏相关事件监听器
  */
 public class GameEventListener implements Listener {
-
     @EventHandler
     public void onTeamEliminated(TeamEliminatedEvent event) {
         Player p = event.getPlayer();
@@ -75,11 +73,11 @@ public class GameEventListener implements Listener {
         // 重置计分板
         Game.scoreboardManager.reset();
         // 取消资源刷新
-        Game.resUpdater.cancel();
-        // 遍历teams数组，把每个team注销
-        Game.teams.forEach(GameTeam::unregTeam);
+        if (Game.resUpdater != null) Game.resUpdater.cancel();
         // 遍历teams数组
         Game.teams.forEach(team -> {
+            // 把每个team注销
+            team.unregTeam();
             // 获取团队信息
             TeamInfo info = Game.scoreboardManager.getInfo(team);
             // 获取每个玩家
