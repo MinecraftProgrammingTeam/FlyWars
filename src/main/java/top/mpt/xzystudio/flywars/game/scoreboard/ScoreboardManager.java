@@ -50,11 +50,11 @@ public class ScoreboardManager {
            team.players.keySet().forEach(player -> {
                // 新建一个计分板list
                ArrayList<String> stringList = new ArrayList<>();
-
                stringList.add(""); // 空行
-               // replace掉[]
-               
-               teams.forEach(t -> stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖")));
+               teams.forEach(t -> {
+                   String TeamName = t.getTeamDisplayName().replace('[', ' ');
+                   stringList.add(" " + t.getTeamDisplayName() + " " + (getInfo(t).getAlive() ? "#GREEN#✔" : "#RED#✖"))
+               });
                stringList.add(""); // 空行
                // 队友血量显示
                stringList.add(String.format(" 队友血量：| %s#RESET# |", PlayerUtils.getPlayerHealthString(team.getTheOtherPlayer(player))));
