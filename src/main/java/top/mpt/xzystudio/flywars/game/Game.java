@@ -70,6 +70,7 @@ public class Game {
             if (copy.size() == 1){
                 // 最后一个人剩下可能是单数，不让他加入游戏了
                 PlayerUtils.send(sender, "#RED#剩余一个玩家 #BLUE#<%s> #RED#不得加入游戏！", copy.get(0).getName());
+                PlayerUtils.send(copy.get(0), "[FlyWars] #RED#很遗憾，您无法加入当前的游戏！");
                 break;
             }
             // 取两个随机数当做下标
