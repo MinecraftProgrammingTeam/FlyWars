@@ -8,6 +8,7 @@ min-player-count: 4
 delay-tick: 200
 
 # 开始游戏时，将所有玩家传送到当前世界的某一个坐标，可以设置为竞技场的坐标之类的
+start-tp: false
 start-x: 0
 start-y: 0
 start-z: 0

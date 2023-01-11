@@ -143,12 +143,18 @@ public class Game {
                     HashMap<Player, TeammateType> map = gameTeam.players;
                     // 遍历一个team的两名玩家的数组
                     for (Player p : Arrays.asList(p1, p2)) {
-//                        Location loc = new Location(pl.getWorld(),
-//                                (Integer) ConfigUtils.getConfig("start-x", 0),
-//                                (Integer) ConfigUtils.getConfig("start-y", 0),
-//                                (Integer) ConfigUtils.getConfig("start-z", 0));
+                        // 定义TP到的坐标
+                        Location loc;
+                        if ((Boolean)ConfigUtils.getConfig("start-tp")){
+                            loc = new Location(pl.getWorld(),
+                                (Integer) ConfigUtils.getConfig("start-x", 0),
+                                (Integer) ConfigUtils.getConfig("start-y", 0),
+                                (Integer) ConfigUtils.getConfig("start-z", 0));
+                        } else {
+                            loc = pl.getLocation();
+                        }
                         // 将玩家TP到腐竹指定的场所
-                        p.teleport(pl.getLocation()); // tp
+                        p.teleport(loc); // tp
                         gameTeam.ride(); // 骑
                         // 向玩家展示信息
                         PlayerUtils.send(p, "[FlyWars] 你是 %s, 你的队友是 <%s>", gameTeam.getTeamDisplayName() ,gameTeam.getTheOtherPlayer(p).getName());
