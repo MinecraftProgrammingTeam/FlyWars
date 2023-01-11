@@ -120,9 +120,20 @@ public class GameTeam {
         return false;
     }
 
+    /**
+     * 返回传入的玩家是否为p1
+     * @param p 玩家
+     * @return 是否为p1
+     */
     public boolean isP1(Player p){
         return p == p1;
     }
+
+    /**
+     * 返回传入的玩家是否为p2
+     * @param p 玩家
+     * @return 是否为p2
+     */
     public boolean isP2(Player p){
         return p == p2;
     }
