@@ -1,6 +1,7 @@
 package top.mpt.xzystudio.flywars.game.scoreboard;
 
 import fr.mrmicky.fastboard.FastBoard;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 import top.mpt.xzystudio.flywars.game.Game;
