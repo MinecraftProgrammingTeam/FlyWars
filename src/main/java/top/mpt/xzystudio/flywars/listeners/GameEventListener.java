@@ -56,6 +56,13 @@ public class GameEventListener implements Listener {
                 aliveTeam.set(it);
             }
         });
+
+        // TODO EJECT不知道管不管用，同时解散队伍
+        p.eject();
+        op.eject();
+        team.unregTeam();
+
+        // GameOver
         if (ifGameOver.get() == 1){
             GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam.get());
             EventUtils.callEvent(gameOverEvent);
