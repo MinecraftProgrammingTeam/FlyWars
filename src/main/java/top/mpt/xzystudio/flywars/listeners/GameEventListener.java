@@ -2,6 +2,7 @@ package top.mpt.xzystudio.flywars.listeners;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -73,10 +74,13 @@ public class GameEventListener implements Listener {
         // 重置计分板
         Game.scoreboardManager.reset();
         // 取消资源刷新
-
-        if (Game.resUpdater != null) Game.resUpdater.cancel(); // TODO 灰灰：结束后依然会刷凋落物
-        // TODO 灰灰：结束后清除已有的凋落物
-        
+        if (Game.resUpdater != null) Game.resUpdater.cancel();
+        // 清除世界内的掉落物
+        event.getWinner().getP1().getWorld().getEntities().forEach(it -> {
+            if (it.getType() == EntityType.DROPPED_ITEM){
+                it.remove();
+            }
+        });
         // 遍历teams数组
         Game.teams.forEach(team -> {
             // 把每个team注销
