@@ -100,6 +100,7 @@ public class GameTeam {
      * 让p2骑在p1头上
      */
     public void ride(){
+        // TODO 灰灰：p2(骑在p1头上)捡不了刷出来的资源
         if (!p1.addPassenger(p2)){
             p2.eject();
             p1.eject();

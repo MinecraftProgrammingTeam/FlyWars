@@ -48,7 +48,7 @@ public class GameEventListener implements Listener {
 
         // 判断是不是只剩最后一个队伍（胜利）
         AtomicInteger ifGameOver = new AtomicInteger();
-        AtomicReference<GameTeam> aliveTeam = null;
+        AtomicReference<GameTeam> aliveTeam = new AtomicReference<>();
         Game.teams.forEach(it -> {
             if (Game.scoreboardManager.getInfo(it).getAlive()){
                 ifGameOver.getAndIncrement();
@@ -73,7 +73,10 @@ public class GameEventListener implements Listener {
         // 重置计分板
         Game.scoreboardManager.reset();
         // 取消资源刷新
-        if (Game.resUpdater != null) Game.resUpdater.cancel();
+
+        if (Game.resUpdater != null) Game.resUpdater.cancel(); // TODO 灰灰：结束后依然会刷凋落物
+        // TODO 灰灰：结束后清除已有的凋落物
+        
         // 遍历teams数组
         Game.teams.forEach(team -> {
             // 把每个team注销

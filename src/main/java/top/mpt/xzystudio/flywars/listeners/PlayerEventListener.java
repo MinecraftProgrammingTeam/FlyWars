@@ -59,6 +59,8 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        // TODO 玩家复活之后，p2仍会骑在p1头顶（不管team有没有被移除）
+
         // 当玩家嗝屁时
         Player p = event.getEntity();
         // 杀了该玩家的实体
@@ -99,6 +101,7 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onEntityDismount(EntityDismountEvent event) {
+        // TODO 与eject冲突，莫名其妙
         // 玩家从另一个玩家的身上下来的时候
         // 假设灰灰骑在pal头顶
         // 离开骑乘实体的实体  这是灰灰
@@ -111,6 +114,7 @@ public class PlayerEventListener implements Listener {
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
                 if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(it).getAlive()) {
+                    Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName())); // TODO remove debug output
                     try {
                         vehicle.eject();
                         passenger.eject();
