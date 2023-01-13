@@ -91,7 +91,7 @@ public class GameEventListener implements Listener {
         // 遍历teams数组
         Game.teams.forEach(team -> {
             // 把每个team注销
-            team.unregTeam();
+//            team.unregTeam(); // 上面队伍解散事件中已经unreg过了，重复unreg可能异常
             // 获取团队信息
             TeamInfo info = Game.scoreboardManager.getInfo(team);
             // 获取每个玩家
