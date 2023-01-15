@@ -6,6 +6,8 @@ import org.bukkit.inventory.ItemStack;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 
+import java.util.ArrayList;
+
 public class GuiItem {
     public Material material;
     public String name;
@@ -15,7 +17,11 @@ public class GuiItem {
         name = ChatUtils.translateColor(name);
         this.material = material;
         this.name = name;
-        this.item = ItemUtils.newItem(material, name, 1, ench);
+        if (ench != null) {
+            this.item = ItemUtils.newItem(material, name, new ArrayList<>(), 1, false, 1, ench);
+        } else {
+            this.item = ItemUtils.newItem(material, name, 1);
+        }
     }
 
     public ItemStack getItem() {

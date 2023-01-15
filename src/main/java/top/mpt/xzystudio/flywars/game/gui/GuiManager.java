@@ -1,35 +1,65 @@
 package top.mpt.xzystudio.flywars.game.gui;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
+import top.mpt.xzystudio.flywars.game.team.GameTeam;
+import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ItemUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GuiManager {
     public static List<GuiItem> items = new ArrayList<>();
-    public static final String title = ChatUtils.translateColor("#GREEN#商店系统");
+    public static final String title = ChatUtils.translateColor("#AQUA#[FlyWars] #GREEN#商店系统");
+
+    private static GameTeam getTeam(Player player) {
+        AtomicReference<GameTeam> team = null;
+        Game.teams.forEach(it -> {
+            if (it.isPlayerInTeam(player)){
+                team.set(it);
+            }
+        });
+        return team.get();
+    }
+
+    private static TeamInfo getInfo(Player player){
+        GameTeam team = getTeam(player);
+        if (team == null){
+            return null;
+        }
+        return ScoreboardManager.info.get(team);
+    }
 
     public static void init() {
-        items.add(new GuiItem(Material.ARROW, "#AQUA#寒冰箭", Enchantment.ARROW_DAMAGE));
-        items.add(new GuiItem(Material.ARROW, "#RED火焰箭", Enchantment.ARROW_DAMAGE));
-        items.add(new GuiItem(Material.ARROW, "#LIGHT_PURPLE#末影箭", Enchantment.ARROW_DAMAGE));
-        items.add(new GuiItem(Material.ARROW, "#YELLOW#标记箭", Enchantment.ARROW_DAMAGE));
-        items.add(new GuiItem(Material.ARROW, "#DARK_RED#爆炸箭", Enchantment.ARROW_DAMAGE));
+        items.add(new GuiItem(Material.TIPPED_ARROW, "#AQUA#寒冰箭", null));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null));
+        items.add(new GuiItem(Material.LEGACY_ARROW, "#LIGHT_PURPLE#末影箭", null));
+        items.add(new GuiItem(Material.LEGACY_SPECTRAL_ARROW, "#YELLOW#标记箭", null));
+        items.add(new GuiItem(Material.LEGACY_TIPPED_ARROW, "#DARK_RED#爆炸箭", null));
     }
 
     public static void openGui(Player player){
+        TeamInfo info = getInfo(player);
+        if (info == null) {
+            player.sendMessage(ChatUtils.translateColor("#AQUA#[FlyWars] #RED#商店信息获取失败，您可能不在当前游戏中"));
+            return;
+        }
+
         Inventory inv = Bukkit.createInventory(player, InventoryType.CHEST, title);
         items.forEach(it -> {
             inv.addItem(it.getItem());
         });
+        List<String> lores = Arrays.asList("#GREEN#击杀数："+info.getKillCount(), "#AQUA#所属队伍："+getTeam(player).getTeamDisplayName());
+        inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#"+player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
     }
 }
