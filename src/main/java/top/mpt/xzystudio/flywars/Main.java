@@ -3,6 +3,7 @@ package top.mpt.xzystudio.flywars;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
+import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.listeners.GameEventListener;
 import top.mpt.xzystudio.flywars.listeners.PlayerEventListener;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
@@ -16,6 +17,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Server server = getServer();
+        GuiManager.init();
 
         // config.yml
         getConfig().options().copyDefaults();
