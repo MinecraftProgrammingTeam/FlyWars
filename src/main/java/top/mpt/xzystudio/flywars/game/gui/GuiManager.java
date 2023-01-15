@@ -22,7 +22,7 @@ public class GuiManager {
     public static final String title = ChatUtils.translateColor("#AQUA#[FlyWars] #GREEN#商店系统");
 
     private static GameTeam getTeam(Player player) {
-        AtomicReference<GameTeam> team = null;
+        AtomicReference<GameTeam> team = new AtomicReference<>();
         Game.teams.forEach(it -> {
             if (it.isPlayerInTeam(player)){
                 team.set(it);
