@@ -1,6 +1,6 @@
 # FlyWars 飞行战争
 
-![](https://img.shields.io/badge/Spigot%2FPaper%201.16.x+-E34F26?logo=minecraft&logoColor=white)
+![](https://img.shields.io/badge/Spigot%2FPaper%201.13.x+-E34F26?logo=minecraft&logoColor=white)
 ![](https://img.shields.io/github/actions/workflow/status/MinecraftProgrammingTeam/FlyWars/maven.yml?branch=main)
 ![](https://img.shields.io/github/license/MinecraftProgrammingTeam/FlyWars)
 ![](https://img.shields.io/badge/made%20in-MPT-important)
@@ -12,7 +12,7 @@
 ## 环境
 - 构建环境：`Amazon Corretto 1.8`
 - 测试环境：`Spigot 1.16.5`
-- 支持版本：`api-version` 是 `1.13`，具体适配应该是 **1.16.5+**
+- 支持版本：`1.13.x+`
 
 ## 部署教程
 - 下载[最新的Release](https://github.com/MinecraftProgrammingTeam/FlyWars/releases)，将插件放到您服务器上
