@@ -10,7 +10,7 @@ import top.mpt.xzystudio.flywars.game.gui.GuiManager;
  * GUI(Inventory)EventListener
  */
 public class inventoryEventListener implements Listener {
-    // 当
+    // 当Inventory内的物品被点击
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) { return;}
@@ -18,6 +18,7 @@ public class inventoryEventListener implements Listener {
         if (event.getView().getTitle().equalsIgnoreCase(GuiManager.title)){
             event.setCancelled(true);
             // TODO check and give the player the item
+
         }
     }
 }

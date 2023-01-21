@@ -4,6 +4,9 @@ import top.mpt.xzystudio.flywars.Main;
 
 import java.util.logging.Logger;
 
+/**
+ * 日志输出工具库
+ */
 public class LoggerUtils {
     public static void info(String string, Object... args){
         Main.instance.getLogger().info(ChatUtils.translateColor(string, args));
