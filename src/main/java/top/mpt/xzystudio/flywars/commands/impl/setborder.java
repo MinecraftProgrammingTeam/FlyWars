@@ -8,6 +8,9 @@ import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
+/**
+ * 设置世界
+ */
 public class setborder extends ICommand {
     public setborder() {
         super("setborder", "<边界距>", "设置世界边界");

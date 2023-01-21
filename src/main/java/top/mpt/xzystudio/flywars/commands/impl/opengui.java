@@ -9,6 +9,9 @@ import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.scheduler.PigSche;
 
+/**
+ * 打开GUI指令
+ */
 public class opengui extends ICommand {
     public opengui(){
         super("opengui", "", "打开GUI");

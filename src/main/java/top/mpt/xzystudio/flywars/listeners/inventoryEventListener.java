@@ -10,6 +10,7 @@ import top.mpt.xzystudio.flywars.game.gui.GuiManager;
  * GUI(Inventory)EventListener
  */
 public class inventoryEventListener implements Listener {
+    // 当
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) { return;}

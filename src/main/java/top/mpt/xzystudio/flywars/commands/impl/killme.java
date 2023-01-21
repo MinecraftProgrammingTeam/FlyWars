@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 
 /**
- * 清空team指令
+ * 紫砂指令
  */
 public class killme extends ICommand {
     public killme() {
