@@ -1,25 +1,25 @@
 package top.mpt.xzystudio.flywars.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.EventUtils;
 import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
+
+import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * 玩家相关事件监听器
@@ -52,7 +52,20 @@ public class PlayerEventListener implements Listener {
                 if (it.isPlayerInTeam(p)){
                     // 渲染scoreboard
                     Game.scoreboardManager.renderScoreboard();
-                    return;
+                }
+            });
+        }
+
+        if (event.getDamager().getType() == EntityType.SPECTRAL_ARROW){
+            event.setCancelled(true);
+            Player pShoot = Bukkit.getPlayer(Objects.requireNonNull(event.getDamager().getCustomName()));
+            if (pShoot == null) LoggerUtils.warning("#RED#没有找到van家");
+            Player p = (Player) event.getEntity();
+            Arrow arrow = (Arrow) event.getDamager();
+
+            GuiManager.items.forEach(it -> {
+                if (Objects.equals(it.name, arrow.getName())){
+                    it.process.run(event);
                 }
             });
         }
@@ -126,5 +139,14 @@ public class PlayerEventListener implements Listener {
                 }
             });
         }
+    }
+
+    @EventHandler
+    public void onEntityShootBow(EntityShootBowEvent event){
+        Game.teams.forEach(it -> {
+            if (it.isPlayerInTeam((Player) event.getProjectile())) {
+                event.getEntity().setCustomName(event.getProjectile().getName());
+            }
+        });
     }
 }

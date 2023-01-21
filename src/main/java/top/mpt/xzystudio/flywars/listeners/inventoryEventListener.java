@@ -13,7 +13,7 @@ public class inventoryEventListener implements Listener {
         Player p = (Player) event.getWhoClicked();
         if (event.getView().getTitle().equalsIgnoreCase(GuiManager.title)){
             event.setCancelled(true);
-            GuiManager.processClick(event);
+            // TODO check and give the player the item
         }
     }
 }

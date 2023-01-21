@@ -3,6 +3,7 @@ package top.mpt.xzystudio.flywars.game.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -42,11 +43,11 @@ public class GuiManager {
     }
 
     public static void init() {
-        items.add(new GuiItem(Material.TIPPED_ARROW, "#AQUA#寒冰箭", null, new slow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new slow()));
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new fire()));
-        items.add(new GuiItem(Material.LEGACY_ARROW, "#LIGHT_PURPLE#末影箭", null, new teleport()));
-        items.add(new GuiItem(Material.LEGACY_SPECTRAL_ARROW, "#YELLOW#标记箭", null, new flag()));
-        items.add(new GuiItem(Material.LEGACY_TIPPED_ARROW, "#DARK_RED#爆炸箭", null, new boom()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#LIGHT_PURPLE#末影箭", null, new teleport()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#YELLOW#标记箭", null, new flag()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new boom()));
     }
 
     public static void openGui(Player player) {
@@ -63,16 +64,5 @@ public class GuiManager {
         List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + getTeam(player).getTeamDisplayName());
         inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
-    }
-    public static void processClick(InventoryClickEvent event){
-        int rawSlot = event.getRawSlot();
-        if (rawSlot >= items.size()){
-            LoggerUtils.info("#AQUA#商店系统 #RED#点击格数超出范围");
-            return;
-        }
-        GuiItem item = items.get(event.getSlot());
-        if (item != null) {
-            item.process.run(event);
-        }
     }
 }

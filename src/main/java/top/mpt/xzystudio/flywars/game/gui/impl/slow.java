@@ -1,11 +1,12 @@
 package top.mpt.xzystudio.flywars.game.gui.impl;
 
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import top.mpt.xzystudio.flywars.game.gui.GuiProcess;
 
 public class slow extends GuiProcess {
     @Override
-    public void run(InventoryClickEvent event){
+    public void run(EntityDamageByEntityEvent event){
 
     }
 }
