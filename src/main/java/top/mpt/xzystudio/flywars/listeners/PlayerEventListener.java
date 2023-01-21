@@ -144,6 +144,7 @@ public class PlayerEventListener implements Listener {
         }
     }
 
+    // 当玩家设出来的时候(?
     @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event){
         Game.teams.forEach(it -> {

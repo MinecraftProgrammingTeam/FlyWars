@@ -52,6 +52,9 @@ public class GuiManager {
         return ScoreboardManager.info.get(team);
     }
 
+    /**
+     * 初始化
+     */
     public static void init() {
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new SlowArrow()));
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new FireworkArrow()));
@@ -60,6 +63,10 @@ public class GuiManager {
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new ExplosionArrow()));
     }
 
+    /**
+     * 给指定玩家打开GUI
+     * @param player玩家
+     */
     public static void openGui(Player player) {
         TeamInfo info = getInfo(player);
         if (info == null) {

@@ -5,6 +5,9 @@ import io.github.classgraph.ScanResult;
 
 import java.util.ArrayList;
 
+/**
+ * Class工具库
+ */
 public class ClassUtils {
     public static ArrayList<Class<?>> getSubclasses(String packagePath) {
         ArrayList<Class<?>> result = new ArrayList<>();
