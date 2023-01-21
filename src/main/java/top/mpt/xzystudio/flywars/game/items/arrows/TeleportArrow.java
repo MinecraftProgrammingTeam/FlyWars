@@ -9,24 +9,21 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * 特殊箭矢：末影箭
- */
-@ArrowInfo(name = "末影箭")
+@ArrowInfo(name = "#LIGHT_PURPLE#末影箭")
 public class TeleportArrow implements ArrowEntry {
     @Override
-    public void run(Player pShoot, Player p, Arrow arrow){
+    public void run(Player shooter, Player entity, Arrow arrow){
         // 获取到P1（被骑乘者）
         AtomicReference<Player> p1 = new AtomicReference<>();
         Game.teams.forEach(it -> {
-            if (it.isPlayerInTeam(p)){
-                if (it.isP1(p)) p1.set(p);
-                else p1.set(p);
+            if (it.isPlayerInTeam(entity)){
+                if (it.isP1(entity)) p1.set(entity);
+                else p1.set(entity);
             }
         });
-        // 传送被骑乘者到射击者那里 - 如果直接传送p会造成p从p1身上掉下来
-        p1.get().teleport(pShoot.getLocation());
+        // 传送被骑乘者到射击者那里 - 如果直接传送entity会造成entity从p1身上掉下来
+        p1.get().teleport(shooter.getLocation());
 
-        PlayerUtils.send(p, "[FlyWars] #YELLOW#您已被%s的末影箭射中，传送到对方位置");
+        PlayerUtils.send(entity, "[FlyWars] #YELLOW#您已被%s的末影箭射中，传送到对方位置");
     }
 }

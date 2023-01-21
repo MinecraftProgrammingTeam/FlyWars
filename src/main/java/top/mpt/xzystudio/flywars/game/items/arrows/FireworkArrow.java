@@ -8,7 +8,7 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 @ArrowInfo(name = "#RED#火焰箭")
 public class FireworkArrow implements ArrowEntry {
     @Override
-    public void run(Player pShoot, Player p, Arrow arrow){
+    public void run(Player shooter, Player entity, Arrow arrow) {
 
     }
 }
