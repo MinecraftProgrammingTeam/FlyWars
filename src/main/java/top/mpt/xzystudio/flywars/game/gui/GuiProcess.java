@@ -1,8 +1,8 @@
 package top.mpt.xzystudio.flywars.game.gui;
 
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 
 public abstract class GuiProcess {
-    public abstract void run(EntityDamageByEntityEvent event);
+    public abstract void run(Player pShoot, Player p, Arrow arrow);
 }

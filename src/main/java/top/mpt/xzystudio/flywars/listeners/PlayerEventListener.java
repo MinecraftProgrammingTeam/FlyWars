@@ -59,13 +59,16 @@ public class PlayerEventListener implements Listener {
         if (event.getDamager().getType() == EntityType.SPECTRAL_ARROW){
             event.setCancelled(true);
             Player pShoot = Bukkit.getPlayer(Objects.requireNonNull(event.getDamager().getCustomName()));
-            if (pShoot == null) LoggerUtils.warning("#RED#没有找到van家");
+            if (pShoot == null){
+                LoggerUtils.warning("#RED#没有找到van家");
+                return;
+            }
             Player p = (Player) event.getEntity();
             Arrow arrow = (Arrow) event.getDamager();
 
             GuiManager.items.forEach(it -> {
                 if (Objects.equals(it.name, arrow.getName())){
-                    it.process.run(event);
+                    it.process.run(pShoot, p, arrow);
                 }
             });
         }
