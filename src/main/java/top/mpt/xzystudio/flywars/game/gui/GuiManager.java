@@ -64,6 +64,6 @@ public class GuiManager {
         player.openInventory(inv);
     }
     public static void processClick(InventoryClickEvent event){
-        items.get(event.getSlot()).process;
+        items.get(event.getSlot()).process.run(event);
     }
 }
