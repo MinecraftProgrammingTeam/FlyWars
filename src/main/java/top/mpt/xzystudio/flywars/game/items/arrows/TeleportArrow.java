@@ -1,14 +1,14 @@
-package top.mpt.xzystudio.flywars.game.gui.impl;
+package top.mpt.xzystudio.flywars.game.items.arrows;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.game.Game;
-import top.mpt.xzystudio.flywars.game.gui.GuiProcess;
+import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class teleport extends GuiProcess {
+public class TeleportArrow implements ArrowEntry {
     @Override
     public void run(Player pShoot, Player p, Arrow arrow){
         // 获取到P1（被骑乘者）

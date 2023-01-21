@@ -10,7 +10,7 @@ import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.*;
-import top.mpt.xzystudio.flywars.game.gui.impl.*;
+import top.mpt.xzystudio.flywars.game.items.arrows.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,11 +40,11 @@ public class GuiManager {
     }
 
     public static void init() {
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new slow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new firework()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#LIGHT_PURPLE#末影箭", null, new teleport()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#YELLOW#标记箭", null, new flag()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new explosion()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new SlowArrow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new FireworkArrow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#LIGHT_PURPLE#末影箭", null, new TeleportArrow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#YELLOW#标记箭", null, new FlagArrow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new ExplosionArrow()));
     }
 
     public static void openGui(Player player) {
