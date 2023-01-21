@@ -4,7 +4,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import top.mpt.xzystudio.flywars.commands.ICommand;
-import top.mpt.xzystudio.flywars.commands.impl.*;
 import top.mpt.xzystudio.flywars.utils.ClassUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 

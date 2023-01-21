@@ -16,7 +16,6 @@ import top.mpt.xzystudio.flywars.utils.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -45,13 +44,9 @@ public class GameEventListener implements Listener {
 
         // 判断是不是只剩最后一个队伍（胜利）
         AtomicInteger ifGameOver = new AtomicInteger();
-        AtomicReference<GameTeam> aliveTeam = new AtomicReference<>();
-        Game.teams.forEach(it -> {
-            if (Game.scoreboardManager.getInfo(it).getAlive()){
-                ifGameOver.getAndIncrement();
-                aliveTeam.set(it);
-            }
-        });
+
+        GameTeam aliveTeam = GameUtils.getTeamBy(t -> Game.scoreboardManager.getInfo(t).getAlive());
+        if (aliveTeam != null) ifGameOver.getAndIncrement();
 
         // TODO EJECT不知道管不管用，同时解散队伍
         p.eject();
@@ -60,13 +55,13 @@ public class GameEventListener implements Listener {
 
         // GameOver
         if (ifGameOver.get() == 1){
-            GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam.get());
-            EventUtils.callEvent(gameOverEvent);
+            GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam);
+            GameUtils.callEvent(gameOverEvent);
         } else if (ifGameOver.get() == 0) {
             LoggerUtils.warning("#RED#请勿在玩家数不足4个时开始游戏");
 
             GameOverEvent gameOverEvent = new GameOverEvent(team);
-            EventUtils.callEvent(gameOverEvent);
+            GameUtils.callEvent(gameOverEvent);
         }
     }
 

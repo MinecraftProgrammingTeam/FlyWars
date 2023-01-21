@@ -9,6 +9,6 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 public class SlowArrow implements ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
-
+        entity.setS
     }
 }

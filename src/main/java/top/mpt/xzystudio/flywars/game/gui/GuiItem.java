@@ -5,7 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
-import top.mpt.xzystudio.flywars.utils.ItemUtils;
+import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 import java.util.ArrayList;
 
@@ -31,9 +31,9 @@ public class GuiItem {
         this.name = name;
         this.process = process;
         if (ench != null) {
-            this.item = ItemUtils.newItem(material, name, new ArrayList<>(), 1, false, 1, ench);
+            this.item = GameUtils.newItem(material, name, new ArrayList<>(), 1, false, 1, ench);
         } else {
-            this.item = ItemUtils.newItem(material, name, 1);
+            this.item = GameUtils.newItem(material, name, 1);
         }
     }
 

@@ -13,7 +13,7 @@ import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
-import top.mpt.xzystudio.flywars.utils.EventUtils;
+import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
@@ -28,15 +28,11 @@ public class PlayerEventListener implements Listener {
         // 当玩家退出游戏时
         // 拿到玩家
         Player p = event.getPlayer();
-        // 遍历team
-        Game.teams.forEach(it -> {
-            // 如果某个team里有这个退出游戏的玩家
-            if (it.isPlayerInTeam(p)){
-                Player op = it.getTheOtherPlayer(p);
-                PlayerUtils.send(op, "[FlyWars] #RED#你的队友退出了游戏！");
-                TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, it, null);
-                EventUtils.callEvent(eliminatedEvent);
-            }
+        GameUtils.getTeam(p, team -> {
+            Player op = team.getTheOtherPlayer(p);
+            PlayerUtils.send(op, "[FlyWars] #RED#你的队友退出了游戏！");
+            TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
+            GameUtils.callEvent(eliminatedEvent);
         });
     }
 
@@ -45,13 +41,7 @@ public class PlayerEventListener implements Listener {
         // 当玩家被其他玩家打的时候
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
-            Game.teams.forEach(it -> {
-                // 如果玩家在teams里
-                if (it.isPlayerInTeam(p)){
-                    // 渲染scoreboard
-                    Game.scoreboardManager.renderScoreboard();
-                }
-            });
+            GameUtils.getTeam(p, t -> Game.scoreboardManager.renderScoreboard());
         }
 
         if (event.getDamager().getType() == EntityType.SPECTRAL_ARROW){
@@ -88,7 +78,7 @@ public class PlayerEventListener implements Listener {
             GameTeam team = null;
             GameTeam killer = null;
             // 遍历team寻找被淘汰team（通过死亡的玩家）和淘汰该team的玩家
-            for (GameTeam t : Game.teams) {
+            for (GameTeam t: Game.teams) {
                 if (t.players.containsKey(p)) team = t;
                 if (t.players.containsKey(pKiller)) killer = t;
             }
@@ -96,21 +86,16 @@ public class PlayerEventListener implements Listener {
             if (team != null && killer != null) {
                 // 使用自定义事件
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, killer);
-                EventUtils.callEvent(eliminatedEvent);
+                GameUtils.callEvent(eliminatedEvent);
             } else {
                 LoggerUtils.warning("#RED#找不到被淘汰的Team或淘汰Team的玩家");
             }
         } else {
             LoggerUtils.info("#RED#未获取到击杀者！");
-
-            GameTeam team = null;
-            for (GameTeam t : Game.teams) {
-                if (t.players.containsKey(p)) team = t;
-            }
-            if (team != null){
+            GameUtils.getTeam(p, team -> {
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
-                EventUtils.callEvent(eliminatedEvent);
-            }
+                GameUtils.callEvent(eliminatedEvent);
+            });
         }
     }
 
@@ -125,30 +110,26 @@ public class PlayerEventListener implements Listener {
         Entity vehicle = event.getDismounted();
         // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
-            // 遍历team数组
-            Game.teams.forEach(it -> {
-                // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
-                if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(it).getAlive()) {
-                    LoggerUtils.warning("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName()); // TODO remove debug output
-                    try {
-                        vehicle.eject();
-                        passenger.eject();
-                        vehicle.addPassenger(passenger);
-                    } catch (Exception e) {
+            GameTeam team = GameUtils.getTeamBy(t -> t.isP2((Player) passenger) && t.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(t).getAlive());
+            if (team != null) {
+                LoggerUtils.warning("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName()); // TODO remove debug output
+                try {
+                    vehicle.eject();
+                    passenger.eject();
+                    vehicle.addPassenger(passenger);
+                } catch (Exception e) {
 //                        LoggerUtils.warning("#RED#又是奇奇怪怪的bug，罢了罢了"));
-                    }
                 }
-            });
+            }
         }
     }
 
     // 当玩家射出弓箭的时候
     @EventHandler
-    public void onEntityShootBow(EntityShootBowEvent event){
-        Game.teams.forEach(it -> {
-            if (it.isPlayerInTeam((Player) event.getEntity())) {
-                event.getProjectile().setCustomName(event.getEntity().getName());
-            }
-        });
+    public void onEntityShootBow(EntityShootBowEvent event) {
+        Entity entity = event.getEntity();
+        if (entity.getType() == EntityType.PLAYER) {
+            GameUtils.getTeam((Player) entity, t -> event.getProjectile().setCustomName(event.getEntity().getName()));
+        }
     }
 }

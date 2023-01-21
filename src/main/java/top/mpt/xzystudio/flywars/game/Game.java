@@ -14,7 +14,7 @@ import top.mpt.xzystudio.flywars.game.team.TeammateType;
 import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdate;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
-import top.mpt.xzystudio.flywars.utils.ItemUtils;
+import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.*;
@@ -135,7 +135,7 @@ public class Game {
                 teams.forEach(scoreboardManager::newBoard);
                 scoreboardManager.renderScoreboard();
                 // 遍历team数组
-                for (GameTeam gameTeam : teams) {
+                for (GameTeam gameTeam: teams) {
                     // 获取每个team的两名玩家
                     Player p1 = gameTeam.getP1();
                     Player p2 = gameTeam.getP2();
@@ -164,13 +164,13 @@ public class Game {
                         inv.clear();
                         // 给予玩家♂物资♂
                         if (map.get(p) == TeammateType.P1) { // 如果玩家为P1(移动者)
-                            inv.setChestplate(ItemUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true, 0, null));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果", 0, null));
-                            inv.setItemInMainHand(ItemUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹", 0, null));
+                            inv.setChestplate(GameUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true, 0, null));
+                            inv.setItemInOffHand(GameUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果", 0, null));
+                            inv.setItemInMainHand(GameUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹", 0, null));
                         } else {    // 如果玩家为P2(攻击者)
-                            inv.setChestplate(ItemUtils.newItem(Material.GOLDEN_CHESTPLATE, "#GOLD#金光晃晃", new ArrayList<>(), 1, true, 1, null));
-                            inv.setItemInMainHand(ItemUtils.newItem(Material.CROSSBOW, "#RED#AK47", new ArrayList<>(), 1, true, 1, Enchantment.MULTISHOT, Enchantment.QUICK_CHARGE));
-                            inv.setItemInOffHand(ItemUtils.newItem(Material.ARROW, "#WHITE#子弹", new ArrayList<>(), 64, false, 1, null));
+                            inv.setChestplate(GameUtils.newItem(Material.GOLDEN_CHESTPLATE, "#GOLD#金光晃晃", new ArrayList<>(), 1, true, 1, null));
+                            inv.setItemInMainHand(GameUtils.newItem(Material.CROSSBOW, "#RED#AK47", new ArrayList<>(), 1, true, 1, Enchantment.MULTISHOT, Enchantment.QUICK_CHARGE));
+                            inv.setItemInOffHand(GameUtils.newItem(Material.ARROW, "#WHITE#子弹", new ArrayList<>(), 64, false, 1, null));
                         }
                     }
                 }

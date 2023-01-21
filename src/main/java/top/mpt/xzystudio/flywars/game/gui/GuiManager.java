@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
@@ -13,13 +12,11 @@ import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ClassUtils;
-import top.mpt.xzystudio.flywars.utils.ItemUtils;
-import top.mpt.xzystudio.flywars.utils.LoggerUtils;
+import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * GUI管理器
@@ -29,31 +26,13 @@ public class GuiManager {
     public static final String title = ChatUtils.translateColor("#AQUA#[FlyWars] #GREEN#商店系统");
 
     /**
-     * 获取打开GUI的玩家所在的Team
-     * @param player 玩家
-     * @return GameTeam
-     */
-    private static GameTeam getTeam(Player player) {
-        AtomicReference<GameTeam> team = new AtomicReference<>();
-        Game.teams.forEach(it -> {
-            if (it.isPlayerInTeam(player)){
-                team.set(it);
-            }
-        });
-        return team.get();
-    }
-
-    /**
      * 获取打开GUI的玩家所在Team的Info
      * @param player 玩家
      * @return TeamInfo
      */
     private static TeamInfo getInfo(Player player){
-        GameTeam team = getTeam(player);
-        if (team == null){
-            return null;
-        }
-        return ScoreboardManager.info.get(team);
+        GameTeam team = GameUtils.getTeam(player, null);
+        return team != null ? ScoreboardManager.info.get(team) : null;
     }
 
     /**
@@ -82,8 +61,9 @@ public class GuiManager {
         items.forEach(it -> {
             inv.addItem(it.getItem());
         });
-        List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + getTeam(player).getTeamDisplayName());
-        inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
+        GameTeam team = GameUtils.getTeam(player, null);
+        List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + (team != null ? team.getTeamDisplayName() : "[无法获取]"));
+        inv.setItem(22, GameUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
     }
 }
