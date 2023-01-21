@@ -60,6 +60,7 @@ public class CommandHandler implements TabExecutor {
         registerCommand(new eject());
         registerCommand(new killme());
         registerCommand(new opengui());
+        registerCommand(new setborder());
     }
 
     /**
