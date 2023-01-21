@@ -4,6 +4,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
+import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.concurrent.atomic.AtomicReference;
