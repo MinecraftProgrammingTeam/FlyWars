@@ -6,6 +6,7 @@ import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
