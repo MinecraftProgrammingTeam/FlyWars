@@ -1,9 +1,12 @@
 package top.mpt.xzystudio.flywars.utils;
 
 import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Class工具库

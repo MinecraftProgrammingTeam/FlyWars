@@ -5,6 +5,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.commands.impl.*;
+import top.mpt.xzystudio.flywars.game.gui.GuiItem;
+import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
+import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
+import top.mpt.xzystudio.flywars.utils.ClassUtils;
+import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.*;
@@ -41,17 +46,6 @@ public class CommandHandler implements TabExecutor {
      * 注意要使用小写，与发送者的指令进行匹配
      */
     private void initHandler() {
-//        Reflections reflections = new Reflections("top.mpt.xzystudio.flywars.commands.impl");
-//        Set<Class<? extends ICommand>> subTypesOf = reflections.getSubTypesOf(ICommand.class);
-//        subTypesOf.forEach(aClass -> {
-//            try {
-//                ICommand command = aClass.newInstance();
-//                registerCommand(command);
-//            } catch (InstantiationException | IllegalAccessException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-
         registerCommand(new test());
         registerCommand(new start());
         registerCommand(new ride());

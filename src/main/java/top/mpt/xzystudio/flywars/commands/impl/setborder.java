@@ -18,7 +18,7 @@ public class setborder extends ICommand {
 
     public boolean onCommand(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        WorldBorder worldBorder = Bukkit.createWorldBorder();
+        WorldBorder worldBorder = ((Player) sender).getWorld().getWorldBorder();
         worldBorder.setCenter(p.getLocation());
         worldBorder.setSize(Double.parseDouble(args[0]));
         PlayerUtils.send(sender, "[FlyWars] #GREEN#设置世界边界成功！");

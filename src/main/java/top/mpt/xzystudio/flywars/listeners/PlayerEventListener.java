@@ -148,8 +148,8 @@ public class PlayerEventListener implements Listener {
     @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event){
         Game.teams.forEach(it -> {
-            if (it.isPlayerInTeam((Player) event.getProjectile())) {
-                event.getEntity().setCustomName(event.getProjectile().getName());
+            if (it.isPlayerInTeam((Player) event.getEntity())) {
+                event.getProjectile().setCustomName(event.getEntity().getName());
             }
         });
     }

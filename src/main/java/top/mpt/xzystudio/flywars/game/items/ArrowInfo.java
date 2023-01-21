@@ -1,5 +1,7 @@
 package top.mpt.xzystudio.flywars.game.items;
 
+import org.bukkit.Material;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,4 +17,9 @@ public @interface ArrowInfo {
      * 箭的名字
      */
     String name();
+
+    /**
+     * 箭的材料，默认光灵箭
+     */
+    Material material() default Material.SPECTRAL_ARROW;
 }

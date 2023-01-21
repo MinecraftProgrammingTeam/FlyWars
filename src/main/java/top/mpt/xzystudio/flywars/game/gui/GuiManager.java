@@ -56,16 +56,19 @@ public class GuiManager {
      * 初始化
      */
     public static void init() {
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new SlowArrow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new FireworkArrow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#LIGHT_PURPLE#末影箭", null, new TeleportArrow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#YELLOW#标记箭", null, new FlagArrow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new ExplosionArrow()));
+        ClassUtils.getSubClasses(ArrowEntry.class, "top.mpt.xzystudio.flywars.game.items.arrows").forEach(clazz -> {
+            ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
+            try {
+                items.add(new GuiItem(info.material(), info.name(), null, (ArrowEntry) clazz.newInstance()));
+            } catch (InstantiationException | IllegalAccessException e) {
+                LoggerUtils.warning("#RED#%s", e.getMessage());
+            }
+        });
     }
 
     /**
      * 给指定玩家打开GUI
-     * @param player玩家
+     * @param player 玩家
      */
     public static void openGui(Player player) {
         TeamInfo info = getInfo(player);

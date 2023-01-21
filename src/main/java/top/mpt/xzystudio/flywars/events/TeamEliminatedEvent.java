@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 
 /**
- * 自定义事件
+ * 自定义事件:队伍被淘汰事件
  */
 public class TeamEliminatedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
