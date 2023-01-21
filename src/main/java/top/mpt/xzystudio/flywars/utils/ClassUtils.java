@@ -14,11 +14,16 @@ import java.util.stream.Collectors;
  */
 public class ClassUtils {
     public static ArrayList<Class<?>> getSubClasses(Class<?> clazz, String packagePath) {
+        LoggerUtils.info("尝试获取: %s | %s", clazz, packagePath);
         ArrayList<Class<?>> result;
         try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages(packagePath).scan()) {
-            ClassInfoList cil = scanResult.getSubclasses(clazz).directOnly();
+            ClassInfoList cil = scanResult.getSubclasses(clazz);
+            cil.asMap().forEach((k, v) -> { // TODO remove debug
+                LoggerUtils.info("获取到的ArrowEntry: %s | %s", k, v.getPackageName());
+            });
             result = cil.getStandardClasses().asMap().values().stream().map(ClassInfo::loadClass).collect(Collectors.toCollection(ArrayList::new));
         }
+        LoggerUtils.info("获取到的所有子类: %s", result.toString());
         return result;
     }
 }
