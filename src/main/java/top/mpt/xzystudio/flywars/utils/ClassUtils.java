@@ -1,29 +1,27 @@
 package top.mpt.xzystudio.flywars.utils;
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.ScanResult;
+import org.reflections.Reflections;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static org.reflections.scanners.Scanners.SubTypes;
 
 /**
  * Class工具库
  */
+@SuppressWarnings("unchecked")
 public class ClassUtils {
-    public static ArrayList<Class<?>> getSubClasses(Class<?> clazz, String packagePath) {
-        LoggerUtils.info("尝试获取: %s | %s", clazz, packagePath);
-        ArrayList<Class<?>> result;
-        try (ScanResult scanResult = new ClassGraph().enableAllInfo().acceptPackages(packagePath).scan()) {
-            ClassInfoList cil = scanResult.getSubclasses(clazz);
-            cil.asMap().forEach((k, v) -> { // TODO remove debug
-                LoggerUtils.info("获取到的ArrowEntry: %s | %s", k, v.getPackageName());
-            });
-            result = cil.getStandardClasses().asMap().values().stream().map(ClassInfo::loadClass).collect(Collectors.toCollection(ArrayList::new));
-        }
-        LoggerUtils.info("获取到的所有子类: %s", result.toString());
-        return result;
+    /**
+     * 获取指定包下的所有指定类的子类
+     * @param clazz 要获取的类
+     * @param packagePath 包路径
+     * @return 子类列表
+     */
+    public static <T> ArrayList<Class<T>> getSubClasses(Class<T> clazz, String packagePath) {
+        Reflections reflections = new Reflections(packagePath);
+        return reflections.get(SubTypes.of(clazz).asClass())
+                .stream().map(c -> (Class<T>) c)
+                .distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 }

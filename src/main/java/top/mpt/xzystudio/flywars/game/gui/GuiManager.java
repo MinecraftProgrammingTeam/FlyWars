@@ -18,6 +18,7 @@ import top.mpt.xzystudio.flywars.game.items.arrows.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -60,11 +61,11 @@ public class GuiManager {
      */
     public static void init() {
         ClassUtils.getSubClasses(ArrowEntry.class, "top.mpt.xzystudio.flywars.game.items.arrows").forEach(clazz -> {
-            ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
             try {
-                items.add(new GuiItem(info.material(), info.name(), null, (ArrowEntry) clazz.newInstance()));
+                ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
+                items.add(new GuiItem(info.material(), info.name(), null, clazz.newInstance()));
             } catch (InstantiationException | IllegalAccessException e) {
-                LoggerUtils.warning("#RED#%s", e.getMessage());
+                LoggerUtils.warning("#RED#创建ArrowEntry实例失败：%s", e.getMessage());
             }
         });
     }
