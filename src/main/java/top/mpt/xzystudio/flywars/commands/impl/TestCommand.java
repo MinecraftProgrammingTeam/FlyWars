@@ -8,8 +8,8 @@ import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.scheduler.PigSche;
 
-public class test extends ICommand {
-    public test(){
+public class TestCommand extends ICommand {
+    public TestCommand(){
         super("test", "", "测试");
     }
 

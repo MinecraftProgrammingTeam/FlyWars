@@ -13,8 +13,8 @@ import java.util.Objects;
 /**
  * 玩家骑乘命令
  */
-public class ride extends ICommand {
-    public ride() {
+public class RideCommand extends ICommand {
+    public RideCommand() {
         super("ride", "", "骑");
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<String> params = new ArrayList<>();

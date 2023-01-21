@@ -1,10 +1,8 @@
 package top.mpt.xzystudio.flywars.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

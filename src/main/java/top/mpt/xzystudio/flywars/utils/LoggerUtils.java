@@ -2,8 +2,6 @@ package top.mpt.xzystudio.flywars.utils;
 
 import top.mpt.xzystudio.flywars.Main;
 
-import java.util.logging.Logger;
-
 /**
  * 日志输出工具库
  */

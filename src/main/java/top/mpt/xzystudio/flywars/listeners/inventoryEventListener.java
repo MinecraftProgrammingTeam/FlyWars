@@ -9,7 +9,7 @@ import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 /**
  * GUI(Inventory)EventListener
  */
-public class inventoryEventListener implements Listener {
+public class InventoryEventListener implements Listener {
     // 当Inventory内的物品被点击
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {

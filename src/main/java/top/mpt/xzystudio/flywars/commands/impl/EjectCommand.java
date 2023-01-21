@@ -5,20 +5,20 @@ import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 
 /**
- * 紫砂指令
+ * 清空team指令
  */
-public class killme extends ICommand {
-    public killme() {
-        super("killme", "", "自杀");
+public class EjectCommand extends ICommand {
+    public EjectCommand() {
+        super("eject", "<玩家ID>", "你为啥骑在我背上？给我下来！");
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
         Player p = (Player) sender;
-        p.setHealth(0);
+        p.eject();
         return true;
     }
 
     public String permission(){
-        return "flywars.fw.killme";
+        return "flywars.fw.rmpassenger";
     }
 }
