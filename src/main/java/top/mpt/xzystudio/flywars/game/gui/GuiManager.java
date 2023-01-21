@@ -3,14 +3,15 @@ package top.mpt.xzystudio.flywars.game.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
-import top.mpt.xzystudio.flywars.utils.ChatUtils;
-import top.mpt.xzystudio.flywars.utils.ItemUtils;
+import top.mpt.xzystudio.flywars.utils.*;
+import top.mpt.xzystudio.flywars.game.gui.impl.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,11 +41,11 @@ public class GuiManager {
     }
 
     public static void init() {
-        items.add(new GuiItem(Material.TIPPED_ARROW, "#AQUA#寒冰箭", null));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null));
-        items.add(new GuiItem(Material.LEGACY_ARROW, "#LIGHT_PURPLE#末影箭", null));
-        items.add(new GuiItem(Material.LEGACY_SPECTRAL_ARROW, "#YELLOW#标记箭", null));
-        items.add(new GuiItem(Material.LEGACY_TIPPED_ARROW, "#DARK_RED#爆炸箭", null));
+        items.add(new GuiItem(Material.TIPPED_ARROW, "#AQUA#寒冰箭", null, new slow()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new fire()));
+        items.add(new GuiItem(Material.LEGACY_ARROW, "#LIGHT_PURPLE#末影箭", null, new teleport()));
+        items.add(new GuiItem(Material.LEGACY_SPECTRAL_ARROW, "#YELLOW#标记箭", null, new flag()));
+        items.add(new GuiItem(Material.LEGACY_TIPPED_ARROW, "#DARK_RED#爆炸箭", null, new boom()));
     }
 
     public static void openGui(Player player){
@@ -61,5 +62,8 @@ public class GuiManager {
         List<String> lores = Arrays.asList("#GREEN#击杀数："+info.getKillCount(), "#AQUA#所属队伍："+getTeam(player).getTeamDisplayName());
         inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#"+player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
+    }
+    public static void processClick(InventoryClickEvent event){
+        items.get(event.getSlot()).process;
     }
 }

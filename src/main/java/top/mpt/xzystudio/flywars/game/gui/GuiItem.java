@@ -12,11 +12,13 @@ public class GuiItem {
     public Material material;
     public String name;
     public ItemStack item;
+    public GuiProcess process;
 
-    public GuiItem(Material material, String name, Enchantment ench) {
+    public GuiItem(Material material, String name, Enchantment ench, GuiProcess process) {
         name = ChatUtils.translateColor(name);
         this.material = material;
         this.name = name;
+        this.process = process;
         if (ench != null) {
             this.item = ItemUtils.newItem(material, name, new ArrayList<>(), 1, false, 1, ench);
         } else {
