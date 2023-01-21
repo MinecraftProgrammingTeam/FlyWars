@@ -9,6 +9,9 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * 特殊箭矢：末影箭
+ */
 @ArrowInfo(name = "末影箭")
 public class TeleportArrow implements ArrowEntry {
     @Override
