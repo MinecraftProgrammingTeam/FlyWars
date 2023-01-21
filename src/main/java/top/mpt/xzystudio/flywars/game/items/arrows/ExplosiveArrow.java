@@ -9,9 +9,9 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 
 @ArrowInfo(name = "#DARK_RED#爆炸箭")
 public class ExplosiveArrow implements ArrowEntry {
-    private final static int size = 5;
-    private final static boolean setFire = false;
-    private final static boolean breakBlock = false;
+    private static final int size = 5;
+    private static final boolean setFire = false;
+    private static final boolean breakBlock = false;
 
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
