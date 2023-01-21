@@ -17,10 +17,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * GUI管理器
+ */
 public class GuiManager {
     public static List<GuiItem> items = new ArrayList<>();
     public static final String title = ChatUtils.translateColor("#AQUA#[FlyWars] #GREEN#商店系统");
 
+    /**
+     * 获取打开GUI的玩家所在的Team
+     * @param player 玩家
+     * @return GameTeam
+     */
     private static GameTeam getTeam(Player player) {
         AtomicReference<GameTeam> team = new AtomicReference<>();
         Game.teams.forEach(it -> {
@@ -31,6 +39,11 @@ public class GuiManager {
         return team.get();
     }
 
+    /**
+     * 获取打开GUI的玩家所在Team的Info
+     * @param player 玩家
+     * @return TeamInfo
+     */
     private static TeamInfo getInfo(Player player){
         GameTeam team = getTeam(player);
         if (team == null){

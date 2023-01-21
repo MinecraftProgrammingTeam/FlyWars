@@ -6,6 +6,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 
+/**
+ * GUI(Inventory)EventListener
+ */
 public class inventoryEventListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
