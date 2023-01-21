@@ -43,7 +43,6 @@ public class CommandHandler implements TabExecutor {
     private void initHandler() {
 //        Reflections reflections = new Reflections("top.mpt.xzystudio.flywars.commands.impl");
 //        Set<Class<? extends ICommand>> subTypesOf = reflections.getSubTypesOf(ICommand.class);
-////        Main.instance.getLogger().warning(subTypesOf.toArray().toString());
 //        subTypesOf.forEach(aClass -> {
 //            try {
 //                ICommand command = aClass.newInstance();

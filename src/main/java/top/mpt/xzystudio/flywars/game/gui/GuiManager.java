@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
@@ -64,6 +65,14 @@ public class GuiManager {
         player.openInventory(inv);
     }
     public static void processClick(InventoryClickEvent event){
-        items.get(event.getSlot()).process.run(event);
+        int rawSlot = event.getRawSlot();
+        if (rawSlot >= items.size()){
+            LoggerUtils.info("#AQUA#商店系统 #RED#点击格数超出范围");
+            return;
+        }
+        GuiItem item = items.get(event.getSlot());
+        if (item != null) {
+            item.process.run(event);
+        }
     }
 }

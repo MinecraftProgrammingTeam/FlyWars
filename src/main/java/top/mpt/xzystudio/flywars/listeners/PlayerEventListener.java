@@ -18,6 +18,7 @@ import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.EventUtils;
+import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 /**
@@ -83,10 +84,10 @@ public class PlayerEventListener implements Listener {
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, killer);
                 EventUtils.callEvent(eliminatedEvent);
             } else {
-                Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#找不到被淘汰的Team或淘汰Team的玩家"));
+                LoggerUtils.warning("#RED#找不到被淘汰的Team或淘汰Team的玩家");
             }
         } else {
-            Main.instance.getLogger().info(ChatUtils.translateColor("#RED#未获取到击杀者！"));
+            LoggerUtils.info("#RED#未获取到击杀者！");
 
             GameTeam team = null;
             for (GameTeam t : Game.teams) {
@@ -114,13 +115,13 @@ public class PlayerEventListener implements Listener {
             Game.teams.forEach(it -> {
                 // 如果被骑乘实体和离开骑乘实体的玩家是队友关系，就取消玩家的行为
                 if (it.isP2((Player) passenger) && it.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(it).getAlive()) {
-                    Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName())); // TODO remove debug output
+                    LoggerUtils.warning("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName()); // TODO remove debug output
                     try {
                         vehicle.eject();
                         passenger.eject();
                         vehicle.addPassenger(passenger);
                     } catch (Exception e) {
-//                        Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#又是奇奇怪怪的bug，罢了罢了"));
+//                        LoggerUtils.warning("#RED#又是奇奇怪怪的bug，罢了罢了"));
                     }
                 }
             });

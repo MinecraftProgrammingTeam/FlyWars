@@ -12,10 +12,7 @@ import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
-import top.mpt.xzystudio.flywars.utils.ChatUtils;
-import top.mpt.xzystudio.flywars.utils.ConfigUtils;
-import top.mpt.xzystudio.flywars.utils.EventUtils;
-import top.mpt.xzystudio.flywars.utils.PlayerUtils;
+import top.mpt.xzystudio.flywars.utils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +64,7 @@ public class GameEventListener implements Listener {
             GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam.get());
             EventUtils.callEvent(gameOverEvent);
         } else if (ifGameOver.get() == 0) {
-            Main.instance.getLogger().warning(ChatUtils.translateColor("#RED#请勿在玩家数不足4个时开始游戏"));
+            LoggerUtils.warning("#RED#请勿在玩家数不足4个时开始游戏");
 
             GameOverEvent gameOverEvent = new GameOverEvent(team);
             EventUtils.callEvent(gameOverEvent);

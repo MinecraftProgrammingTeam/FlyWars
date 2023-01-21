@@ -7,6 +7,7 @@ import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.listeners.GameEventListener;
 import top.mpt.xzystudio.flywars.listeners.PlayerEventListener;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
+import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 
 import java.util.Objects;
 
@@ -31,13 +32,13 @@ public final class Main extends JavaPlugin {
         server.getPluginManager().registerEvents(new PlayerEventListener(), this);
 
         // log info
-        getLogger().info(ChatUtils.translateColor("#GREEN#成功启用天空战争(FlyWars)插件！"));
-        getLogger().info(ChatUtils.translateColor("#BLUE#更多信息请前往：https://github.com/MinecraftProgrammingTeam/FlyWars"));
-        getLogger().info(ChatUtils.translateColor("#AQUA#本插件由MPT强力驱动，MPT论坛：https://www.minept.top"));
+        LoggerUtils.info("#GREEN#成功启用天空战争(FlyWars)插件！");;
+        LoggerUtils.info("#BLUE#更多信息请前往：https://github.com/MinecraftProgrammingTeam/FlyWars");
+        LoggerUtils.info("#AQUA#本插件由MPT强力驱动，MPT论坛：https://www.minept.top");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(ChatUtils.translateColor("#RED#天空战争插件已被禁用！！！"));
+        LoggerUtils.info("#RED#天空战争插件已被禁用！！！");
     }
 }
