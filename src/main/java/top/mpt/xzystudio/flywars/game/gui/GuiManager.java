@@ -48,7 +48,7 @@ public class GuiManager {
         items.add(new GuiItem(Material.LEGACY_TIPPED_ARROW, "#DARK_RED#爆炸箭", null, new boom()));
     }
 
-    public static void openGui(Player player){
+    public static void openGui(Player player) {
         TeamInfo info = getInfo(player);
         if (info == null) {
             player.sendMessage(ChatUtils.translateColor("#AQUA#[FlyWars] #RED#商店信息获取失败，您可能不在当前游戏中"));
@@ -59,8 +59,8 @@ public class GuiManager {
         items.forEach(it -> {
             inv.addItem(it.getItem());
         });
-        List<String> lores = Arrays.asList("#GREEN#击杀数："+info.getKillCount(), "#AQUA#所属队伍："+getTeam(player).getTeamDisplayName());
-        inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#"+player.getName(), lores, 1, false, 0, null));
+        List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + getTeam(player).getTeamDisplayName());
+        inv.setItem(22, ItemUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
     }
     public static void processClick(InventoryClickEvent event){
