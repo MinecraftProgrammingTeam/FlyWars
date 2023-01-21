@@ -3,11 +3,8 @@ package top.mpt.xzystudio.flywars.game.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityPotionEffectEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
@@ -44,10 +41,10 @@ public class GuiManager {
 
     public static void init() {
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#AQUA#寒冰箭", null, new slow()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new fire()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#RED#火焰箭", null, new firework()));
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#LIGHT_PURPLE#末影箭", null, new teleport()));
         items.add(new GuiItem(Material.SPECTRAL_ARROW, "#YELLOW#标记箭", null, new flag()));
-        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new boom()));
+        items.add(new GuiItem(Material.SPECTRAL_ARROW, "#DARK_RED#爆炸箭", null, new explosion()));
     }
 
     public static void openGui(Player player) {
