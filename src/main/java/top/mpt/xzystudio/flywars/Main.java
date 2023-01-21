@@ -1,11 +1,11 @@
 package top.mpt.xzystudio.flywars;
 
 import org.bukkit.Server;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mpt.xzystudio.flywars.executor.CommandHandler;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
-import top.mpt.xzystudio.flywars.listeners.GameEventListener;
-import top.mpt.xzystudio.flywars.listeners.PlayerEventListener;
+import top.mpt.xzystudio.flywars.utils.ClassUtils;
 import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 
 import java.util.Objects;
@@ -27,8 +27,10 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("fw")).setExecutor(new CommandHandler());
 
         // reg listeners
-        server.getPluginManager().registerEvents(new GameEventListener(), this);
-        server.getPluginManager().registerEvents(new PlayerEventListener(), this);
+        ClassUtils.getSubClasses(Listener.class, "top.mpt.xzystudio.flywars.listeners").forEach(c -> {
+            Listener listener = ClassUtils.newInstance(c);
+            if (listener != null) server.getPluginManager().registerEvents(listener, this);
+        });
 
         // log info
         LoggerUtils.info("#GREEN#成功启用天空战争(FlyWars)插件！");;

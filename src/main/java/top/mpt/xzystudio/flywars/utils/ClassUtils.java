@@ -24,4 +24,13 @@ public class ClassUtils {
                 .stream().map(c -> (Class<T>) c)
                 .distinct().collect(Collectors.toCollection(ArrayList::new));
     }
+
+    public static <T> T newInstance(Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LoggerUtils.warning("#RED#创建对象失败：%s", e.getMessage());
+            return null;
+        }
+    }
 }

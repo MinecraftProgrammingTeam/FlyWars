@@ -61,12 +61,9 @@ public class GuiManager {
      */
     public static void init() {
         ClassUtils.getSubClasses(ArrowEntry.class, "top.mpt.xzystudio.flywars.game.items.arrows").forEach(clazz -> {
-            try {
-                ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
-                items.add(new GuiItem(info.material(), info.name(), null, clazz.newInstance()));
-            } catch (InstantiationException | IllegalAccessException e) {
-                LoggerUtils.warning("#RED#创建ArrowEntry实例失败：%s", e.getMessage());
-            }
+            ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
+            ArrowEntry entry = ClassUtils.newInstance(clazz);
+            if (entry != null) items.add(new GuiItem(info.material(), info.name(), null, entry));
         });
     }
 
