@@ -1,29 +1,35 @@
 package top.mpt.xzystudio.flywars.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.gui.GuiItem;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
+import top.mpt.xzystudio.flywars.game.items.arrows.SlowArrow;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * 玩家相关事件监听器
  */
 public class PlayerEventListener implements Listener {
+    public static ArrayList<Player> limitedSpeedPlayers = new ArrayList<>();
+
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         // 当玩家退出游戏时
@@ -128,6 +134,30 @@ public class PlayerEventListener implements Listener {
         Entity entity = event.getEntity();
         if (entity.getType() == EntityType.PLAYER) {
             GameUtils.getTeamByPlayer((Player) entity, t -> event.getProjectile().setCustomName(event.getEntity().getName()));
+        }
+    }
+
+    // https://github.com/Loving11ish/SpeedLimit/blob/master/src/main/java/me/loving11ish/speedlimit/events/ElytraFlightEvent.java#L61
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player p = event.getPlayer();
+        Location from = event.getFrom();
+        double x = from.getX(),
+               y = from.getY(),
+               z = from.getZ();
+        float yaw = from.getYaw(),
+              pitch = from.getPitch();
+        if (limitedSpeedPlayers.contains(p) && p.isGliding()) {
+            Location to = event.getTo();
+            if (to != null) {
+                int limit = SlowArrow.limit;
+                if (Math.abs(from.getX() - to.getX()) > limit
+                    || Math.abs(from.getY() - to.getY()) > limit
+                    || Math.abs(from.getZ() - to.getZ()) > limit) {
+                    Location old = new Location(p.getWorld(), x, y + 1, z, yaw, pitch);
+                    p.teleport(old);
+                }
+            }
         }
     }
 }

@@ -76,9 +76,9 @@ arrow:
   flag:
     amount: 5
     cost: 2
+    duration: 10
 
   slow:
     amount: 5
     cost: 2
-    duration: 5
-    amplifier: 5
+    limit: 2.5

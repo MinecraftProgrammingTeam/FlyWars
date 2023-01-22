@@ -14,24 +14,24 @@ public abstract class ArrowEntry {
      */
     public abstract void run(Player shooter, Player entity, Arrow arrow);
 
-    public Object get(String string, Object... defaultValue){
-        ArrowInfo info = ClassUtils.getAnnotation(this.getClass(), ArrowInfo.class);
-        if (info == null){
-            if (defaultValue.length == 0) return null;
-            else return defaultValue;
-        }
+    @SuppressWarnings("unchecked")
+    public static <T> T get(Class<? extends ArrowEntry> clazz, String string, T defaultValue) {
+        ArrowInfo info = ClassUtils.getAnnotation(clazz, ArrowInfo.class);
+        if (info == null) return defaultValue;
         String path = info.path();
-        Object ob = ConfigUtils.getConfig(String.format("arrow.%s.%s", path, string));
-        if (ob == null) {
-            ob = ConfigUtils.getConfig("arrow.default." + string, defaultValue);
-        }
-        return ob;
+        Object o = ConfigUtils.getConfig(String.format("arrow.%s.%s", path, string));
+        if (o == null) o = ConfigUtils.getConfig(String.format("arrow.default.%s", string), defaultValue);
+        return (T) o;
+    }
+
+    public <T> T get(String string, T defaultValue) {
+        return get(this.getClass(), string, defaultValue);
     }
 
     public int getAmount(){
-        return (Integer) get("amount", 1);
+        return get("amount", 1);
     }
     public int getCost(){
-        return (Integer) get("cost", 1);
+        return get("cost", 1);
     }
 }
