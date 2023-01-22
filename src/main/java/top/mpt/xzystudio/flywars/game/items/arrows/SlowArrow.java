@@ -9,7 +9,7 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 // TODO 在空中飞行怎么缓慢？
-@ArrowInfo(name = "#AQUA#寒冰箭")
+@ArrowInfo(name = "#AQUA#寒冰箭", path="slow")
 public class SlowArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {

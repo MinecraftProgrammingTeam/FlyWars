@@ -22,4 +22,9 @@ public @interface ArrowInfo {
      * 箭的材料，默认光灵箭
      */
     Material material() default Material.SPECTRAL_ARROW;
+
+    /**
+     * 箭对应的配置文件的路径，默认 `default`
+     */
+    String path() default "default";
 }

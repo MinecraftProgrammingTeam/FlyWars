@@ -31,9 +31,9 @@ public class GuiItem {
         this.name = name;
         this.process = process;
         if (ench != null) {
-            this.item = GameUtils.newItem(material, name, new ArrayList<>(), 1, false, 1, ench);
+            this.item = GameUtils.newItem(material, name, new ArrayList<>(), process.getAmount(), false, 1, ench);
         } else {
-            this.item = GameUtils.newItem(material, name, 1);
+            this.item = GameUtils.newItem(material, name, process.getAmount());
         }
     }
 

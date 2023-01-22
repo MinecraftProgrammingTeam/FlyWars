@@ -32,6 +32,19 @@ public class TeamInfo {
     public void addKillCount() {
         this.killCount++;
     }
+    public void addKillCount(Integer count) {
+        this.killCount+=count;
+    }
+    public void delKillCount() {
+        this.killCount--;
+    }
+    public void delKillCount(Integer count) {
+        this.killCount-=count;
+    }
+
+    public void setKillCount(Integer count) {
+        this.killCount = count;
+    }
 
     public Boolean getAlive() {
         return this.alive;

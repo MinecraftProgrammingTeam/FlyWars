@@ -55,15 +55,30 @@ resources:
 refresh-tick: 20
 
 # 道具箭相关配置
+# `arrow`下的每一项（除`default`）都是对应道具箭的配置
+# `amount`与`cost`分别为每次购买的数量和花费的击杀数
+# 如果对应的项中没有`amount`或`cost`，将使用`default`中的默认配置
 arrow:
+  default:
+    amount: 5
+    cost: 2
+
   explosive:
     size: 5
     setFire: false
     breakBlock: false
 
   fire:
+    amount: 5
+    cost: 2
     ticks: 50
 
+  flag:
+    amount: 5
+    cost: 2
+
   slow:
+    amount: 5
+    cost: 2
     duration: 5
     amplifier: 5

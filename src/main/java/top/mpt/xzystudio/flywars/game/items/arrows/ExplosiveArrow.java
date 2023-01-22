@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 
-@ArrowInfo(name = "#DARK_RED#爆炸箭")
+@ArrowInfo(name = "#DARK_RED#爆炸箭", path="explosive")
 public class ExplosiveArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {

@@ -19,11 +19,24 @@ public abstract class ArrowEntry {
      */
     public abstract void run(Player shooter, Player entity, Arrow arrow);
 
-    public Object get(String string){
-        return ConfigUtils.getConfig(String.format("arrow.%s.%s", this.path, string));
+    public Object get(String string, Object... defaultValue){
+        ArrowInfo info = ClassUtils.getAnnotation(this.getClass(), ArrowInfo.class);
+        if (info == null){
+            if (defaultValue.length == 0) return null;
+            else return defaultValue;
+        }
+        String path = info.path();
+        Object ob = ConfigUtils.getConfig(String.format("arrow.%s.%s", path, string));
+        if (ob == null){
+            ob = ConfigUtils.getConfig("arrow.default."+string, defaultValue);
+        }
+        return ob;
     }
 
-    public Object get(String string, Object defaultStr){
-        return ConfigUtils.getConfig(String.format("arrow.%s.%s", this.path, string), defaultStr);
+    public int getAmount(){
+        return (Integer) get("amount", 1);
+    }
+    public int getCost(){
+        return (Integer) get("cost", 1);
     }
 }

@@ -17,8 +17,7 @@ public class InventoryEventListener implements Listener {
         Player p = (Player) event.getWhoClicked();
         if (event.getView().getTitle().equalsIgnoreCase(GuiManager.title)){
             event.setCancelled(true);
-            // TODO check and give the player the item
-
+            GuiManager.processClick(event);
         }
     }
 }

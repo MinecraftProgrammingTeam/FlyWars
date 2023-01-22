@@ -6,7 +6,7 @@ import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 
-@ArrowInfo(name = "#RED#火焰箭")
+@ArrowInfo(name = "#RED#火焰箭", path="fire")
 public class FireArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {

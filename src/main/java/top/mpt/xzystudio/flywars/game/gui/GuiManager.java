@@ -3,6 +3,7 @@ package top.mpt.xzystudio.flywars.game.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
@@ -39,11 +40,10 @@ public class GuiManager {
      * 初始化
      */
     public static void init() {
-        // TODO newInstance时传入path参数
         ClassUtils.getSubClasses(ArrowEntry.class, "top.mpt.xzystudio.flywars.game.items.arrows").forEach(clazz -> {
-            ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
+            ArrowInfo info = ClassUtils.getAnnotation(clazz, ArrowInfo.class);
             ArrowEntry entry = ClassUtils.newInstance(clazz);
-            if (entry != null) items.add(new GuiItem(info.material(), info.name(), null, entry));
+            if (info != null && entry != null) items.add(new GuiItem(info.material(), info.name(), null, entry));
         });
     }
 
@@ -66,5 +66,17 @@ public class GuiManager {
         List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + (team != null ? team.getTeamDisplayName() : "[无法获取]"));
         inv.setItem(22, GameUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
+    }
+
+    public static void processClick(InventoryClickEvent event) {
+        int rawSlot = event.getRawSlot();
+        if (rawSlot >= items.size()) return;
+        GuiItem item = items.get(rawSlot);
+        Player p = (Player) event.getWhoClicked();
+        GameTeam team = GameUtils.getTeam(p, null);
+        TeamInfo info = ScoreboardManager.info.get(team);
+
+        event.getClickedInventory().addItem(item.item);
+        info.delKillCount(item.process.getCost());
     }
 }
