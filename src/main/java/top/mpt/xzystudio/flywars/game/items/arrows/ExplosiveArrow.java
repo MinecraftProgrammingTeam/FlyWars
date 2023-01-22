@@ -17,7 +17,7 @@ public class ExplosiveArrow extends ArrowEntry {
             double x = loc.getX();
             double y = loc.getY();
             double z = loc.getZ();
-            world.createExplosion(x, y, z, (Float) get("size"), (Boolean) get("setFire"), (Boolean) get("breakBlock"));
+            world.createExplosion(x, y, z, get("size", 5), get("setFire", false), get("breakBlock", false));
         }
     }
 }
