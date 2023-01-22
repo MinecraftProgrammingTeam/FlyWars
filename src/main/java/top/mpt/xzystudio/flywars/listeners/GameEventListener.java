@@ -76,9 +76,7 @@ public class GameEventListener implements Listener {
         if (Game.resUpdater != null) Game.resUpdater.cancel();
         // 清除世界内的掉落物
         event.getWinner().getP1().getWorld().getEntities().forEach(it -> {
-            if (it.getType() == EntityType.DROPPED_ITEM){
-                it.remove();
-            }
+            if (it.getType() == EntityType.DROPPED_ITEM) it.remove();
         });
         // 遍历teams数组
         Game.teams.forEach(team -> {

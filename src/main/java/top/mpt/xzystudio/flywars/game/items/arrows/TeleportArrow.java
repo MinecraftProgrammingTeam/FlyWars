@@ -12,7 +12,7 @@ public class TeleportArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow){
         // 获取到P1（被骑乘者）
-        GameUtils.getTeam(entity, team -> {
+        GameUtils.getTeamByPlayer(entity, team -> {
             Player p1 = team.getP1();
             // 传送被骑乘者到射击者那里 - 如果直接传送entity会造成entity从p1身上掉下来
             p1.teleport(shooter.getLocation());

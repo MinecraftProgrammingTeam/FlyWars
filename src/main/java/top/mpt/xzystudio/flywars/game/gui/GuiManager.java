@@ -32,7 +32,7 @@ public class GuiManager {
      * @return TeamInfo
      */
     private static TeamInfo getInfo(Player player){
-        GameTeam team = GameUtils.getTeam(player, null);
+        GameTeam team = GameUtils.getTeamByPlayer(player, null);
         return team != null ? ScoreboardManager.info.get(team) : null;
     }
 
@@ -59,10 +59,8 @@ public class GuiManager {
         }
 
         Inventory inv = Bukkit.createInventory(player, InventoryType.CHEST, title);
-        items.forEach(it -> {
-            inv.addItem(it.getItem());
-        });
-        GameTeam team = GameUtils.getTeam(player, null);
+        items.forEach(it -> inv.addItem(it.getItem()));
+        GameTeam team = GameUtils.getTeamByPlayer(player, null);
         List<String> lores = Arrays.asList("#GREEN#击杀数：" + info.getKillCount(), "#AQUA#所属队伍：" + (team != null ? team.getTeamDisplayName() : "[无法获取]"));
         inv.setItem(22, GameUtils.newItem(Material.PLAYER_HEAD, "#YELLOW#" + player.getName(), lores, 1, false, 0, null));
         player.openInventory(inv);
@@ -73,7 +71,7 @@ public class GuiManager {
         if (rawSlot >= items.size()) return;
         GuiItem item = items.get(rawSlot);
         Player p = (Player) event.getWhoClicked();
-        GameTeam team = GameUtils.getTeam(p, null);
+        GameTeam team = GameUtils.getTeamByPlayer(p, null);
         TeamInfo info = ScoreboardManager.info.get(team);
 
         event.getClickedInventory().addItem(item.item);
