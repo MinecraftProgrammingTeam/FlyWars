@@ -53,3 +53,17 @@ resources:
 
 # 刷新资源间隔ticks
 refresh-tick: 20
+
+# 道具箭相关配置
+arrow:
+  explosive:
+    size: 5
+    setFire: false
+    breakBlock: false
+
+  fire:
+    ticks: 50
+
+  slow:
+    duration: 5
+    amplifier: 5

@@ -10,14 +10,11 @@ import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 // TODO 在空中飞行怎么缓慢？
 @ArrowInfo(name = "#AQUA#寒冰箭")
-public class SlowArrow implements ArrowEntry {
-    private static final int duration = 5;
-    private static final int amplifier = 5;
-
+public class SlowArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
         GameUtils.getTeam(entity, t -> t.players.keySet().forEach(player -> player.addPotionEffect(
-                new PotionEffect(PotionEffectType.SLOW, duration, amplifier)
+                new PotionEffect(PotionEffectType.SLOW, (Integer) get("duration"), (Integer) get("amplifier"))
         )));
     }
 }

@@ -8,7 +8,7 @@ import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 @ArrowInfo(name = "#LIGHT_PURPLE#末影箭")
-public class TeleportArrow implements ArrowEntry {
+public class TeleportArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow){
         // 获取到P1（被骑乘者）

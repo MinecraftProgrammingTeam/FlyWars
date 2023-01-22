@@ -39,6 +39,7 @@ public class GuiManager {
      * 初始化
      */
     public static void init() {
+        // TODO newInstance时传入path参数
         ClassUtils.getSubClasses(ArrowEntry.class, "top.mpt.xzystudio.flywars.game.items.arrows").forEach(clazz -> {
             ArrowInfo info = clazz.getAnnotation(ArrowInfo.class);
             ArrowEntry entry = ClassUtils.newInstance(clazz);

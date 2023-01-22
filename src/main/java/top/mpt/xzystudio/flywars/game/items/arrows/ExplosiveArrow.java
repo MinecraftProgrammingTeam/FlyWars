@@ -8,11 +8,7 @@ import top.mpt.xzystudio.flywars.game.items.ArrowEntry;
 import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 
 @ArrowInfo(name = "#DARK_RED#爆炸箭")
-public class ExplosiveArrow implements ArrowEntry {
-    private static final int size = 5;
-    private static final boolean setFire = false;
-    private static final boolean breakBlock = false;
-
+public class ExplosiveArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
         Location loc = entity.getLocation();
@@ -21,7 +17,7 @@ public class ExplosiveArrow implements ArrowEntry {
             double x = loc.getX();
             double y = loc.getY();
             double z = loc.getZ();
-            world.createExplosion(x, y, z, size, setFire, breakBlock);
+            world.createExplosion(x, y, z, (Float) get("size"), (Boolean) get("setFire"), (Boolean) get("breakBlock"));
         }
     }
 }

@@ -7,11 +7,9 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 @ArrowInfo(name = "#RED#火焰箭")
-public class FireArrow implements ArrowEntry {
-    private static final int ticks = 50;
-
+public class FireArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
-        GameUtils.getTeam(entity, t -> t.players.keySet().forEach(player -> player.setFireTicks(ticks)));
+        GameUtils.getTeam(entity, t -> t.players.keySet().forEach(player -> player.setFireTicks((Integer) get("ticks"))));
     }
 }
