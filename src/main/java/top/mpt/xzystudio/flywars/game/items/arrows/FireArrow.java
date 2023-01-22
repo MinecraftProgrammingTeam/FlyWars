@@ -10,6 +10,6 @@ import top.mpt.xzystudio.flywars.utils.GameUtils;
 public class FireArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow) {
-        GameUtils.getTeam(entity, t -> t.players.keySet().forEach(player -> player.setFireTicks((Integer) get("ticks"))));
+        GameUtils.getTeamByPlayer(entity, t -> t.players.keySet().forEach(player -> player.setFireTicks((Integer) get("ticks"))));
     }
 }

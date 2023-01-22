@@ -74,16 +74,26 @@ public class GameUtils {
     }
 
     /**
+     * 根据所给的条件找到对应的对象
+     * @param function 判断匿名函数
+     * @return 对象，不存在则为 `null`
+     * @param <T> 对象泛型
+     */
+    public static <T> T find(Collection<T> collection, Function<T, Boolean> function) {
+        AtomicReference<T> result = new AtomicReference<>();
+        collection.forEach(t -> {
+            if (function.apply(t)) result.set(t);
+        });
+        return result.get();
+    }
+
+    /**
      * 根据所给的条件找到对应的游戏队伍对象
      * @param function 判断匿名函数
      * @return 游戏队伍对象，不存在则为 `null`
      */
     public static GameTeam getTeamBy(Function<GameTeam, Boolean> function) {
-        AtomicReference<GameTeam> result = new AtomicReference<>();
-        Game.teams.forEach(team -> {
-            if (function.apply(team)) result.set(team);
-        });
-        return result.get();
+        return find(Game.teams, function);
     }
 
     /**
@@ -92,7 +102,7 @@ public class GameUtils {
      * @param consumer 获取游戏队伍后要做的事情
      * @return 游戏队伍对象，不存在则为 `null`
      */
-    public static GameTeam getTeam(Player player, Consumer<GameTeam> consumer) {
+    public static GameTeam getTeamByPlayer(Player player, Consumer<GameTeam> consumer) {
         GameTeam team = getTeamBy(t -> t.isPlayerInTeam(player));
         if (consumer != null) consumer.accept(team);
         return team;

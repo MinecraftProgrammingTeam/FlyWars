@@ -22,8 +22,8 @@ public abstract class ArrowEntry {
         }
         String path = info.path();
         Object ob = ConfigUtils.getConfig(String.format("arrow.%s.%s", path, string));
-        if (ob == null){
-            ob = ConfigUtils.getConfig("arrow.default."+string, defaultValue);
+        if (ob == null) {
+            ob = ConfigUtils.getConfig("arrow.default." + string, defaultValue);
         }
         return ob;
     }

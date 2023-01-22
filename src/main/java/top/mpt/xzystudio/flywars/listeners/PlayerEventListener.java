@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
+import top.mpt.xzystudio.flywars.game.gui.GuiItem;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
@@ -28,7 +29,7 @@ public class PlayerEventListener implements Listener {
         // 当玩家退出游戏时
         // 拿到玩家
         Player p = event.getPlayer();
-        GameUtils.getTeam(p, team -> {
+        GameUtils.getTeamByPlayer(p, team -> {
             Player op = team.getTheOtherPlayer(p);
             PlayerUtils.send(op, "[FlyWars] #RED#你的队友退出了游戏！");
             TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
@@ -41,7 +42,7 @@ public class PlayerEventListener implements Listener {
         // 当玩家被其他玩家打的时候
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
-            GameUtils.getTeam(p, t -> Game.scoreboardManager.renderScoreboard());
+            GameUtils.getTeamByPlayer(p, t -> Game.scoreboardManager.renderScoreboard());
         }
 
         if (event.getDamager().getType() == EntityType.SPECTRAL_ARROW){
@@ -53,12 +54,9 @@ public class PlayerEventListener implements Listener {
             }
             Player p = (Player) event.getEntity();
             Arrow arrow = (Arrow) event.getDamager();
-
-            GuiManager.items.forEach(it -> {
-                if (Objects.equals(it.name, arrow.getName())){
-                    it.process.run(pShoot, p, arrow);
-                }
-            });
+            
+            GuiItem item = GameUtils.find(GuiManager.items, i -> Objects.equals(i.name, arrow.getName()));
+            if (item != null) item.process.run(pShoot, p, arrow);
         }
     }
 
@@ -92,7 +90,7 @@ public class PlayerEventListener implements Listener {
             }
         } else {
             LoggerUtils.info("#RED#未获取到击杀者！");
-            GameUtils.getTeam(p, team -> {
+            GameUtils.getTeamByPlayer(p, team -> {
                 TeamEliminatedEvent eliminatedEvent = new TeamEliminatedEvent(p, team, null);
                 GameUtils.callEvent(eliminatedEvent);
             });
@@ -129,7 +127,7 @@ public class PlayerEventListener implements Listener {
     public void onEntityShootBow(EntityShootBowEvent event) {
         Entity entity = event.getEntity();
         if (entity.getType() == EntityType.PLAYER) {
-            GameUtils.getTeam((Player) entity, t -> event.getProjectile().setCustomName(event.getEntity().getName()));
+            GameUtils.getTeamByPlayer((Player) entity, t -> event.getProjectile().setCustomName(event.getEntity().getName()));
         }
     }
 }
