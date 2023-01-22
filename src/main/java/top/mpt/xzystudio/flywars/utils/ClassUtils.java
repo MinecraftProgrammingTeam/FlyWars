@@ -29,12 +29,37 @@ public class ClassUtils {
                 .distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public static <T> T newInstance(Class<T> clazz) {
+    /**
+     * 对象类指定根据初始化对象实例
+     * @param clazz 类对象
+     * @param args 参数，可为空
+     * @return 初始化后的实例对象
+     * @param <T> 泛♂型
+     */
+    public static <T> T newInstance(Class<T> clazz, Object... args) {
         try {
-            return clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            if (args.length == 0) return clazz.newInstance();
+            else {
+                Constructor<T> constructor = clazz.getDeclaredConstructor(
+                        (Class<?>[]) Arrays.stream(args).map(o -> (Class<?>) o.getClass()).toArray()
+                );
+                return constructor.newInstance(args);
+            }
+        } catch (Exception e) {
             LoggerUtils.warning("#RED#创建对象失败：%s", e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * 根据注解类获取指定类的注解对象
+     * @param clazz 类指定
+     * @param annotationClass 类注解
+     * @return 获取到的注解对象，如果不存在则为 `null`
+     * @param <T> 注解泛型
+     */
+    public static <T> T getAnnotation(Class<?> clazz, Class<T> annotationClass) {
+        Annotation result = clazz.getAnnotation((Class<Annotation>) annotationClass);
+        return result == null ? null : (T) result;
     }
 }
