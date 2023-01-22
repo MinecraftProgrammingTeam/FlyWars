@@ -8,9 +8,9 @@ import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 /**
  * 打开GUI指令
  */
-public class OpenGUICommand extends ICommand {
-    public OpenGUICommand(){
-        super("opengui", "", "打开GUI");
+public class GuiCommand extends ICommand {
+    public GuiCommand(){
+        super("gui", "", "打开GUI");
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {

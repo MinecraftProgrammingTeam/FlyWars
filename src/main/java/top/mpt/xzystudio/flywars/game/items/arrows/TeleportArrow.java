@@ -7,7 +7,7 @@ import top.mpt.xzystudio.flywars.game.items.ArrowInfo;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
-@ArrowInfo(name = "#LIGHT_PURPLE#末影箭", path="teleport")
+@ArrowInfo(name = "#LIGHT_PURPLE#末影箭", path = "teleport")
 public class TeleportArrow extends ArrowEntry {
     @Override
     public void run(Player shooter, Player entity, Arrow arrow){
