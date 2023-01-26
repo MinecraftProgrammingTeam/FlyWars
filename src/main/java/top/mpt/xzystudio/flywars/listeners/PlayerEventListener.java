@@ -164,21 +164,31 @@ public class PlayerEventListener implements Listener {
 
     // https://github.com/Loving11ish/SpeedLimit/blob/master/src/main/java/me/loving11ish/speedlimit/events/ElytraFlightEvent.java#L61
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public void onPlayerMove(PlayerMoveEvent event){
+        // 获取移动的玩家
         Player p = event.getPlayer();
+        // 获取玩家的位置
         Location from = event.getFrom();
+        // 解析玩家的位置
         double x = from.getX(),
                y = from.getY(),
                z = from.getZ();
+        // 获取朝向(?
         float yaw = from.getYaw(),
               pitch = from.getPitch();
+        // 如果被限速的玩家包含此玩家，且此玩家正在用鞘翅飞
         if (limitedSpeedPlayers.contains(p) && p.isGliding()) {
+            // 得到玩家移动到的位置
             Location to = event.getTo();
+            // 防止NPE(特殊情况)
             if (to != null) {
+                // 获取limit
                 int limit = SlowArrow.limit;
+                // 如果玩家原本的位置（X、Y、Z）减去玩家要去的位置的绝对值 大于limit
                 if (Math.abs(from.getX() - to.getX()) > limit
                     || Math.abs(from.getY() - to.getY()) > limit
                     || Math.abs(from.getZ() - to.getZ()) > limit) {
+                    // 将玩家Tp到原先 Y+1 的位置
                     Location old = new Location(p.getWorld(), x, y + 1, z, yaw, pitch);
                     p.teleport(old);
                 }
