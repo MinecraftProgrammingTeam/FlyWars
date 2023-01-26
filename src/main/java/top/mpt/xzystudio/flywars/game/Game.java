@@ -164,6 +164,7 @@ public class Game {
                         inv.clear();
                         // 给予玩家♂物资♂
                         if (map.get(p) == TeammateType.P1) { // 如果玩家为P1(移动者)
+                            inv.addItem(GameUtils.newItem(Material.GOLDEN_SWORD, "#YELLOW#捡起你的猪队友", new ArrayList<>(), 1, true, 1, Enchantment.DAMAGE_ALL));
                             inv.setChestplate(GameUtils.newItem(Material.ELYTRA, "#AQUA#战争鞘翅", new ArrayList<>(), 1, true, 0, null));
                             inv.setItemInOffHand(GameUtils.newItem(Material.GOLDEN_APPLE, "#GOLD#天赐金苹果", 0, null));
                             inv.setItemInMainHand(GameUtils.newItem(Material.FIREWORK_ROCKET, "#RED#核弹", 0, null));

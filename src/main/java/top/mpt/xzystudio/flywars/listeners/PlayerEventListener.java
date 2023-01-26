@@ -1,7 +1,6 @@
 package top.mpt.xzystudio.flywars.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -13,7 +12,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
@@ -30,6 +28,7 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 玩家相关事件监听器
@@ -55,6 +54,20 @@ public class PlayerEventListener implements Listener {
         // 当玩家被其他玩家打的时候
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
+//            AtomicReference<Boolean> flag = new AtomicReference<>(false);
+//            if (event.getDamager() instanceof Player){
+//                Player damager = (Player) event.getDamager(); // 行不通应该，如果玩家用箭射击的话获取到的还是ARROW，用剑不知道是啥
+//                GameUtils.getTeamByPlayer(p, team -> {
+//                    if (team.isPlayerInTeam(damager)){
+//                        event.setCancelled(true);
+//                        flag.set(true);
+//
+//                        if (e)
+//                    }
+//                });
+//            }
+//            if (flag.get()) return;
+
             GameUtils.getTeamByPlayer(p, t -> Game.scoreboardManager.renderScoreboard());
 
             // 判断造成伤害的实体
@@ -195,4 +208,9 @@ public class PlayerEventListener implements Listener {
             }
         }
     }
+
+//    @EventHandler
+//    public void onPlayerRightClick(){
+//
+//    }
 }
