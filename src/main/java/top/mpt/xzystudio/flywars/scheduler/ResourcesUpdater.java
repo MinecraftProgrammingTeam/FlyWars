@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 刷新资源类
  */
-public class ResourcesUpdate extends BukkitRunnable {
+public class ResourcesUpdater extends BukkitRunnable {
     // resource type
     private final Map<String, Material> resType = new HashMap<String, Material>(){{
         put("firework-rocket", Material.FIREWORK_ROCKET);
@@ -38,7 +38,7 @@ public class ResourcesUpdate extends BukkitRunnable {
      * @param gameWorld 进行游戏的世界
      */
     public void setGameWorld(World gameWorld) {
-        ResourcesUpdate.gameWorld = gameWorld;
+        ResourcesUpdater.gameWorld = gameWorld;
     }
 
     @Override

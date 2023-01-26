@@ -1,6 +1,7 @@
 package top.mpt.xzystudio.flywars.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -10,13 +11,19 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.entity.EntityDismountEvent;
+import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.gui.GuiItem;
 import top.mpt.xzystudio.flywars.game.gui.GuiManager;
 import top.mpt.xzystudio.flywars.game.items.arrows.SlowArrow;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
+import top.mpt.xzystudio.flywars.scheduler.PickUpTimer;
+import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
@@ -49,20 +56,38 @@ public class PlayerEventListener implements Listener {
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
             GameUtils.getTeamByPlayer(p, t -> Game.scoreboardManager.renderScoreboard());
-        }
 
-        if (event.getDamager().getType() == EntityType.SPECTRAL_ARROW){
-            event.setCancelled(true);
-            Player pShoot = Bukkit.getPlayer(Objects.requireNonNull(event.getDamager().getCustomName()));
-            if (pShoot == null){
-                LoggerUtils.warning("#RED#没有找到van家");
-                return;
+            // 判断造成伤害的实体
+            switch (event.getDamager().getType()) {
+                case SPECTRAL_ARROW:  // 如果是光灵箭（道具箭）
+                    event.setCancelled(true);
+                    Player pShoot = Bukkit.getPlayer(Objects.requireNonNull(event.getDamager().getCustomName()));
+                    if (pShoot == null){
+                        LoggerUtils.warning("#RED#没有找到van家");
+                        return;
+                    }
+                    Arrow arrow = (Arrow) event.getDamager();
+
+                    GuiItem item = GameUtils.find(GuiManager.items, i -> Objects.equals(i.name, arrow.getName()));
+                    if (item != null) item.process.run(pShoot, p, arrow);
+
+                    break;
+                case ARROW:  // 如果是普通箭（掉落机制`https://www.mcbbs.net/forum.php?mod=viewthread&tid=1417390&page=1&authorid=1916362`）
+                    GameUtils.getTeamByPlayer(p,t -> {
+                        if (t.isP2(p)){  // 射击到了骑在背上的人才会掉落
+                            Player op = t.getP1();
+                            op.removePassenger(p);
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 2));
+
+                            PickUpTimer pickUpTimer = new PickUpTimer();
+                            pickUpTimer.setTeam(t);
+                            pickUpTimer.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("pickUpTime", 600));
+
+                            PlayerUtils.showTitle(op, "#YELLOW#您的队友已从背上掉落", "#AQUA#请及时背起队友，30秒后将会受到伤害");
+                        }
+                    });
+                    break;
             }
-            Player p = (Player) event.getEntity();
-            Arrow arrow = (Arrow) event.getDamager();
-            
-            GuiItem item = GameUtils.find(GuiManager.items, i -> Objects.equals(i.name, arrow.getName()));
-            if (item != null) item.process.run(pShoot, p, arrow);
         }
     }
 

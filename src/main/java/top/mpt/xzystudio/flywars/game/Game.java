@@ -11,7 +11,7 @@ import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeammateType;
-import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdate;
+import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdater;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
@@ -34,7 +34,7 @@ public class Game {
     /**
      * 资源刷新
      */
-    public static ResourcesUpdate resUpdater = null;
+    public static ResourcesUpdater resUpdater = null;
     
     private final CommandSender sender;
 
@@ -128,7 +128,7 @@ public class Game {
             @Override
             public void run() {
                 // 资源刷新点
-                resUpdater = new ResourcesUpdate();
+                resUpdater = new ResourcesUpdater();
                 resUpdater.setGameWorld(pl.getWorld());
                 resUpdater.runTaskTimer(Main.instance, 0, Long.parseLong(ConfigUtils.getConfig("refresh-tick", 600).toString()));
                 // 计分板
