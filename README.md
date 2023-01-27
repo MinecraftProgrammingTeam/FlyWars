@@ -23,8 +23,8 @@
 - [X] 反作弊
 - [X] 道具支持
 - [X] GUI商店
-- [ ] 掉落机制
-- [ ] 给获胜队发奖励
+- [X] 掉落机制
+- [X] 给获胜队发奖励
 
 ## 部署教程
 - 下载[最新的Release](https://github.com/MinecraftProgrammingTeam/FlyWars/releases)，将插件放到您服务器上
