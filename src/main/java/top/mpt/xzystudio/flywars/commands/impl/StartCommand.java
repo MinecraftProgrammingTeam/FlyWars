@@ -6,7 +6,7 @@ import top.mpt.xzystudio.flywars.game.Game;
 
 public class StartCommand extends ICommand {
     public StartCommand(){
-        super("start", "", "开始游戏，请在人数足够后执行");
+        super("start", "[游戏时长，不指定使用配置文件]", "开始游戏，请在人数足够后执行");
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
