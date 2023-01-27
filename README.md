@@ -4,6 +4,7 @@
 ![](https://img.shields.io/github/actions/workflow/status/MinecraftProgrammingTeam/FlyWars/maven.yml?branch=main)
 ![](https://img.shields.io/github/license/MinecraftProgrammingTeam/FlyWars)
 ![](https://img.shields.io/badge/made%20in-MPT-important)
+![](https://img.shields.io/badge/made%20with%20❤-important)
 
 ## 来源
 - 帖子：[[插件][1.16.x]FlyWars](https://minept.top/p.php?id=2)
@@ -13,6 +14,17 @@
 - 构建环境：`Amazon Corretto 1.8`
 - 测试环境：`Spigot 1.16.5`
 - 支持版本：`1.13.x+`
+
+## 实现功能
+- [X] 基础功能
+- [X] 管理员指令
+- [X] 计分板支持
+- [X] 队伍颜色显示
+- [X] 反作弊
+- [X] 道具支持
+- [X] GUI商店
+- [ ] 掉落机制
+- [ ] 给获胜队发奖励
 
 ## 部署教程
 - 下载[最新的Release](https://github.com/MinecraftProgrammingTeam/FlyWars/releases)，将插件放到您服务器上
