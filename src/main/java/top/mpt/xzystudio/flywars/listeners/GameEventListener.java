@@ -1,11 +1,14 @@
 package top.mpt.xzystudio.flywars.listeners;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
@@ -87,6 +90,18 @@ public class GameEventListener implements Listener {
             ArrayList<Player> players = new ArrayList<>(team.players.keySet());
             // 遍历每个玩家
             players.forEach(p -> {
+                // 发放奖励
+                if (info.getAlive()){
+                    ConfigUtils.getMapListConfig("prize").forEach(it -> {
+                        String material = (String) it.get("material");
+                        material = material.toUpperCase();
+                        int amount = (Integer) it.get("amount");
+                        String name = (String) it.get("name");
+
+                        p.getInventory().addItem(GameUtils.newItem(Material.valueOf(material), name, amount));
+                    });
+                }
+
                 // 给玩家显示标题
                 PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜#RESET#%s#GOLD#取得胜利！",
                         null, Collections.singletonList(winner.getTeamDisplayName()));// 不知道为啥这样会显示#GOLD#[#AQUA#[青队#AQUA#]#RESET#]

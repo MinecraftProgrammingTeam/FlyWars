@@ -8,8 +8,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.spigotmc.event.entity.EntityDismountEvent;
@@ -54,20 +57,6 @@ public class PlayerEventListener implements Listener {
         // 当玩家被其他玩家打的时候
         if (event.getEntity().getType() == EntityType.PLAYER){
             Player p = (Player) event.getEntity();
-//            AtomicReference<Boolean> flag = new AtomicReference<>(false);
-//            if (event.getDamager() instanceof Player){
-//                Player damager = (Player) event.getDamager(); // 行不通应该，如果玩家用箭射击的话获取到的还是ARROW，用剑不知道是啥
-//                GameUtils.getTeamByPlayer(p, team -> {
-//                    if (team.isPlayerInTeam(damager)){
-//                        event.setCancelled(true);
-//                        flag.set(true);
-//
-//                        if (e)
-//                    }
-//                });
-//            }
-//            if (flag.get()) return;
-
             GameUtils.getTeamByPlayer(p, t -> Game.scoreboardManager.renderScoreboard());
 
             // 判断造成伤害的实体
@@ -94,7 +83,7 @@ public class PlayerEventListener implements Listener {
 
                             PickUpTimer pickUpTimer = new PickUpTimer();
                             pickUpTimer.setTeam(t);
-                            pickUpTimer.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("pickUpTime", 600));
+                            pickUpTimer.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("pick-up-time", 600));
 
                             PlayerUtils.showTitle(op, "#YELLOW#您的队友已从背上掉落", "#AQUA#请及时背起队友，30秒后将会受到伤害");
                         }
@@ -209,8 +198,18 @@ public class PlayerEventListener implements Listener {
         }
     }
 
-//    @EventHandler
-//    public void onPlayerRightClick(){
-//
-//    }
+    @EventHandler
+    public void onPlayerRightClick(PlayerInteractEntityEvent event){
+        if (event.getHand() == EquipmentSlot.OFF_HAND && event.getRightClicked().getType() == EntityType.PLAYER){
+            Player p2 = (Player) event.getRightClicked();
+            Player p1 = event.getPlayer();
+            GameUtils.getTeamByPlayer(p1, t -> {
+                if (t.isP2(p2)){
+                    t.ride();
+                    PlayerUtils.send(p1, "#AQUA#[FlyWars] #GREEN#真不错，你成功捡起了队友");
+                    PlayerUtils.send(p2, "#AQUA#[FlyWars] #GREEN#你队友真给力哈");
+                }
+            });
+        }
+    }
 }
