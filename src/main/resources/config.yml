@@ -3,6 +3,8 @@ period: 0
 
 pick-up-time: 600
 
+finish-time: 36000
+
 # 至少需要多少名玩家才能开始游戏(不写为默认4)
 min-player-count: 4
 

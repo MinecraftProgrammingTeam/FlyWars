@@ -12,6 +12,7 @@ import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
 import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeammateType;
 import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdater;
+import top.mpt.xzystudio.flywars.scheduler.TimeLimit;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ConfigUtils;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
@@ -178,6 +179,8 @@ public class Game {
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
+
+        new TimeLimit().runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("finish-time", 36000));
 
         Main.gameStatus = true;
     }
