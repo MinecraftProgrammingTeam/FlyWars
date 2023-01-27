@@ -116,7 +116,7 @@ public class Game {
     /**
      * 开始游戏
      */
-    public void startGame() {
+    public void startGame(Integer finishTime) {
         Player pl = (Player) sender;
         // 遍历服务器里每一位玩家
         for (Player p : Main.instance.getServer().getOnlinePlayers()){
@@ -180,7 +180,8 @@ public class Game {
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
 
-        new TimeLimit().runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("finish-time", 36000));
+        if (finishTime == null) finishTime = (Integer) ConfigUtils.getConfig("finish-time", 36000);
+        new TimeLimit().runTaskLater(Main.instance, finishTime);
 
         Main.gameStatus = true;
     }

@@ -13,7 +13,11 @@ public class StartCommand extends ICommand {
         Game game = new Game(sender);
         if (game.check()){
             game.assignTeams();
-            game.startGame();
+            if (args.length >= 1){
+                game.startGame(Integer.valueOf(args[0]));
+            }else {
+                game.startGame(null);
+            }
         }
         return true;
     }
