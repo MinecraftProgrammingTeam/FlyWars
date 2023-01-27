@@ -11,6 +11,8 @@ import top.mpt.xzystudio.flywars.utils.LoggerUtils;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
+    public static boolean gameStatus = false;
+
     public static Main instance;
 
     @Override

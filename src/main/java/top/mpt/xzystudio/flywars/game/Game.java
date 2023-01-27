@@ -178,5 +178,7 @@ public class Game {
             }
         }.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("delay-tick", 200));
         // runTaskLater 延迟♂执行
+
+        Main.gameStatus = true;
     }
 }

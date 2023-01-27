@@ -10,13 +10,15 @@ import top.mpt.xzystudio.flywars.game.team.GameTeam;
 public class GameOverEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final GameTeam winner;
+    private final String winnerDisplayName;
 
     /**
      * 自定义事件:游戏结束事件
      * @param winner 胜利者
      */
-    public GameOverEvent(GameTeam winner) {
+    public GameOverEvent(GameTeam winner, String winnerDisplayName) {
         this.winner = winner;
+        this.winnerDisplayName = winnerDisplayName;
     }
 
     @Override
@@ -34,5 +36,9 @@ public class GameOverEvent extends Event {
      */
     public GameTeam getWinner() {
         return this.winner;
+    }
+
+    public String getWinnerDisplayName() {
+        return winnerDisplayName;
     }
 }

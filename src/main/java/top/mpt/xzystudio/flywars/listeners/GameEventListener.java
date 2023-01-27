@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
 import top.mpt.xzystudio.flywars.game.Game;
@@ -58,28 +59,29 @@ public class GameEventListener implements Listener {
 
         // GameOver
         if (ifGameOver.get() == 1){
-            GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam);
+            assert aliveTeam != null;
+            GameOverEvent gameOverEvent = new GameOverEvent(aliveTeam, aliveTeam.getTeamDisplayName());
             GameUtils.callEvent(gameOverEvent);
         } else if (ifGameOver.get() == 0) {
             LoggerUtils.warning("#RED#请勿在玩家数不足4个时开始游戏");
 
-            GameOverEvent gameOverEvent = new GameOverEvent(team);
+            GameOverEvent gameOverEvent = new GameOverEvent(team, team.getTeamDisplayName());
             GameUtils.callEvent(gameOverEvent);
         }
     }
 
     @EventHandler
     public void onGameOver(GameOverEvent event) {
-        // 游戏结束时，获取胜利的team
-        GameTeam winner = event.getWinner();
         // 重置计分板
         Game.scoreboardManager.reset();
         // 取消资源刷新
         if (Game.resUpdater != null) Game.resUpdater.cancel();
         // 清除世界内的掉落物
-        event.getWinner().getP1().getWorld().getEntities().forEach(it -> {
-            if (it.getType() == EntityType.DROPPED_ITEM) it.remove();
-        });
+        if (event.getWinner() != null) {
+            event.getWinner().getP1().getWorld().getEntities().forEach(it -> {
+                if (it.getType() == EntityType.DROPPED_ITEM) it.remove();
+            });
+        }
         // 遍历teams数组
         Game.teams.forEach(team -> {
             // 把每个team注销
@@ -104,7 +106,7 @@ public class GameEventListener implements Listener {
 
                 // 给玩家显示标题
                 PlayerUtils.showTitle(p, "#GREEN#游戏结束！", "#GOLD#恭喜#RESET#%s#GOLD#取得胜利！",
-                        null, Collections.singletonList(winner.getTeamDisplayName()));// 不知道为啥这样会显示#GOLD#[#AQUA#[青队#AQUA#]#RESET#]
+                        null, Collections.singletonList(event.getWinnerDisplayName()));// 不知道为啥这样会显示#GOLD#[#AQUA#[青队#AQUA#]#RESET#]
                 // 给胜利者和失败着分别显示不同消息
                 PlayerUtils.send(p, "          %s          ", info.getAlive() ? "#GOLD#你的队伍胜利了！" : "#RED#你的队伍失败了！");
                 PlayerUtils.send(p, "  队伍成员：#AQUA# %s  ", players.stream().map(Player::getName).collect(Collectors.joining(", ")));
@@ -125,5 +127,7 @@ public class GameEventListener implements Listener {
         });
         // 清空数组
         Game.teams.clear();
+
+        Main.gameStatus = false;
     }
 }
