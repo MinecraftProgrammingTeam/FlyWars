@@ -25,16 +25,23 @@
 - [X] GUI商店
 - [X] 掉落机制
 - [X] 给获胜队发奖励
+- [X] 支持设置游戏时长
+- [X] 支持设置世界边界
 
-## 部署教程
+## 部署
 - 下载[最新的Release](https://github.com/MinecraftProgrammingTeam/FlyWars/releases)，将插件放到您服务器上
 - 配置文件位于`plugin/FlyWars/config.yml`中，注释非常全面，通俗易懂
 - 指令：
   请注意，前面带`*`的是测试时使用的指令
   - `clearteam` 清除当前的所有Team团队
   - `eject` 将当前玩家身上的所有乘客弹出（可能与`EntityDismountEvent`事件冲突）
-  - `start` 开始游戏
-  - \* `ride` 骑某个人
+  - `start [游戏时长，不指定使用配置]` 开始游戏
+  - `finishgame` 结束游戏
+  - `suicide` 紫砂
+  - `gui` 打开GUI商店
+  - `setborder <边界距>` 以玩家当前位置为中心设置边界
+  - \* `setkillcount` 设置当前玩家所处团队的击杀数
+  - \* `ride <玩家ID>` 骑某个人
   - \* `test` 测试
 
 ## 贡献者
