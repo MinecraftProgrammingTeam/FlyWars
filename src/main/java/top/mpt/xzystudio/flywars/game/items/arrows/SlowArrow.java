@@ -9,6 +9,7 @@ import top.mpt.xzystudio.flywars.utils.GameUtils;
 
 @ArrowInfo(name = "#AQUA#寒冰箭", path = "slow")
 public class SlowArrow extends ArrowEntry {
+    // 这一块我好像都没动过qwq
     public static final int limit = get(SlowArrow.class, "limit", 1);
 
     @Override

@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -31,7 +30,6 @@ import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 玩家相关事件监听器
@@ -132,7 +130,6 @@ public class PlayerEventListener implements Listener {
 
     @EventHandler
     public void onEntityDismount(EntityDismountEvent event) {
-        // TODO 与eject冲突，莫名其妙
         // 玩家从另一个玩家的身上下来的时候
         // 假设灰灰骑在pal头顶
         // 离开骑乘实体的实体  这是灰灰
@@ -143,14 +140,20 @@ public class PlayerEventListener implements Listener {
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
             GameTeam team = GameUtils.getTeamBy(t -> t.isP2((Player) passenger) && t.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(t).getAlive());
             if (team != null) {
-                LoggerUtils.warning("#RED#玩家下车\ngetEntity:%s\ngetDismounted:%s", event.getEntity().getName(), event.getDismounted().getName()); // TODO remove debug output
-                try {
-                    vehicle.eject();
-                    passenger.eject();
-                    vehicle.addPassenger(passenger);
-                } catch (Exception e) {
-//                        LoggerUtils.warning("#RED#又是奇奇怪怪的bug，罢了罢了"));
-                }
+                // 获取p1   这是pal
+                Player op = team.getP1();
+                // p2从p1头上下来
+                op.removePassenger(team.getP2());
+                // 给p2发光 level 2
+                team.getP2().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 2));
+                // 定义pickUpTime变量(单位：tick)
+                int pickUpTime = (Integer) ConfigUtils.getConfig("pick-up-time", 600);
+                // 开Bukkit.Runnable
+                PickUpTimer pickUpTimer = new PickUpTimer();
+                pickUpTimer.setTeam(team);
+                pickUpTimer.runTaskLater(Main.instance, pickUpTime);
+                // 显示title (除以20是因为默认TPS为20，可以除以这个数把Ticks转换成second)
+                PlayerUtils.showTitle(op, "#YELLOW#您的队友已从背上掉落", "#AQUA#请及时背起队友，" + (pickUpTime / 20) + "秒后将会受到伤害");
             }
         }
     }
@@ -205,9 +208,12 @@ public class PlayerEventListener implements Listener {
             Player p1 = event.getPlayer();
             GameUtils.getTeamByPlayer(p1, t -> {
                 if (t.isP2(p2)){
-                    t.ride();
-                    PlayerUtils.send(p1, "#AQUA#[FlyWars] #GREEN#真不错，你成功捡起了队友");
-                    PlayerUtils.send(p2, "#AQUA#[FlyWars] #GREEN#你队友真给力哈");
+                    Player p = (Player) GameUtils.find(t.getP1().getPassengers(), passenger -> passenger == t.getP1());
+                    if (p == null){  // 还没捡起来
+                        t.ride();
+                        PlayerUtils.send(p1, "#AQUA#[FlyWars] #GREEN#真不错，你成功捡起了队友");
+                        PlayerUtils.send(p2, "#AQUA#[FlyWars] #GREEN#你队友真给力哈");PlayerUtils.showTitle(t.getP2(), "#RED#您的猪队友没能及时捡起你", "qswl");
+                    }
                 }
             });
         }

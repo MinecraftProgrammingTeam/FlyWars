@@ -1,15 +1,8 @@
-# test指令中猪多少tick(s)传送到玩家身边
-period: 0
-
-pick-up-time: 600
-
-finish-time: 36000
-
-# 至少需要多少名玩家才能开始游戏(不写为默认4)
-min-player-count: 4
-
-# 开始游戏后，会留对应的tick让玩家保存自己背包里的贵重物品（默认200）
-delay-tick: 200
+period: 0  # test指令中猪多少tick(s)传送到玩家身边
+pick-up-time: 600  # 玩家从P1背上掉落时，等待设定ticks后开始减血
+finish-time: 36000  # 游戏时长(tick) - 如果start指令指定了则优先使用指定的
+min-player-count: 4  # 至少需要多少名玩家才能开始游戏(默认2)
+delay-tick: 200  # 开始游戏后，会留对应的tick让玩家保存自己背包里的贵重物品（默认200）
 
 # 开始游戏时，将所有玩家传送到当前世界的某一个坐标，可以设置为竞技场的坐标之类的
 start-tp: false
@@ -27,9 +20,10 @@ resources:
   - x: 0 # 资源点的坐标
     y: 0
     z: 0
-    material: "firework_rocket"
+    material: "firework_rocket"  # 物品 `https://bukkit.windit.net/javadoc/org/bukkit/Material.html` 大写小写都行
     amount: 5  # 每次刷新的数量
-    name: "#RED#核弹"
+    name: "#RED#核弹"  # 名字
+  # 可添加多个资源刷新点，配合地图地形更佳
 
   - x: 70
     y: 70
@@ -66,42 +60,43 @@ resources:
     amount: 5
     name: "#GOLD#天赐金苹果"
 
-# 刷新资源间隔ticks
-refresh-tick: 20
+refresh-tick: 20  # 刷新资源间隔(tick)
 
 # 道具箭相关配置
 # `arrow`下的每一项（除`default`）都是对应道具箭的配置
-# `amount`与`cost`分别为每次购买的数量和花费的击杀数
+# `amount`与`cost`分别为每次购买的数量和花费的击杀数 - 这里击杀数相当于一种货币可以用来购买道具
 # 如果对应的项中没有`amount`或`cost`，将使用`default`中的默认配置
 arrow:
-  default:
+  default:  # 默认
     amount: 5
     cost: 2
 
-  explosive:
+  explosive:  # 爆炸箭
     size: 5
     setFire: false
     breakBlock: false
 
-  fire:
+  fire:  # 火焰箭
     amount: 5
     cost: 2
     ticks: 50
 
-  flag:
+  flag:  # 光灵箭
     amount: 5
     cost: 2
     duration: 10
 
-  slow:
+  slow:  # （飞行）缓慢箭
     amount: 5
     cost: 2
-    limit: 2.5
+    limit: 1
 
+# 奖品
 prize:
-  - material: "GOLDEN_SWORD"
-    amount: 5
-    name: "战利品金剑"
+  - material: "GOLDEN_SWORD"  # 物品 `https://bukkit.windit.net/javadoc/org/bukkit/Material.html` 大写小写都行
+    amount: 5  # 数量
+    name: "战利品金剑"  # 名字
+  # 与资源刷新点 同样可以添加多个
 
   - material: "GOLDEN_APPLE"
     amount: 3

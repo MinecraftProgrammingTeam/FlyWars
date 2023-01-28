@@ -14,6 +14,7 @@ import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.ClassUtils;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
+import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +75,12 @@ public class GuiManager {
         GameTeam team = GameUtils.getTeamByPlayer(p, null);
         TeamInfo info = ScoreboardManager.info.get(team);
 
-        event.getClickedInventory().addItem(item.item);
-        info.delKillCount(item.process.getCost());
+        if (info.getKillCount() > item.process.getCost()) {
+            event.getWhoClicked().getInventory().addItem(item.item);
+            info.delKillCount(item.process.getCost());
+        }else {
+            event.getWhoClicked().closeInventory();
+            PlayerUtils.send(event.getWhoClicked(), "#AQUA#[FlyWars] #RED#您的击杀数不足，需要" + item.process.getCost() + "个！");
+        }
     }
 }

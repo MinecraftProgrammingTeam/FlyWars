@@ -3,12 +3,8 @@ package top.mpt.xzystudio.flywars.commands.impl;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.mpt.xzystudio.flywars.commands.ICommand;
-import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;
-import top.mpt.xzystudio.flywars.game.Game;
 import top.mpt.xzystudio.flywars.game.scoreboard.ScoreboardManager;
-import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeamInfo;
-import top.mpt.xzystudio.flywars.utils.ChatUtils;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 

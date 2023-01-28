@@ -13,10 +13,7 @@ import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.game.team.TeammateType;
 import top.mpt.xzystudio.flywars.scheduler.ResourcesUpdater;
 import top.mpt.xzystudio.flywars.scheduler.TimeLimit;
-import top.mpt.xzystudio.flywars.utils.ChatUtils;
-import top.mpt.xzystudio.flywars.utils.ConfigUtils;
-import top.mpt.xzystudio.flywars.utils.GameUtils;
-import top.mpt.xzystudio.flywars.utils.PlayerUtils;
+import top.mpt.xzystudio.flywars.utils.*;
 
 import java.util.*;
 
@@ -48,11 +45,6 @@ public class Game {
      * @return 当前服务器里的玩家数是否合规
      */
     public boolean check() {
-        // 若玩家数为奇数
-//        if (players.size() % 2 != 0){
-//            PlayerUtils.send(sender, "#RED#玩家数量为奇数，不能开始游戏！");
-//            return false;
-//        }
         if (players.size() < minPlayerCount) { // 若玩家数未达到config里的minPlayerCount
             PlayerUtils.send(sender, "#RED#%s个人都不到，你想跟谁玩？", minPlayerCount.toString());
             return false;
@@ -64,6 +56,13 @@ public class Game {
      * 随机分配队伍
      */
     public void assignTeams() {
+        teams.forEach(it -> {
+            try {
+                it.getTeam().unregister();
+            }catch (Exception e){
+                LoggerUtils.warning("#RED#注销团队时出现问题："+it.getTeamDisplayName());
+            }
+        });
         teams.clear();
         ArrayList<Player> copy = new ArrayList<>(players);
         // 循环直到玩家数组为空
