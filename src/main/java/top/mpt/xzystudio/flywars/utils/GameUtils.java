@@ -65,6 +65,14 @@ public class GameUtils {
         return newItem(type, displayName, Collections.emptyList(), 64, false, 0, null);
     }
 
+    /**
+     * 新增物品
+     * @param type 物品类型
+     * @param displayName 显示名称
+     * @param level
+     * @param ench
+     * @return
+     */
     public static ItemStack newItem(Material type, String displayName, int level, Enchantment... ench){
         return newItem(type, displayName, Collections.emptyList(), 64, false, 0, ench);
     }

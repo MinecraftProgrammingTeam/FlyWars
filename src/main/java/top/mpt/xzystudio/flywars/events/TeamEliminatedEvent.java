@@ -56,7 +56,7 @@ public class TeamEliminatedEvent extends Event {
 
     /**
      * 获取淘汰该队伍的玩家
-     * @return玩家的队伍该淘汰
+     * @return 玩家的队伍该淘汰
      */
     public GameTeam getKiller() {
         return this.killer;

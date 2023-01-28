@@ -4,6 +4,10 @@ import org.bukkit.command.CommandSender;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.game.Game;
 
+/**
+ * 开始游戏
+ */
+
 public class StartCommand extends ICommand {
     public StartCommand(){
         super("start", "[游戏时长，不指定使用配置文件]", "开始游戏，请在人数足够后执行");

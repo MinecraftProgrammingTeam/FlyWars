@@ -67,7 +67,11 @@ public class GuiManager {
         player.openInventory(inv);
     }
 
+    /**
+     * 背包点只因♂事件
+     */
     public static void processClick(InventoryClickEvent event) {
+        // 获取
         int rawSlot = event.getRawSlot();
         if (rawSlot >= items.size()) return;
         GuiItem item = items.get(rawSlot);

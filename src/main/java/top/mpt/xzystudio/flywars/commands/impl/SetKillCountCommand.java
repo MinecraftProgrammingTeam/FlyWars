@@ -8,6 +8,9 @@ import top.mpt.xzystudio.flywars.game.team.TeamInfo;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
+/**
+ * 设置
+ */
 public class SetKillCountCommand extends ICommand {
     public SetKillCountCommand() {
         super("setkillcount", "<击杀数>", "设置击杀数");

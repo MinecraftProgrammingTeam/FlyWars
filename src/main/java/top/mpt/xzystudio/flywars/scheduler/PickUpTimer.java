@@ -8,6 +8,9 @@ import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.utils.GameUtils;
 import top.mpt.xzystudio.flywars.utils.PlayerUtils;
 
+/**
+ * 捡起玩家相关Timer
+ */
 public class PickUpTimer extends BukkitRunnable {
 
     // 这里设置成public是不是懒得写getTeam了(((

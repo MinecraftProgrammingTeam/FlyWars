@@ -78,12 +78,14 @@ public class PlayerEventListener implements Listener {
                             Player op = t.getP1();
                             op.removePassenger(p);
                             p.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 2));
-
+                            // 定义pickUpTime变量(单位：tick)
+                            int pickUpTime = (Integer) ConfigUtils.getConfig("pick-up-time", 600);
+                            // 开Bukkit.Runnable
                             PickUpTimer pickUpTimer = new PickUpTimer();
                             pickUpTimer.setTeam(t);
-                            pickUpTimer.runTaskLater(Main.instance, (Integer) ConfigUtils.getConfig("pick-up-time", 600));
-
-                            PlayerUtils.showTitle(op, "#YELLOW#您的队友已从背上掉落", "#AQUA#请及时背起队友，30秒后将会受到伤害");
+                            pickUpTimer.runTaskLater(Main.instance, pickUpTime);
+                            // 显示title (除以20是因为默认TPS为20，可以除以这个数把Ticks转换成second)
+                            PlayerUtils.showTitle(op, "#YELLOW#您的队友已从背上掉落", "#AQUA#请及时背起队友，" + (pickUpTime / 20) + "秒后将会受到伤害");
                         }
                     });
                     break;
@@ -138,6 +140,7 @@ public class PlayerEventListener implements Listener {
         Entity vehicle = event.getDismounted();
         // 如果离开被骑乘实体的实体是玩家，且被骑乘实体也是玩家
         if (passenger.getType() == EntityType.PLAYER && vehicle.getType() == EntityType.PLAYER) {
+            // 找到符合条件的队伍
             GameTeam team = GameUtils.getTeamBy(t -> t.isP2((Player) passenger) && t.isP1((Player) vehicle) && Game.scoreboardManager.getInfo(t).getAlive());
             if (team != null) {
                 // 获取p1   这是pal
@@ -187,6 +190,7 @@ public class PlayerEventListener implements Listener {
             Location to = event.getTo();
             // 防止NPE(特殊情况)
             if (to != null) {
+                // 我对limit的印象只有这里的注释qwq，其他的都不是我改的(
                 // 获取limit
                 int limit = SlowArrow.limit;
                 // 如果玩家原本的位置（X、Y、Z）减去玩家要去的位置的绝对值 大于limit

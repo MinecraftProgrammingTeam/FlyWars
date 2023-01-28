@@ -8,6 +8,9 @@ import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.scheduler.PigSche;
 
+/**
+ * 测试指令
+ */
 public class TestCommand extends ICommand {
     public TestCommand(){
         super("test", "", "测试");
