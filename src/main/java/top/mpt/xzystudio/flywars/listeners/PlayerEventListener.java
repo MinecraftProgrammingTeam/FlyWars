@@ -81,6 +81,7 @@ public class PlayerEventListener implements Listener {
                             // 定义pickUpTime变量(单位：tick)
                             int pickUpTime = (Integer) ConfigUtils.getConfig("pick-up-time", 600);
                             // 开Bukkit.Runnable
+                            LoggerUtils.warning("#RED#PickUpTimer in onEntityDamage");
                             PickUpTimer pickUpTimer = new PickUpTimer();
                             pickUpTimer.setTeam(t);
                             pickUpTimer.runTaskLater(Main.instance, pickUpTime);
@@ -152,6 +153,7 @@ public class PlayerEventListener implements Listener {
                 // 定义pickUpTime变量(单位：tick)
                 int pickUpTime = (Integer) ConfigUtils.getConfig("pick-up-time", 600);
                 // 开Bukkit.Runnable
+                LoggerUtils.warning("#RED#PickUpTimer in onEntityDamage");
                 PickUpTimer pickUpTimer = new PickUpTimer();
                 pickUpTimer.setTeam(team);
                 pickUpTimer.runTaskLater(Main.instance, pickUpTime);

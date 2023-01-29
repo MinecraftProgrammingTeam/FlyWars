@@ -3,7 +3,6 @@ package top.mpt.xzystudio.flywars.commands.impl;
 import org.bukkit.command.CommandSender;
 import top.mpt.xzystudio.flywars.commands.ICommand;
 import top.mpt.xzystudio.flywars.game.Game;
-import top.mpt.xzystudio.flywars.game.team.GameTeam;
 import top.mpt.xzystudio.flywars.scheduler.TimeLimit;
 
 /**
@@ -15,6 +14,7 @@ public class FinishGameCommand extends ICommand {
     }
 
     public boolean onCommand(CommandSender sender, String[] args) {
+        Game.timeLimit.cancel();
         new TimeLimit().run();
         return true;
     }

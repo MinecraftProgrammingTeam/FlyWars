@@ -21,6 +21,7 @@ import java.util.*;
  * Game的逻辑类
  */
 public class Game {
+    public static TimeLimit timeLimit = new TimeLimit();
     // 存储所有的队伍对象
     public static final ArrayList<GameTeam> teams = new ArrayList<>();
     // 获取config里的开始游戏最少需要的玩家数
@@ -180,7 +181,7 @@ public class Game {
         // runTaskLater 延迟♂执行
 
         if (finishTime == null) finishTime = (Integer) ConfigUtils.getConfig("finish-time", 36000);
-        new TimeLimit().runTaskLater(Main.instance, finishTime);
+        timeLimit.runTaskLater(Main.instance, finishTime);
 
         Main.gameStatus = true;
     }
