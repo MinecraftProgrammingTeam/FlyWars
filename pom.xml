@@ -16,7 +16,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://minept.top/p.php?id=2</url>
+    <url>https://mpt.mooncc.cn/p.php?id=2</url>
 
     <build>
         <plugins>

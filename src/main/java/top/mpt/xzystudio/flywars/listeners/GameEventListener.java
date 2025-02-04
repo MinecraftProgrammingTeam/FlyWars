@@ -1,6 +1,5 @@
 package top.mpt.xzystudio.flywars.listeners;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import top.mpt.xzystudio.flywars.Main;
 import top.mpt.xzystudio.flywars.events.GameOverEvent;
 import top.mpt.xzystudio.flywars.events.TeamEliminatedEvent;

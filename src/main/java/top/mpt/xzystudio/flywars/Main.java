@@ -37,7 +37,7 @@ public final class Main extends JavaPlugin {
         // log info
         LoggerUtils.info("#GREEN#成功启用天空战争(FlyWars)插件！");;
         LoggerUtils.info("#BLUE#更多信息请前往：https://github.com/MinecraftProgrammingTeam/FlyWars");
-        LoggerUtils.info("#AQUA#本插件由MPT强力驱动，MPT论坛：https://www.minept.top");
+        LoggerUtils.info("#AQUA#本插件由MPT强力驱动，MPT论坛：https://www.mpt.mooncc.cn");
     }
 
     @Override

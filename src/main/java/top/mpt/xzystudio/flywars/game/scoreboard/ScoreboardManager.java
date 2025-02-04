@@ -63,7 +63,7 @@ public class ScoreboardManager {
                // 击杀数显示
                stringList.add(String.format(" 击杀数： %s", getInfo(team).getKillCount()));
                stringList.add(""); // 空行
-               stringList.add("飞行战争 §n#AQUA#https://minept.top");
+               stringList.add("飞行战争 §n#AQUA#https://mpt.mooncc.cn");
                // FastBoard计分板创建
                FastBoard board = boards.get(team).get(player);
                // 更新计分板标题
