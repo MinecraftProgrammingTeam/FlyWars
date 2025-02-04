@@ -48,7 +48,7 @@
 
 ## 贡献者
 
-![https://github.com/MinecraftProgrammingTeam/FlyWars/graphs/contributors](https://contrib.nn.ci/api?repo=MinecraftProgrammingTeam/FlyWars)
+[![Contributors](https://contrib.nn.ci/api?repo=MinecraftProgrammingTeam/FlyWars)](https://github.com/MinecraftProgrammingTeam/FlyWars/graphs/contributors)
 
 - 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)、[X_huihui](https://github.com/xiaohuihui1022)
 - 注释：[X_huihui](https://github.com/xiaohuihui1022)
