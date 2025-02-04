@@ -47,6 +47,9 @@
   - \* `test` 测试
 
 ## 贡献者
+
+![https://github.com/MinecraftProgrammingTeam/FlyWars/graphs/contributors](https://contrib.nn.ci/api?repo=MinecraftProgrammingTeam/FlyWars)
+
 - 主要逻辑：[WindLeaf_qwq](https://github.com/WindLeaf233)、[xzyStudio](https://github.com/Gingmzmzx)、[X_huihui](https://github.com/xiaohuihui1022)
 - 注释：[X_huihui](https://github.com/xiaohuihui1022)
 
@@ -55,4 +58,5 @@
 - 不得商用
 - 二次开发或者使用时，必须保留原作者的版权声明  
   
+
 请您保护原作者版权，感谢配合！
